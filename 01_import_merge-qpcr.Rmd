@@ -1,0 +1,164 @@
+---
+title: "01_merge-data-qPCR"
+author: "Bryony Allen"
+date: "29/01/2019"
+output: pdf_document
+---
+
+# Housekeeping Note #
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+The script will need to be based in a folder with the following subfolders "code", "data", "doc", "figs", "output", and "reports" as this document uses relative paths 
+
+
+# NOTES & SOURCES #
+* Where noted code was provided by Phil Jervis on behalf of the Fisher Lab Group at Imperial College London 
+
+#### record the file name as a column 
+loop to read in files, check for cleaning or highlight odd data w
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Install & load in required packages 
+
+```{r, include=FALSE}
+library(dplyr)
+
+```
+
+# Part 1: Compile raw data  
+
+You should have a set of .csv files labelled "qPCR-target-data-ID.csv" where target describes the type of assay (e.g. ITS, MCP or EBF3N) and ID is the 
+# create a loop to cycle through and create a list of the .csv files to merge
+
+* convert Bd Quatity Mean score to GE
+* calculate the normalised Rv load
+* column that tracks whether a qPCR was run 
+* merge in a dataframe that matches ID to metadata on mortality, endpoint dates...etc.. 
+*incorporate temperature and dose information - here??? 
+* run check to see if all the samples logged have both Rv and Bd information 
+
+```{r, echo=False}
+
+### EDIT ####
+target <- "ITS"   # this can be ITS, MCP or EBF3N
+csvnames <- c('1','2','3','4','5')   # fill in the id numbers of the csv files you wish to merge or use the code below to make a simple vector
+# numCSV = 200   # fill in the number of .csv files you wish to merge 
+# totalCSV <- (1:numCSV)  
+#############
+
+
+
+# csvfiles1 <- list()   # create an empty list to store vectors from loop 
+i <- 1  # define the loops start point   
+
+for(i in 1:length(csvnames))
+{
+  csvfiles1[i]<- print(paste('qPCR-',target, '-data-', i, '.csv', sep = ''))
+  i <- i+1    # make sure it updates i 
+} 
+
+
+
+
+
+
+## read in and concatenate .csv files === 
+
+subdir<-"qPCR CSV files/"
+
+csvfiles<-unique(as.character(csvfiles)) 
+
+for (i in 1:length(csvfiles)) {  
+  filename<-as.character(csvfiles[i])
+f.name <- paste(directory,subdir, filename, sep="")
+  
+if(i==1) { 
+  new.data<-read.csv(f.name, stringsAsFactors=F)  
+  data <- new.data
+  Nrows<-NA
+Nrows[i]<-length(new.data[,1])
+}
+  
+if(i>1) {
+new.data<-read.csv(f.name, stringsAsFactors=F)  
+Nrows[i]<-length(new.data[,1])
+data<-rbind(data, new.data)
+} 
+
+} 
+
+```
+
+#==== load CSV files ===== 
+
+#27.10.2015: from Nov2014 (Bryony start) to 962 are available at present, 
+#but will need checking eventually after event file cleaned by BA, 
+#and further text files adding
+
+csvfiles<-c("TestData_731.csv", 
+         "TestData_741.csv", 
+         "TestData_750.csv", 
+         "TestData_753.csv", 
+         "TestData_766.csv", 
+         "TestData_776.csv", 
+         "TestData_785.csv", 
+         "TestData_797.csv", 
+         "TestData_807.csv", 
+         "TestData_817.csv", 
+         "TestData_826.csv", 
+         "TestData_835.csv", 
+         "TestData_844.csv", 
+         "TestData_854.csv", 
+         "TestData_864.csv", 
+         "TestData_872.csv", 
+         "TestData_882.csv", 
+         "TestData_892_SK.csv", 
+         "TestData_902.csv", 
+         "TestData_912_SK.csv", 
+         "TestData_922.csv", 
+         "TestData_932.csv", 
+         "TestData_942.csv", 
+         "TestData_952_SK.csv", 
+         "TestData_962.csv")
+
+length(csvfiles) #25 at the moment 
+class(csvfiles)
+
+## SECTION 1: Read in and concatenate .csv files === 
+
+subdir<-"Logger CSV files (R output)/"
+
+csvfiles<-unique(as.character(csvfiles)) 
+
+for (i in 1:length(csvfiles)) {  
+  filename<-as.character(csvfiles[i])
+f.name <- paste(directory,subdir, filename, sep="")
+  
+if(i==1) { 
+  new.data<-read.csv(f.name, stringsAsFactors=F)  
+  data <- new.data
+  Nrows<-NA
+Nrows[i]<-length(new.data[,1])
+}
+  
+if(i>1) {
+new.data<-read.csv(f.name, stringsAsFactors=F)  
+Nrows[i]<-length(new.data[,1])
+data<-rbind(data, new.data)
+} 
+
+} 
+
+
+
+Use the column "Target Name" to determine what type of qPCR result it is. For example "MCP" or "Chytrid"  
+
+Use column "Task" to fill in the missing info in column "Sample Name" > where standards and controls are not named 
+
+
+
+######################## (10) ##########################
+# SAVE THE DATA AND YOUR NEW VARIABLES IN RDATA FORMAT:
+save(genome, myColours, mySymbols, file='../Results/GenomeSize.Rda')
