@@ -130,7 +130,7 @@ Table 1. Minimum and maximum temperatures during each experiment measured by the
 ## Pathogen Exposure 
 Tadpoles were exposed individually to controlled doses of Bd and/or Rv or the correlating sham media (see Figure \@ref(fig:schedule)). The exposure inoculum was added directly to the housing container after a 100% water change. Following the 6-hour exposure period the water volume in the housing containers was raised to maintain water quality. 
 
-```{r schedule, echo=FALSE, message=FALSE, optipng='-o7', fig.cap= "Schedule of exposures and sampling, by treatment group. A dose is denoted by a green (Rv) or yellow (Bd) coloured square, and sham doses are displayed as cross-hatched squares. The blue squares indicate when 50ml “soak” water samples were collected from individuals and filtered. EMA water samples (for quantification of viable Bd zoospores) are collected directly from the housing container and shown by an asterisk.", out.width="600px", out.height="600px"}
+```{r schedule, echo=FALSE, message=FALSE, optipng='-o7', fig.cap= "Schedule of exposures and sampling, by treatment group. A dose is denoted by a green (Rv) or yellow (Bd) coloured square, and sham doses are displayed as cross-hatched squares. The blue squares indicate when 50ml “soak” water samples were collected from individuals and filtered. EMA water samples (for quantification of viable Bd zoospores) are collected directly from the housing container and shown by an asterisk.", out.width="400px", out.height="400px"}
 
 include_graphics("../figs/images/exp-schedule.png")
 ``` 
@@ -164,7 +164,7 @@ The Bd infection load of tadpoles was confirmed by excision and DNA extraction o
 
 The quantification of ranaviral DNA from tissue samples (mainly livers and kidneys) of the tadpoles stored in 100% ethanol was by DNeasy Blood and Tissue (Qiagen) extraction following the manufacturers protocol. DNA samples were then analysed with a qPCR assay specific to the ranaviral major capsid protein (MCP) sequence and normalised by host cell quantity as outlined in Leung et al. (2017). 
 
-```{r endpoint, echo=FALSE, message=FALSE, optipng='-o7', fig.cap= "*Left* DNA extraction procedure for endpoint tissue samples. *Right* ", fig.show='hold', out.width = "50%", fig.align = "default"}
+```{r endpoint, echo=FALSE, message=FALSE, optipng='-o7', fig.cap= "*Left* DNA extraction procedure for endpoint tissue samples. *Right* qPCR output", fig.show='hold', out.width = "25%", fig.align = "default"}
 
 include_graphics(c("../figs/images/endpoint-sample.png", "../figs/images/qPCR.png"))
 ``` 
@@ -173,19 +173,9 @@ include_graphics(c("../figs/images/endpoint-sample.png", "../figs/images/qPCR.pn
 
 ### Shedding Samples 
 
-One limitation of using common frog and common toad larvae is that individuals can not be sampled for infections without first being euthanized. For this reason, we tracked infectious particle output post-exposure using a modified version of the "soak" technique ^[Di Renzo et al. (2014); Reeder et al. (2012)]. Individuals were transferred into a temporary shedding unit containing clean, aged water to “soak” for 4 hours, after which they will be returned to their housing unit. The shedding containers used are shown in Figure \@ref(fig:shedding). The soak period of 4 hours was choosen to balance the need to sensitively detect zoospores/virions shed with the considerations of the tadpoles welfare needs. 
+One limitation of using common frog and common toad larvae is that individuals can not be sampled for infections without first being euthanized. For this reason, we tracked infectious particle output post-exposure using a modified version of the "soak" technique ^[Di Renzo et al. (2014); Reeder et al. (2012)]. Individuals were transferred into a temporary shedding unit containing clean, aged water to “soak” for 4 hours, after which they will be returned to their housing unit. The soak period of 4 hours was choosen to balance the need to sensitively detect zoospores/virions shed with the considerations of the tadpoles welfare needs. 
 
-```{r shedding, echo=FALSE, message=FALSE, optipng='-o7', fig.cap= "Images of the disposable containers used as temporary holding units to generate a water sample of shed pathogens from the tadpoles. *Left* shows the standard shedding container for all experiments,, where the water volume was 50mL, *right* shows the shedding containers used for the larger *Alytes muletensis* tadpoles, where the water volume was 100mL.",fig.show='hold', out.width = "50%", fig.align = "default"}
-
-include_graphics(c("../figs/images/shedding-small.png", "../figs/images/shedding-big.png"))
-``` 
-
-The soak water was filtered through a cellulose nitrate filter membrane (Nalgene Analytical Test Filter Funnel, ThermoFisher) with 0.45µm pore size to capture 1-2µm to 3-5µm zoospores ^[Berger, Speare, & Kent, 1999; Longcore et al., 1999], by a vacuum manifold, see Figure \@ref(fig:filter). Following filtration, each membrane was removed from the filter unit, cut in half using a sterile scalpel blade, and stored at -20^o^C for a week before being transferred to -80^o^C until processing. DNA extractions were performed for each filter membrane half. One half underwent extraction by Prepman Ultra (Life Technologies) following the procedure described in Hyatt et al. (2007) to target Bd. Whereas DNeasy Blood & Tissue kit was used to isolate Rv DNA following the protocol Goldberg et al.(2011) with the modifications outlined by Kosch & Summers (2013). All DNA extractions were assayed by quantitative polymerase chain reaction (qPCR) specific to each pathogen and run in duplicate. A positive result was scored if both wells amplify above the detection threshold when compared to the curve of standards.
-
-```{r filter, echo=FALSE, message=FALSE, optipng='-o7', fig.cap= "Setup of the vacuum manifold with the cellulose nitrate filter units.", fig.width=4, fig.height=2}
-
-include_graphics("../figs/images/filters.png")
-``` 
+The soak water was filtered through a cellulose nitrate filter membrane (Nalgene Analytical Test Filter Funnel, ThermoFisher) with 0.45µm pore size to capture 1-2µm to 3-5µm zoospores ^[Berger, Speare, & Kent, 1999; Longcore et al., 1999], by a vacuum manifold. Following filtration, each membrane was removed from the filter unit, cut in half using a sterile scalpel blade, and stored at -20^o^C for a week before being transferred to -80^o^C until processing. DNA extractions were performed for each filter membrane half. One half underwent extraction by Prepman Ultra (Life Technologies) following the procedure described in Hyatt et al. (2007) to target Bd. Whereas DNeasy Blood & Tissue kit was used to isolate Rv DNA following the protocol Goldberg et al.(2011) with the modifications outlined by Kosch & Summers (2013). All DNA extractions were assayed by quantitative polymerase chain reaction (qPCR) specific to each pathogen and run in duplicate. A positive result was scored if both wells amplify above the detection threshold when compared to the curve of standards.
 
 Water samples were obtained every day for the first four days and then day 9 post-exposure, to capture the Bd reproduction cycle ^[DiRenzo, Langhammer, Zamudio, & Lips, 2014b; Garmyn et al., 2012] and Rv attenuation ^[Duffus et al., 2014]. See Figure \@ref(fig:schedule)) for sampling schedule. After the last shedding sample (day 9 post-exposure) tadpoles were immediately euthanised, under licence, by buffered (pH 7.0) 5 mg/L tricaine methylsulfonate (MS- 222) and then stored in 100% ethanol. 
 
@@ -193,7 +183,7 @@ Water samples were obtained every day for the first four days and then day 9 pos
 
 Quantification of viable zoospores shed into the housing container over the course of the shedding sampling period (4 days) was achieved by ethidium monoazide (EMA) treatment following the protocol in Blooi et al. (2013), see Figure \@ref(fig:EMA) for an overview. In brief, at 4 days post-infection, two sub-samples were taken from the housing container, one to be treated with EMA and the other untreated before DNA extraction by Prepman Ultra. EMA binds to dead zoospores penetrating their compromised membranes and blocks qPCR amplification thus EMA treated samples represent the viable proportion of Bd zoospores in a sample compared to an untreated sample that records both the viable and dead fractions.
 
-```{r EMA, echo=FALSE, message=FALSE, optipng='-o7', fig.cap= "Viability staining protocol for quantification of live vs. dead Bd zoospores.", fig.width=8, fig.height=4}
+```{r EMA, echo=FALSE, message=FALSE, optipng='-o7', fig.cap= "Viability staining protocol for quantification of live vs. dead Bd zoospores.", out.width = "50%"}
 
 include_graphics("../figs/images/EMA-process-overview.png")
 ``` 
@@ -212,7 +202,7 @@ We saw some mortality across all species and treatment groups. In the *Bufo bufo
 
 ### Endpoint Infection Status 
 
-```{r proportion, echo=FALSE, warning=FALSE, error=FALSE, message=FALSE, fig.cap= "Proportion of individuals infected, by pathogen, within a treatment group for the three host species. N.B. that *Alytes* II is excluded.", fig.width=8, fig.height=4}
+```{r proportion, echo=FALSE, warning=FALSE, error=FALSE, message=FALSE, optipng='', fig.cap= "Proportion of individuals infected, by pathogen, within a treatment group for the three host species. N.B. that *Alytes* II is excluded.", out.width = "50%"}
 
 sp.labs <- c(Bb = "Bufo bufo", Rt = "Rana temporaria", Am = "Alytes muletensis")
 exp.labs <- c("1" = "Bufo bufo I", "2" = "Bufo bufo II", "3" = "Rana temporaria", "4" = "Alytes muletensis","5" = "Alytes muletensis II")
@@ -239,9 +229,11 @@ plot.endpoint.prop.sp + theme(legend.position="top",legend.justification='right'
 ### Endpoint Infection Load 
 
 
-##### Bd endpoint pathogen load (see Figure \@ref(fig:Bd-GE-plot))
+##### Bd endpoint pathogen load 
 
-```{r Bd-GE-plot, echo=FALSE, error=FALSE, message=FALSE, fig.cap= "Boxplot of the endpoint Bd load for each treatment group across the three host species. Bd load is quantified as genomic equivalents (GE) where 1 GE represents 1 Bd zoospore. The black dots represent each sample.", fig.width=8, fig.height=4}
+(see Figure \@ref(fig:Bd-GE-plot))
+
+```{r Bd-GE-plot, echo=FALSE, error=FALSE, message=FALSE, fig.cap= "Boxplot of the endpoint Bd load for each treatment group across the three host species. Bd load is quantified as genomic equivalents (GE) where 1 GE represents 1 Bd zoospore. The black dots represent each sample.", out.width = "50%"}
 
 data.endpoint <- read.csv('../data/02_clean-data.csv') 
 data.endpoint$ExperimentNo <- as.factor(data.endpoint$ExperimentNo)  
@@ -264,9 +256,11 @@ plot.Bd.GE.sp +  theme(legend.key=element_blank()) +theme(legend.text = element_
 ```
 
 
-#### Ranavirus endpoint pathogen load (see Figure \@ref(fig:Rv-plot))
+#### Ranavirus endpoint pathogen load 
 
-```{r Rv-plot, echo=FALSE, error=FALSE, message=FALSE, fig.cap= "Boxplot of the endpoint Ranaviral load for each treatment group across the three host species. Viral load has been normalised using Leung et al.'s (2017) method. The black dots represent each sample.", fig.width=8, fig.height=4}
+(see Figure \@ref(fig:Rv-plot))
+
+```{r Rv-plot, echo=FALSE, error=FALSE, message=FALSE, fig.cap= "Boxplot of the endpoint Ranaviral load for each treatment group across the three host species. Viral load has been normalised using Leung et al.'s (2017) method. The black dots represent each sample.", out.width = "50%"}
 
 plot.Rv.load.sp <- data.endpoint %>% 
  filter(!Rv.endpoint.load > 2000) %>%  # filtering out the extremely high Rv viral load so that we can see the data better 
