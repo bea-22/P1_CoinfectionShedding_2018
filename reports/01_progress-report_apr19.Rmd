@@ -1,0 +1,235 @@
+---
+title: "Institute of Integrative Biology <br> PhD Biological Sciences"
+subtitle: <h2> Progress Report 3 <h2>
+author:
+- Bryony Allen ^[University of Liverpool & Zoological Society of London]
+- Andy Fenton (supervisor) ^[University of Liverpool]
+date: "`r Sys.Date()`"
+output: 
+  html_document:
+    toc: true 
+    toc_float: true
+    toc_depth: 2 
+    fig_caption: yes
+    force_captions: yes
+    number_sections: yes
+    theme: sandstone
+    code_folding: hide 
+  pdf_document:
+    toc: true 
+    toc_depth: 2 
+    number_sections: true
+    fig_caption: yes
+    keep_tex: yes
+fontsize: 11pt
+---
+
+
+```{r, echo=FALSE}
+  # devtools::install_github("cboettig/knitcitations@v1")
+  #library(knitcitations); cleanbib()
+  #cite_options(citation_format = "pandoc", check.entries=FALSE)
+
+library(bibtex)
+library(tinytex)
+```
+
+# Abstract
+ 
+Many important pathogens circulate within multi-host communities. Equally, many hosts can be infected with multiple pathogens at any given time. In amphibian populations, the two pathogens of greatest global conservation concern, Ranavirus and *Batrachochytrium dendrobatidis* (Bd), have been indicated to occur as co-infections, yet our understanding of these complex host-pathogen interactions remains limited. We empirically tested how susceptibility, infectiousness and burden of disease changed with infection scenario (single vs coinfection) across a panel of host species (*Bufo bufo*, *Rana temporaria* and *Alytes muletensis*) that range in their reported susceptibility. We measured the contributions of each host, at an individual level, to the environmental pool of infectious particles, by quantifying Bd zoospores and ranavirus virion output. We demonstrated that disease prevalence and infection burden is context dependent. We detected a significant effect of exposure sequence on ranaviral infection with, significantly higher disease preveleance in co-infection scenarios (stat) though the direction of these effects differed with the sequence of exposure (stat2) and host species (stat3). Host species significantly determined pathogen prevelence and infectiousness in particular, *Bufo bufo* exhibited higher rates of pathogen shedding (stat4). Understanding the susceptibility and infectiousness of each host at an individual level allows us to predict how host species community composition influences the establishment and persistence of both pathogens, singularly and as coinfections, at the community level. Our study provides previously lacking emperical evidence of within-host and between-host dynamics under different infection scenarios (single vs co-infection) and highlights the importance of understanding host contributions to enviromental reservoirs of disease.
+The context of co-infection changes within- and between-host dynamics in three amphibian species. 
+
+**Key-words:** *Batrachochytrium dendrobatidis*, chytridmycosis, ranavirus, coinfection, multi-host, within-host interactions, between-host interactions, host-pathogen interaction, amphibian   
+
+# Introduction 
+
+The notable, global decline of amphibians has largely been attributed to parasitism; the two pathogens of greatest conservation concern being Ranavirus and *Batrachochytrium dendrobatidis* (Bd). While both pathogens have been studied extensively the majority of these studies have taken a one-host, one-pathogen approach. In nature, things are rarely that simple; pathogens often infect multiple host species and hosts can be parasitised by multiple pathogen species. Increasingly, we are seeing field studies reporting co-infection occurring in multiple host species. Yet our understanding of these complex host-pathogen interactions and the implications on disease transmission and persistence maintenance within a host community remains limited.  
+To help unpick the tangled dynamics of this multi-host, multi-pathogen system we empirically tested how susceptibility, infectiousness and burden of disease changed with infection scenario (single vs coinfection) across a panel of host species (*Bufo bufo*, *Rana temporaria* and *Alytes muletensis*) that range in their reported susceptibility. We demonstrate that disease prevalence and infection burden is context dependent. Pathogen prevalence appears to be particularly linked to the exposure scenario whereas host species determined endpoint pathogen burden, in particular, *Bufo bufo* exhibited higher Bd load regardless of exposure regimes. 
+***While Bd was detected in all host species across treatment groups, the exposure sequence determined the extent of ranaviral infection with, significantly higher disease prevalence in co-infection scenarios.  ***
+Understanding the susceptibility and infectiousness of each host at an individual level allows us to predict how host species community composition influences the establishment and persistence of both pathogens, singularly and as coinfections, at the community level. Our study provides previously lacking empirical evidence of within-host dynamics influencing disease outcome under different exposure scenarios (single vs co-infection). 
+
+## Within-host Dynamics (Co-infection) 
+
+## Between-host Dynamics (Shedding) 
+
+
+# Aims:  
+
+I.	Establish the contributions of hosts to the environmental “pool” of infectious particles, across species at an individual level, to understand variations in host infectiousness and by proxy transmission. 
+    i. Understand how host infectiousness, measured by quantifying Bd zoospore and ranavirus virons shed into the water body, changes with the exposure regime in single pathogen vs. co-infection scenarios.  
+    ii. Assess the viability of infectious particles shed into the aquatic environment. 
+II. Ascertain whether the sequence of exposure to co-infecting pathogens (Bd and Rv) alters the disease outcome for the host and subsequent transmission of the pathogens.
+III. Build an understanding of the spatial dynamics of Bd zoospores in the aquatic environment, focussing on zoospore activity and trajectory. 
+IV. Elucidate the role of specific behaviours in modifying contact rates and how that influences transmission rates, within and between species.  
+    i. Establish whether exposure to pathogens (Bd and/or Rv) changes tadpole behaviour (e.g. activity rates, foraging performance, and aggregation behaviour).
+    ii. Identify which species-to-species and individual-to-individual contacts alter pathogen transmission.
+    iii. Assess how transmission rates change under different scenarios that encourage shifts in contact rates (e.g. variations in host density, temperature and food availability). 
+V. Parametrizing the transmission coefficients of Bd in a multi-host system to develop realistic models. 
+VI. Combine these results into a predictive framework to understand how individual-level behaviours influence disease transmission in natural ecological communities.
+
+This study looks to compare shedding rates and infection dynamics of single pathogens against co-infection scenarios for three host species, in line with Objective I. It will address the possibility that co-infection increases infection intensity and infectiousness of one or both parasites.  
+For the experiment, individually housed tadpoles of common frogs (Rana temporaria), common toads (Bufo bufo) and then in a later experiment Mallorcan midwife toads (Alytes muletensis) were exposed to controlled doses of B. dendrobatidis and/or FV3-like ranavirus, following the schedule outlined in Figure 1. Subsequently, the number of infectious particles shed by the tadpoles, as a result of the exposure profiles, will be assessed by qPCR. 
+
+# Methods {.tabset}
+
+## Study Species
+In order to capture a range of host susceptibilities to infection by Bd and/or Rv I examined shedding rates and infection intensity of two co-occurring species (B. bufo & R. temporaria) that display contrasting resistances, and one other species (A. muletensis) documented to respond distinctly to Bd exposure but which has no empirical records of ranavirus exposure.  
+
+## Animal Husbandry  
+B. bufo and R. temporaria clutches were collected, with the permission of the landowner and under licence, from a pond site in Henley as spawn and hatched out in an approved facility. Larval A. muletensis were reared from egg clutches by the ZSL Living Collections. Tadpoles were transferred to the experimental rooms and into individual housing once the gills were reabsorbed, free swimming and exhibit normal behaviour.
+For each species, larvae of similar mass and developmental stage (Gosner 25; Gosner, 1960) were randomly selected, acclimatised to the individual housing (Really Useful Boxes (RUBs) of the appropriate size for the species) and then randomly assigned to a treatment group. As outlined in Figure 1, treatment groups consisted of 20 individuals per species. All larval amphibians were fed ground Tetra Tabimin tablets dispersed in double-distilled water to the ratio 1g/100mL, every other day during the experiment with housing and shedding container water tested regularly for nitrates, nitrites and ammonia levels. The temperature of the animal rooms followed natural ambient conditions (18-24oC) and was monitored throughout. 
+
+## PATHOGEN EXPOSURE 
+Tadpoles were exposed individually to controlled doses of Bd and/or Rv or the correlating sham media (see Figure 1). The exposure inoculum was added directly to the housing container after a 100% water change. Following the 6-hour exposure period the water volume in the housing containers was raised to maintain water quality. 
+Ranavirus (RUK13 isolate; Cunningham, Hyatt, Russell, & Bennett, 2007) was cultivated on epithelioma papillosum carp (EPC) cell line at 18oC and 5% CO2 (courtesy of S.J.Price, C.Owen and L. Brookes), and quantified using the TCID50 method (Reed & Muench, 1938) . The harvested cell culture fluid contained a virus titre of 107 TCID50/ml. Designated individuals were exposed to 105µL meaning an effective exposure of 104.5 TCID50/ml. The dose was deemed suitable based on previous work where similar inoculums induced infection but had a longer time till death in tadpoles then higher concentrations (Duffus et al., 2014; Pearman, Garner, Straub, & Greber, 2004). 
+Bd strain IA’9’13, a member of the hypervirulent BdGPL lineage and isolated during an epidemic at Ibón Acherito (Pyrenees, Spain) in 2013 by Prof. M. Fisher, was cultured in TGhL broth, in a 25cm2 cell culture flasks, at 18oC. Zoospores were collected and counted using a haemocytometer. A Bd positive dose consistent of 15,000 to 600,000 active zoospores in 210L liquid media. The volume of media was standardised across doses in order to maintain water quality during the exposure period. 
+    
+![**Fig.1.** Schedule of exposures and sampling, by treatment group. A dose is denoted by a green (Rv) or yellow (Bd) coloured square, and sham doses are displayed as cross-hatched squares. The blue squares indicate when 50ml “soak” water samples were collected from individuals and filtered. EMA water samples (for quantification of viable Bd zoospores) are collected directly from the housing container and shown by an asterisk.](../figs/exp-schedule.png)
+
+
+
+## Within-host Dynamics (Co-infection) 
+
+** DNA extractions and quantification ** 
+The Bd infection load of tadpoles was confirmed by excision and DNA extraction of mouthparts using Prepman Ultra (Life Technologies) as per Hyatt et al. (2007). Extracts were screened by the qPCR diagnostic outlined in (Boyle et al., 2004) which targets the ITS-1 and 5.8S regions and diluted 1:10 before qPCR to avoid inhibition. The infection load with be express in genomic equivalents (GE), where one GE is equivalent to a single zoospore. The quantification of ranaviral DNA from tissue samples (mainly livers and kidneys) of the tadpoles stored in 100% ethanol was by DNeasy Blood and Tissue (Qiagen) extraction following the manufacturers protocol. DNA samples were then analysed with a qPCR assay specific to the ranaviral major capsid protein (MCP) sequence and normalised by host cell quantity as outlined in Leung et al. (2017). 
+
+## Between-host Dynamics (Shedding) 
+
+**Filtration** 
+Water samples were obtained every day for the first four days and then day 9 post- exposure, to capture the Bd reproduction cycle (DiRenzo, Langhammer, Zamudio, & Lips, 2014b; Garmyn et al., 2012) and Rv attenuation (Duffus et al., 2014). We modified the soak technique used by Di Renzo et al. (2014) and Reeder et al. (2012), increasing the soak period to 4 hours in 50ml of aged tap water to balance the need to sensitively detect zoospores/virions shed with the considerations of the tadpoles welfare needs. The soak water was filtered through a cellulose nitrate filter membrane (Nalgene Analytical Test Filter Funnel, ThermoFisher), 0.45um pore size to capture 1-2m to 3-5m zoospores (Berger, Speare, & Kent, 1999; Longcore et al., 1999), by a vacuum manifold. Following filtration, each membrane was removed from the filter unit, cut in half using a sterile scalpel blade, and stored at -20oC for a week before being transferred to -80oC until processing. After the last shedding period and water filtration (dpi 9) tadpoles were euthanised, under licence, by buffered (pH 7.0) 5 mg/L tricaine methylsulfonate (MS- 222) and then stored in 100% ethanol. 
+
+**Viability (EMA)**  
+Quantification of viable zoospores shed into the housing container over the course of the shedding period (4 days) was achieved by ethidium monoazide (EMA) treatment following the protocol in (Blooi, Martel, Vercammen, & Pasmans, 2013). In brief, at 4 days post-infection, two sub-samples were taken from the housing container, one to be treated with EMA and the other untreated before DNA extraction by Prepman Ultra (as described below). EMA binds to dead zoospores penetrating their compromised membranes and blocks PCR amplification thus EMA treated samples represent the viable proportion of Bd zoospores in a sample compared to an untreated sample that records both the viable and dead fractions.
+
+** DNA extractions and quantification** 
+a DNA extraction was performed for each filter membrane half. One half underwent extraction by Prepman Ultra (Life Technologies) following the procedure described in Hyatt et al. (2007) to target bd. Whereas DNeasy Blood & Tissue kit was used to isolate Rv DNA following the protocol Goldberg et al.(2011) with the modifications outlined by (Kosch & Summers (2013). All DNA extractions will be assayed by quantitative polymerase chain reaction (qPCR) specific to each pathogen and run in duplicate. A positive result was scored if both wells amplify above the detection threshold when compared to the curve of standards.
+
+**Shedding Model** 
+
+## Equations
+
+The deterministic part of the model is defined by this **in-line equation** as 
+$\mu_i = \beta_0 + \beta_1x$, and the stochastic part by the **centered equation**: 
+
+$$ \frac{1}{\sqrt{2\pi}\sigma}e^{-(x-\mu_i)^2/(2\sigma^2)} $$
+
+
+# Results  
+
+The exposure schedule can be seen in fig 1 \@ref(fig:chunk-name) 
+or knitr::include_graphics() function
+
+
+## Within-host Dynamics (Co-infection) 
+
+```{r Bd.GE.plot, echo=FALSE, fig.cap="Relationship between x and y. The solid line is least-squares linear regression.", fig.width=8, fig.height=4}
+
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+
+data.endpoint <- read.csv('../data/02_clean-data.csv') 
+data.endpoint$ExperimentNo <- as.factor(data.endpoint$ExperimentNo)  
+
+sp.labs <- c(Bb = "Bufo bufo", Rt = "Rana temporaria", Am = "Alytes muletensis")
+exp.labs <- c("1" = "Bufo bufo I", "2" = "Bufo bufo II", "3" = "Rana temporaria", "4" = "Alytes muletensis","5" = "Alytes muletensis II")
+
+plot.Bd.GE.sp <- data.endpoint %>% 
+  filter((Bd.endpoint.status=='1' & Bd.endpoint.GE > 0.1))  %>% 
+        ggplot(aes(interaction(x= Treatment, Species), y= Bd.endpoint.GE, fill = Species)) +   #plot as boxplot with or without means and data points (see comments below)
+        geom_boxplot() +
+        geom_jitter(width = 0.05) +   # adds the data points 
+        scale_y_log10() +  # logs the axis 
+        scale_x_discrete(labels=c("Bd", "Bd>Rv", "Rv>Bd","Bd", "Bd>Rv", "Rv>Bd","Bd", "Bd>Rv", "Rv>Bd")) +
+        xlab("Treatment Group") +
+        ylab("Bd load\n(GE)") +
+       # theme(axis.title.y = element_text(angle=0, size=14), legend.text = element_text(face = "italic")) + 
+        scale_fill_grey(start=1, end=.5, labels=sp.labs) +
+   theme_bw()
+        
+plot.Bd.GE.sp +  theme(legend.key=element_blank()) +theme(legend.text = element_text(face = "italic")) +theme(axis.text.x = element_text(angle=30, hjust=1,vjust=1)) + theme(axis.title = element_text(size=16))
+       
+```
+
+## Between-host Dynamics 
+
+### Shedding
+
+      *pending* 
+
+### Viability 
+
+
+
+
+# Discussion
+
+
+
+
+**Ethics** All work was carried out under British Home Office licencing following ethical approval by the Zoological Society of London’s Ethics Committee.  
+Personal Licence (PIL): Bryony Allen I41AEB105
+Project Licence (PPL): Trenton Garner P8897246A
+
+**Biosecurity** In line with ZSL guidelines all equipment and infectious material (water and animals) was decontaminated by exposure to 1% Virkon (Johnson et al., 2003) or by autoclaving and incineration.
+
+**Data accessibility** All the data outlined about is avaliable ... scripts also avabilable >>> supplementary material 
+
+**Authors contributions**
+
+**Acknowledgments** I would like to thank the animal husbandry team at ZSL... 
+
+# References
+
+
+
+
+
+# Progress and Development  {.tabset}
+
+##   Knowledge & Intellectual Abilities
+
+* Nov 2018	ZSL Symposium: Linking behaviour to populations and communities: how can behavioural ecology inform conservation?
+* Mar 2019 	Nature Masterclass - workshop
+* Apr 2019	ZSL Symposium: Mitigating single pathogen and co-infections that threaten amphibian biodiversity 
+
+##   Personal Effectiveness
+
+* Apr 2019 	ACCE training: Data and Project Management
+* Apr 2019 	IIB training: Meet the Viva Panel 
+
+##   Research Governance & Organisation 
+
+* Mar 2019 	Nature Masterclass - workshop
+* +++++++++ Apr 2019 	Ethical Review by ZSL Ethics Committee ++++++++++ 
+
+
+##   Engagement Influence & Impact 
+
+* Sep 2018	ACCE Student Conference 2018 - talk - *“title of the talk”*
+* Dec 2018	BES Conference 2018 - poster - *“title of the poster”*
+* Feb 2019	EEGID seminar - talk - *“title of the talk”*
+* Mar 2019	IIB Faculty Poster Day - poster - *“title of the poster”*
+* Mar 2019	IoZ Student Conference 2019 - talk - *“title of the poster”* 
+* Apr 2019	ZSL Symposium: Mitigating single pathogen and co-infections that threaten amphibian biodiversity - poster - *“title of the poster”*
+* Apr 2019	ZSL Symposium: Mitigating single pathogen and co-infections that threaten amphibian biodiversity - workshop - *"Strategy for dealing with coinfections."*
+
+# Thesis Plan  
+
+**Chapter 1:** Literature Review: *introducing amphibian decline and the associated diseases (Bd and Rv), how disease dynamics are modelled, and behavioural responses to disease.* 
+
+**Chapter 2:** Within-host dynamic: *co-infection*
+
+**Chapter 3:** Between-host dynamics: *transmission and shedding models* 
+
+**Chapter 4:** Modelling transmission across scales: *multi-species* 
+
+**Chapter 5:** Behaviour & Transmission 
+
+
+
+
+
+# Supplementary Material 
+
+## 
