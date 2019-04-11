@@ -14,37 +14,37 @@ Questions and comments can be tracked under the issues tab or emailed to bryony.
 
 METADATA
 ============
-title (project): 
+**title (project):** 
 
 "From individual behaviour to population-level transmission: bridging disease ecology scales with the amphibian pathogens."
 
-title (sub-project): 
+**title (sub-project):** 
 
 “Project looking at infection burden and output (shedding) from individuals exposed to two pathogens under different exposure scenarios (single pathogen vs. coinfection) for three species of larval amphibians (Bufo bufo, Rana temporaria and Alytes muletensis) 
 
-authors:
+**authors**:
 - name: Bryony E. Allen *
-	affiliation: University of Liverpool and the Zoological Society of London
-		email: bryony.allen@liverpool.ac.uk 
+	- *affiliation:* University of Liverpool and the Zoological Society of London
+	- *email:* bryony.allen@liverpool.ac.uk 
 - name: Andy Fenton
-	affiliation: University of Liverpool 
-		email: 
+	- *affiliation:* University of Liverpool 
+	- *email:* 
 - name: Trenton Garner
-	affiliation: Institute of Zoology,  Zoological Society of London
-		email: 
+	- *affiliation:* Institute of Zoology,  Zoological Society of London
+	- *email:* 
 - name: Dave Daversa
-	affiliation: University of Liverpool and the Zoological Society of London
-		email: 
+	- *affiliation:* University of Liverpool and the Zoological Society of London
+	- *email:* 
 
-date: 
+**date:** 
 - collected: 2018-07-01 to 2018-10-30  
 - last analysed: 2019-04-01
 
-location: 
+**location:** 
 - experiments: Institute of Zoology, ZSL, UK 
 - data: 
 
-ethics: 
+**ethics: **
 
 
 PREREQUISITES
