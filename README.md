@@ -9,13 +9,17 @@ The goal of P1_CoinfectionShedding_2018 is to analyse data collected from a co-i
 
 Data and scripts used for analysis are available in a GitHub repository  
 
-https://github.com/bea-22/Chytrid-Code 
+https://github.com/bea-22/P1_CoinfectionShedding_2018 
 
 METADATA
 ============
-title: 
-	“Project looking at infection burden and output (shedding) from individuals exposed to two pathogens under different exposure scenarios (single pathogen vs. coinfection) for three species of larval amphibians (Bufo bufo, Rana temporaria and Alytes muletensis) 
-... part of *"From individual behaviour to population-level transmission: bridging disease ecology scales with the amphibian pathogens."*
+title (sub-project): 
+
+“Project looking at infection burden and output (shedding) from individuals exposed to two pathogens under different exposure scenarios (single pathogen vs. coinfection) for three species of larval amphibians (Bufo bufo, Rana temporaria and Alytes muletensis) 
+
+title (project): 
+
+"From individual behaviour to population-level transmission: bridging disease ecology scales with the amphibian pathogens."
 
 authors:
 - name: Bryony E. Allen *
@@ -39,10 +43,7 @@ location:
 - experiments: Institute of Zoology, ZSL, UK 
 - data: 
 
-
 ethics: 
-
-
 
 
 PREREQUISITES
