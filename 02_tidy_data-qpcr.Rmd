@@ -1,0 +1,153 @@
+---
+title: "02_tidy_data-qpcr"
+author: "Bryony Allen"
+date: "17/02/2019"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Housekeeping Note #
+This document is an RMarkdown document and uses relative paths.
+
+-- RMarkdown -- 
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document.
+The following arguments allow you to select the code chunks and output that appear in the final document
+     {   echo=FALSE} hides the code so the code chunk doesn't appear in the final document 
+     {   include=FALSE} hides the code and the output 
+      
+-- Relative paths -- 
+    The working directory will be set automatically to the location of this script file. The following script assumes that in this folder there are subfolders called "code", "data", "doc", "figs", "output", "raw", and "reports" 
+
+
+# NOTES & SOURCES #
+https://www.tidyverse.org/articles/2017/12/workflow-vs-script/     <<<< describes project orientated workflow 
+
+* tidyr guidance
+http://garrettgman.github.io/tidying/  << format of dataset 
+https://cran.r-project.org/web/packages/tidyr/vignettes/tidy-data.html
+https://speakerdeck.com/hadley/welcome-to-the-tidyverse?slide=29    <<<< outlines how tidyr and dplyr can be used to clean data 
+
+* dplyr guidance
+https://datacarpentry.org/R-genomics/04-dplyr.html
+https://sites.google.com/site/simonthelwall/home/r/data_manipulation_with_dplyr 
+https://mgimond.github.io/ES218/Week03a.html    <<< using mutate_at(), list() and ifelse() to apply seperate mutate operations across multiple cols 
+https://rstudio-pubs-static.s3.amazonaws.com/116317_e6922e81e72e4e3f83995485ce686c14.html#/   <<< creating new variables in R with mutate() and ifelse() 
+
+* tibble 
+
+
+** Ranavirus viral load calculation 
+Leung, W. T., Thomas-Walters, L., Garner, T. W., Balloux, F., Durrant, C., & Price, S. J. (2017). A quantitative-PCR based method to estimate ranavirus viral load following normalisation by reference to an ultraconserved vertebrate target. Journal of virological methods, 249, 147-155.
+https://www.researchgate.net/publication/319881735_1_Ranavirus_detection_and_quantification_by_qPCR_2_Vertebrate_pathogen_load_estimation
+
+# Load required packages 
+install.packages("") if necessary  
+
+```{r packages, include=FALSE}
+library(here)
+library(dplyr)
+library(tidyr)
+library(tibble)
+```
+
+# Part 1: Import data 
+>>>> For the time being read in the latest PartialDataset.csv 
+
+Read in the .csv file of merged qPCR outputs, created in "01_import_merge-qpcr" script. 
+
+```{r get data, echo=TRUE}     
+raw.data <- read.csv('raw/OLD-data/PartialDataset_Mar2019.csv') 
+
+# when you switch to using RStudio projects and the here() package use the following code 
+# raw.data <- read.csv(here("data", raw_PartialDataset_Mar2019.csv') 
+
+```
+
+# Part 2: Tidy data 
+
+Now we start tidying...
+
+A) Sort out the typos 
+```{r treatment groups, include=T} 
+# the Rv-only group has a space after in $Treatment 
+levels(raw.data$Treatment) <- gsub("^Rv $","Rv", levels(raw.data$Treatment))
+
+```
+
+B) Convert the endpoint infection status from "Positive" or "Negative" to a binary form where 0 is negative (*this will change >> in the future you will have to create an endpoint status column for each pathogen and make a loop to assess if the Qmean value lies over the threshold value for that pathogen 
+
+```{r endpoint status, include=T} 
+str(raw.data)   # quick check of data type for each column 
+  # hmmm at the moment there are more levels to each endpoint.status than if it was just Positive or Negative   
+
+# check and change the "Undetermined" records 
+unique(raw.data$Rv.MCPendpoint.status)   #there is an undetermined ....
+  raw.data[which(raw.data$Rv.MCPendpoint.status=="Undetermined"),c("ID", "ExperimentNo", "Rv.MCPendpoint.status", "Rv.MCPendpoint.Qmean", "Rv.EBF3Nendpoint.status", "Rv.EBF3Nendpoint.Qmean")]  # it has a Rv QMean score and EBF3N result so change to postive 
+    raw.data$Rv.MCPendpoint.status[raw.data$Rv.MCPendpoint.status=="Undetermined"]<-"Positive"
+  
+unique(raw.data$Rv.EBF3Nendpoint.status)   #there is an undetermined ....
+  raw.data[which(raw.data$Rv.EBF3Nendpoint.status=="Undetermined"),c("ID", "ExperimentNo", "Rv.MCPendpoint.status", "Rv.MCPendpoint.Qmean", "Rv.EBF3Nendpoint.status", "Rv.EBF3Nendpoint.Qmean")] 
+    raw.data$Rv.EBF3Nendpoint.status[raw.data$Rv.EBF3Nendpoint.status=="Undetermined"]<-"Positive "  # had to put a space here so that it would accept it 
+
+binary.status <-  raw.data %>%    # convert infection status from positive/negaitve to binary 
+  mutate(ExperimentNo = as.factor(ExperimentNo)) %>%   # makes experiment number a factor 
+  mutate_at(vars(matches("endpoint.status")), list(~ifelse(grepl("Positive", .),1,0)))   # takes seperate ifelse and mutate operations and makes them a single mutate_at() operation 
+# selects the columns that have "endpoint.status" in the col name, applies an ifelse operation that finds an value that matches "Positive" (a way round the accidental spaces) and makes then 1's and all other values 0's
+# the . acts as a placeholder for each column listed in the list() function and the ~ operatir is used in lieu of .=
+
+glimpse(binary.status)   # another check
+```
+
+C) Convert Bd qunatity mean to Genomic Equivalent (GE) by times by 10 which adjusts for the 1:10 dilution ....  note that GE is not calculated for EMA/WS samples because the samples were not diluted (1:10) before qPCR 
+
+```{r Bd clean, include= T}
+
+Bd.clean <- binary.status %>%
+   mutate(Bd.endpoint.GE = Bd.endpoint.Qmean*10)  %>%    # creates a new column containing the calculated genomic equivalence score (GE) from QMean (time by 10)
+          mutate(viable.GE = EMA.GE.EMA) %>%   # change the name 
+           mutate(dead.GE = EMA.GE.WS-EMA.GE.EMA)   # work out the proportion of dead zoospores 
+
+glimpse(Bd.clean)   # check again
+```
+
+
+D) Normalise ranavirus viral load using the calculation as per Leung et al. (2017) 
+
+••• N.B three samples are missing EBF3N qPCR data so for the tie being I have averaged the EBF3N scores and used that for these three samples 
+
+```{r ranavirus normalisation, include=T} 
+
+Bd.clean %>%    # check the Ranavirus positive samples 
+  filter(Rv.MCPendpoint.status=='1' & !Treatment=='Bd')  %>%   # only samples that scored positve for MCP (Rv infection) and excluding Bd only treatment group  
+    select(ID, Species,ExperimentNo,Treatment,Rv.MCPendpoint.status,Rv.MCPendpoint.Qmean,Rv.EBF3Nendpoint.status,Rv.EBF3Nendpoint.Qmean)
+
+# N.B. three samples are missing EBF3N qPCR outputs  << for now I will manually change them to the mean EBF3N quantity mean score 
+    mean(binary.status$Rv.EBF3Nendpoint.Qmean, na.rm=T)  # calculate the mean EBF3N qPCR quantity mean  ==  2592.907
+
+    Bd.clean[which(Bd.clean$Rv.MCPendpoint.status==1 & is.na(Bd.clean$Rv.EBF3Nendpoint.Qmean)),c("ID", "ExperimentNo", "Rv.MCPendpoint.status", "Rv.MCPendpoint.Qmean", "Rv.EBF3Nendpoint.status", "Rv.EBF3Nendpoint.Qmean")]  # finds individuals that have Rv infection (aka MCP score) but haven't got EBF3N data 
+    Bd.clean$Rv.EBF3Nendpoint.Qmean[Bd.clean$Rv.MCPendpoint.status==1 & is.na(Bd.clean$Rv.EBF3Nendpoint.Qmean)]<- 2592.907
+
+    
+ploidy <- 2   # set the ploidy for the species to 2 
+
+pathogen.clean <- Bd.clean %>%
+      mutate(Rv.endpoint.load = Rv.MCPendpoint.Qmean*ploidy / Rv.EBF3Nendpoint.Qmean)   # new column calculating the viral load 
+
+glimpse(pathogen.clean)
+```
+
+
+# Part 2: output cleaned datafile 
+
+```{r get data, include=FALSE}     
+
+write.csv(pathogen.clean,file="data/02_clean-data.csv", row.names=FALSE)
+
+```
+
+
+
+################### SCRAPS ################### SCRAPS ################### SCRAPS ################### SCRAPS ################### SCRAPS ################### SCRAPS ################### SCRAPS ###################
