@@ -1,0 +1,322 @@
+﻿ID,Species,ExperimentNo,Scenario,Treatment,Exposure.1,Exposure.2,endpoint.date,endpoint.code,Bd.endpoint.status,Bd.endpoint.CTmean,Bd.endpoint.Qmean,Rv.MCPendpoint.status,Rv.MCPendpoint.CTmean,Rv.MCPendpoint.Qmean,Rv.EBF3Nendpoint.status,Rv.EBF3Nendpoint.CTmean,Rv.EBF3Nendpoint.Qmean,EMA.YN,EMA.date,EMA.GE.EMA,EMA.GE.WS
+A1.1,Bb,1,Coinfection,Rv-Bd,rv,bd,06/06/2018,EU,Positive,30.94989014,23.6021347,Negative ,0,0,NA,NA,NA,1,,0.004041085,0.026650012
+A1.2,Bb,1,Coinfection,Rv-Bd,rv,bd,26/05/2018,MORT,Positive,37.30877304,0.495031029,Positive ,24.75440979,246200.6875,Positive ,33.46543503,357.7630615,0,NA,NA,NA
+A1.3,Bb,1,Coinfection,Rv-Bd,rv,bd,06/06/2018,EU,Positive,32.19300842,11.08399868,Negative ,0,0,NA,NA,NA,1,,0.479822159,0.005265172
+A1.4,Bb,1,Coinfection,Rv-Bd,rv,bd,27/05/2018,MORT,Positive,36.65140915,0.73700285,Positive ,22.90013885,683775.875,Positive ,31.07019806,1496.916504,0,NA,NA,NA
+A1.5,Bb,1,Coinfection,Rv-Bd,rv,bd,06/06/2018,EU,Positive,31.30802536,18.99750137,Negative ,0,0,NA,NA,NA,1,,0.002390919,0
+A1.6,Bb,1,Coinfection,Rv-Bd,rv,bd,04/06/2018,MORT,Positive,31.87982178,13.40060425,Positive ,26.93018723,74052.95313,Positive ,34.55871582,182.4617615,1,,0.007462085,3.369523048
+A1.7,Bb,1,Coinfection,Rv-Bd,rv,bd,06/06/2018,EU,Positive,31.69301987,14.94764805,Negative ,0,0,NA,NA,NA,1,,0,0.001693409
+A1.8,Bb,1,Coinfection,Rv-Bd,rv,bd,02/06/2018,MORT,Positive,34.15028381,3.36520052,Positive ,26.86987686,75968.92188,Positive ,35.38493729,115.3741913,NA,NA,NA,NA
+A1.9,Bb,1,Coinfection,Rv-Bd,rv,bd,06/06/2018,EU,Positive,30.14384842,38.65125275,Negative ,0,0,NA,NA,NA,NA,NA,NA,NA
+A1.10,Bb,1,Coinfection,Rv-Bd,rv,bd,21/05/2018,MORT,Positive,39.77640533,0.113310777,Positive ,36.74454498,298.7419128,Positive ,35.22857666,118.3807907,NA,NA,NA,NA
+A1.11,Bb,1,Coinfection,Rv-Bd,rv,bd,06/06/2018,EU,Positive,32.77532578,7.752777576,Negative ,0,0,NA,NA,NA,NA,NA,NA,NA
+A1.12,Bb,1,Coinfection,Rv-Bd,rv,bd,06/06/2018,EU,Positive,34.2467804,3.230875731,Negative ,0,0,NA,NA,NA,NA,NA,NA,NA
+A1.13,Bb,1,Coinfection,Rv-Bd,rv,bd,06/06/2018,EU,Positive,32.87454987,7.307030678,Negative ,0,0,NA,NA,NA,NA,NA,NA,NA
+A1.14,Bb,1,Coinfection,Rv-Bd,rv,bd,06/06/2018,EU,Positive,32.05519867,11.99657917,Negative ,0,0,NA,NA,NA,NA,NA,NA,NA
+A1.15,Bb,1,Coinfection,Rv-Bd,rv,bd,06/06/2018,EU,Positive,33.42121887,5.235106468,Negative ,0,0,NA,NA,NA,NA,NA,NA,NA
+A1.16,Bb,1,Coinfection,Rv-Bd,rv,bd,30/05/2018,MORT,Positive,34.53736496,2.660252094,Positive ,21.84478188,1236122.5,Positive ,29.3133049,4293.998047,NA,NA,NA,NA
+A1.17,Bb,1,Coinfection,Rv-Bd,rv,bd,06/06/2018,EU,Positive,30.55527878,29.98496056,Negative ,0,0,NA,NA,NA,NA,NA,NA,NA
+A1.18,Bb,1,Coinfection,Rv-Bd,rv,bd,21/05/2018,MORT,Negative ,0,0,Positive ,46.3653183,1.416279554,Positive ,33.59130096,352.0994263,NA,NA,NA,NA
+A1.19,Bb,1,Coinfection,Rv-Bd,rv,bd,06/06/2018,EU,Positive,37.31768036,0.499219179,Negative ,0,0,NA,NA,NA,NA,NA,NA,NA
+A1.20,Bb,1,Coinfection,Rv-Bd,rv,bd,28/05/2018,MORT,Positive,34.18135071,3.307519436,Positive ,21.74869156,1300763.5,Positive ,30.3636322,2272.878906,NA,NA,NA,NA
+B1.1,Bb,1,Coinfection,Bd-Rv,bd,rv,06/06/2018,EU,Positive,32.16492844,11.23722076,Negative ,0,0,NA,NA,NA,NA,NA,NA,NA
+B1.2,Bb,1,Coinfection,Bd-Rv,bd,rv,06/06/2018,EU,Positive,32.1455574,11.36632347,Negative ,0,0,NA,NA,NA,NA,NA,NA,NA
+B1.3,Bb,1,Coinfection,Bd-Rv,bd,rv,06/06/2018,EU,Positive,37.2638855,0.51753968,Negative ,0,0,NA,NA,NA,NA,NA,NA,NA
+B1.4,Bb,1,Coinfection,Bd-Rv,bd,rv,06/06/2018,EU,Positive,34.15808487,3.349504948,Negative ,0,0,NA,NA,NA,NA,NA,NA,NA
+B1.5,Bb,1,Coinfection,Bd-Rv,bd,rv,06/06/2018,EU,Positive,30.080616,39.83976746,Negative ,0,0,NA,NA,NA,NA,NA,NA,NA
+B1.6,Bb,1,Coinfection,Bd-Rv,bd,rv,06/06/2018,EU,Positive,32.13922119,11.40092945,Positive ,48.44733429,2.759744883,Undetermined,43.52366257,0.787070751,NA,NA,NA,NA
+B1.7,Bb,1,Coinfection,Bd-Rv,bd,rv,06/06/2018,EU,Positive,32.59169769,8.710372925,Negative ,0,0,NA,NA,NA,NA,NA,NA,NA
+B1.8,Bb,1,Coinfection,Bd-Rv,bd,rv,06/06/2018,EU,Positive,31.09827423,21.47493744,Negative ,0,0,NA,NA,NA,NA,NA,NA,NA
+B1.9,Bb,1,Coinfection,Bd-Rv,bd,rv,06/06/2018,EU,Positive,34.47953415,2.756486893,Negative ,0,0,NA,NA,NA,NA,NA,NA,NA
+B1.10,Bb,1,Coinfection,Bd-Rv,bd,rv,06/06/2018,EU,Positive,33.69457245,4.436452389,Negative ,0,0,NA,NA,NA,NA,NA,NA,NA
+B1.11,Bb,1,Coinfection,Bd-Rv,bd,rv,06/06/2018,EU,Positive,33.48197556,5.053277969,Negative ,0,0,NA,NA,NA,NA,NA,NA,NA
+B1.12,Bb,1,Coinfection,Bd-Rv,bd,rv,06/06/2018,EU,Positive,32.09716034,11.72230244,Negative ,0,0,NA,NA,NA,NA,NA,NA,NA
+B1.13,Bb,1,Coinfection,Bd-Rv,bd,rv,06/06/2018,EU,Positive,35.2878418,1.723341227,Negative ,0,0,NA,NA,NA,NA,NA,NA,NA
+B1.14,Bb,1,Coinfection,Bd-Rv,bd,rv,19/05/2018,MORT,Positive,42.27167511,0.024784993,Negative ,0,0,NA,NA,NA,NA,NA,NA,NA
+B1.15,Bb,1,Coinfection,Bd-Rv,bd,rv,06/06/2018,EU,Positive,33.72922516,4.362797737,Negative ,0,0,NA,NA,NA,NA,NA,NA,NA
+B1.16,Bb,1,Coinfection,Bd-Rv,bd,rv,06/06/2018,EU,Positive,33.58680725,4.758400917,Negative ,0,0,NA,NA,NA,NA,NA,NA,NA
+B1.17,Bb,1,Coinfection,Bd-Rv,bd,rv,06/06/2018,EU,Positive,32.3671875,9.941318512,Negative ,0,0,NA,NA,NA,NA,NA,NA,NA
+B1.18,Bb,1,Coinfection,Bd-Rv,bd,rv,06/06/2018,EU,Positive,31.07702255,21.80754089,Negative ,0,0,NA,NA,NA,NA,NA,NA,NA
+B1.19,Bb,1,Coinfection,Bd-Rv,bd,rv,06/06/2018,EU,Positive,32.86929321,7.331185818,Negative ,0,0,NA,NA,NA,NA,NA,NA,NA
+B1.20,Bb,1,Coinfection,Bd-Rv,bd,rv,06/06/2018,EU,Positive,32.5463829,8.941570282,Negative ,0,0,NA,NA,NA,NA,NA,NA,NA
+C1.1,Bb,1,Single,Rv ,bdsham,rv,06/06/2018,EU,NA,NA,NA,Negative ,0,0,NA,NA,NA,NA,NA,NA,NA
+C1.2,Bb,1,Single,Rv ,bdsham,rv,06/06/2018,EU,NA,NA,NA,Negative ,0,0,NA,NA,NA,NA,NA,NA,NA
+C1.3,Bb,1,Single,Rv ,bdsham,rv,06/06/2018,EU,NA,NA,NA,Negative ,0,0,NA,NA,NA,NA,NA,NA,NA
+C1.4,Bb,1,Single,Rv ,bdsham,rv,06/06/2018,EU,NA,NA,NA,Negative ,0,0,NA,NA,NA,NA,NA,NA,NA
+C1.5,Bb,1,Single,Rv ,bdsham,rv,06/06/2018,EU,NA,NA,NA,Negative ,0,0,NA,NA,NA,NA,NA,NA,NA
+C1.6,Bb,1,Single,Rv ,bdsham,rv,06/06/2018,EU,NA,NA,NA,Negative ,0,0,NA,NA,NA,NA,NA,NA,NA
+C1.7,Bb,1,Single,Rv ,bdsham,rv,06/06/2018,EU,NA,NA,NA,Negative ,0,0,NA,NA,NA,NA,NA,NA,NA
+C1.8,Bb,1,Single,Rv ,bdsham,rv,06/06/2018,EU,NA,NA,NA,Negative ,0,0,NA,NA,NA,NA,NA,NA,NA
+C1.9,Bb,1,Single,Rv ,bdsham,rv,06/06/2018,EU,NA,NA,NA,Negative ,0,0,NA,NA,NA,NA,NA,NA,NA
+C1.10,Bb,1,Single,Rv ,bdsham,rv,06/06/2018,EU,NA,NA,NA,Negative ,0,0,NA,NA,NA,NA,NA,NA,NA
+C1.11,Bb,1,Single,Rv ,bdsham,rv,06/06/2018,EU,NA,NA,NA,Negative ,0,0,NA,NA,NA,NA,NA,NA,NA
+C1.12,Bb,1,Single,Rv ,bdsham,rv,06/06/2018,EU,NA,NA,NA,Negative ,0,0,NA,NA,NA,NA,NA,NA,NA
+C1.13,Bb,1,Single,Rv ,bdsham,rv,06/06/2018,EU,NA,NA,NA,Negative ,0,0,NA,NA,NA,NA,NA,NA,NA
+C1.14,Bb,1,Single,Rv ,bdsham,rv,06/06/2018,EU,NA,NA,NA,Negative ,0,0,NA,NA,NA,NA,NA,NA,NA
+C1.15,Bb,1,Single,Rv ,bdsham,rv,06/06/2018,EU,NA,NA,NA,Negative ,0,0,NA,NA,NA,NA,NA,NA,NA
+C1.16,Bb,1,Single,Rv ,bdsham,rv,06/06/2018,EU,NA,NA,NA,Negative ,0,0,NA,NA,NA,NA,NA,NA,NA
+C1.17,Bb,1,Single,Rv ,bdsham,rv,06/06/2018,EU,NA,NA,NA,Negative ,0,0,NA,NA,NA,NA,NA,NA,NA
+C1.18,Bb,1,Single,Rv ,bdsham,rv,06/06/2018,EU,NA,NA,NA,Negative ,0,0,NA,NA,NA,NA,NA,NA,NA
+C1.19,Bb,1,Single,Rv ,bdsham,rv,06/06/2018,EU,NA,NA,NA,Negative ,0,0,NA,NA,NA,NA,NA,NA,NA
+C1.20,Bb,1,Single,Rv ,bdsham,rv,06/06/2018,EU,NA,NA,NA,Negative ,0,0,NA,NA,NA,NA,NA,NA,NA
+D1.1,Bb,1,Single,Bd,rvsham,bd,06/06/2018,EU,Positive,30.22931862,8.237923622,NA,NA,NA,NA,NA,NA,1,,0.003359616,0.03453951
+D1.2,Bb,1,Single,Bd,rvsham,bd,06/06/2018,EU,Positive,29.38041687,13.00338936,NA,NA,NA,NA,NA,NA,1,,0.024831735,0
+D1.3,Bb,1,Single,Bd,rvsham,bd,06/06/2018,EU,Positive,37.6084404,0.157442197,NA,NA,NA,NA,NA,NA,1,,0,0.182456464
+D1.4,Bb,1,Single,Bd,rvsham,bd,06/06/2018,EU,Positive,29.84333038,10.13477421,NA,NA,NA,NA,NA,NA,1,,0.00800506,0.009725941
+D1.5,Bb,1,Single,Bd,rvsham,bd,06/06/2018,EU,Positive,30.60538483,6.699124336,NA,NA,NA,NA,NA,NA,1,,0,0.021134932
+D1.6,Bb,1,Single,Bd,rvsham,bd,06/06/2018,EU,Positive,29.76801682,10.54061127,NA,NA,NA,NA,NA,NA,1,,0.318188369,0.222472489
+D1.7,Bb,1,Single,Bd,rvsham,bd,06/06/2018,EU,Positive,37.61559296,0.151974529,NA,NA,NA,NA,NA,NA,1,,3.57616E-06,3.174818516
+D1.8,Bb,1,Single,Bd,rvsham,bd,06/06/2018,EU,Negative ,0,0,NA,NA,NA,NA,NA,NA,1,,0.056759737,0.037134174
+D1.9,Bb,1,Single,Bd,rvsham,bd,06/06/2018,EU,Positive,32.22852325,2.786651611,NA,NA,NA,NA,NA,NA,1,,0,0.11432676
+D1.10,Bb,1,Single,Bd,rvsham,bd,06/06/2018,EU,Positive,30.0418396,9.08983326,NA,NA,NA,NA,NA,NA,1,,0,0.00574828
+D1.11,Bb,1,Single,Bd,rvsham,bd,06/06/2018,EU,Positive,33.66719818,1.283796191,NA,NA,NA,NA,NA,NA,1,,0,0.015987452
+D1.12,Bb,1,Single,Bd,rvsham,bd,06/06/2018,EU,Positive,33.41675568,1.50278759,NA,NA,NA,NA,NA,NA,1,,0.003585313,3.277360916
+D1.13,Bb,1,Single,Bd,rvsham,bd,06/06/2018,EU,Positive,30.75427818,6.180986404,NA,NA,NA,NA,NA,NA,1,,0.022847205,0.006388854
+D1.14,Bb,1,Single,Bd,rvsham,bd,06/06/2018,EU,Positive,27.87834167,29.35338593,NA,NA,NA,NA,NA,NA,1,,0.022849958,0.083232947
+D1.15,Bb,1,Single,Bd,rvsham,bd,06/06/2018,EU,Positive,27.80961227,30.49719429,NA,NA,NA,NA,NA,NA,1,,0.062446453,0.035195831
+D1.16,Bb,1,Single,Bd,rvsham,bd,06/06/2018,EU,Positive,29.89548492,9.834861755,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+D1.17,Bb,1,Single,Bd,rvsham,bd,06/06/2018,EU,Negative ,0,0,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+D1.18,Bb,1,Single,Bd,rvsham,bd,06/06/2018,EU,Positive,31.21357727,4.867478371,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+D1.19,Bb,1,Single,Bd,rvsham,bd,06/06/2018,EU,Positive,33.1866188,1.659199476,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+D1.20,Bb,1,Single,Bd,rvsham,bd,06/06/2018,EU,Positive,29.69742203,10.95617104,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+A2.1,Bb,2,Coinfection,Rv-Bd,rv,bd,04/07/2018,EU,Positive,31.80376053,6.551037788,Negative ,0,0,NA,NA,NA,1,20/02/2019,0.000477639,0.028652851
+A2.2,Bb,2,Coinfection,Rv-Bd,rv,bd,04/07/2018,EU,Positive,31.05497169,10.34529495,Negative ,0,0,NA,NA,NA,1,20/02/2019,0.367712498,0.004950007
+A2.3,Bb,2,Coinfection,Rv-Bd,rv,bd,02/07/2018,MORT,Positive,35.81352997,0.565294266,Positive ,31.94548988,17894.13867,Positive ,33.36593628,367.8327637,1,20/02/2019,0.004392793,0
+A2.4,Bb,2,Coinfection,Rv-Bd,rv,bd,04/07/2018,EU,Positive,33.83609009,1.890862465,Negative ,0,0,NA,NA,NA,1,20/02/2019,0.043290891,5.501189232
+A2.5,Bb,2,Coinfection,Rv-Bd,rv,bd,01/07/2018,MORT,Positive,32.02804184,5.707279205,Positive ,20.19252777,9299322,Positive ,28.68132401,6305.608887,0,NA,NA,NA
+A2.6,Bb,2,Coinfection,Rv-Bd,rv,bd,04/07/2018,EU,Positive,32.19913483,5.140197754,Negative ,0,0,NA,NA,NA,0,NA,NA,NA
+A2.7,Bb,2,Coinfection,Rv-Bd,rv,bd,27/06/2018,MORT,Positive,34.83469391,1.027585983,Positive ,26.88067245,267418.25,Positive ,30.67704773,1903.60083,0,NA,NA,NA
+A2.8,Bb,2,Coinfection,Rv-Bd,rv,bd,04/07/2018,EU,Positive,35.50386047,0.682823181,Negative ,0,0,NA,NA,NA,1,20/02/2019,0,0.00241483
+A2.9,Bb,2,Coinfection,Rv-Bd,rv,bd,04/07/2018,EU,Positive,32.86988831,3.420750856,Positive ,46.48719788,7.864595413,Positive ,30.52653694,2056.293945,0,NA,NA,NA
+A2.10,Bb,2,Coinfection,Rv-Bd,rv,bd,04/07/2018,EU,Positive,35.02178192,0.916602373,Positive ,30.20462799,45197.21094,Positive ,31.74324989,986.9403076,0,NA,NA,NA
+A2.11,Bb,2,Coinfection,Rv-Bd,rv,bd,01/07/2018,MORT,Positive,33.93900299,1.775654793,Positive ,37.8837738,760.6439819,Positive ,41.73347855,2.282721996,1,20/02/2019,0.001455238,0.036891721
+A2.12,Bb,2,Coinfection,Rv-Bd,rv,bd,04/07/2018,EU,Positive,32.21974564,5.63638258,Negative ,0,0,NA,NA,NA,1,20/02/2019,0.006346095,0.064342633
+A2.13,Bb,2,Coinfection,Rv-Bd,rv,bd,04/07/2018,EU,Positive,30.89551544,11.4103241,Negative ,0,0,NA,NA,NA,1,20/02/2019,0.002230479,0.217452407
+A2.14,Bb,2,Coinfection,Rv-Bd,rv,bd,26/06/2018,MORT,Positive,34.41598892,1.430715799,Positive ,28.07091522,18055.23438,Positive ,36.82867432,44.79605484,0,NA,NA,NA
+A2.15,Bb,2,Coinfection,Rv-Bd,rv,bd,04/07/2018,EU,Positive,31.69034767,7.049931526,Negative ,0,0,NA,NA,NA,0,NA,NA,NA
+A2.16,Bb,2,Coinfection,Rv-Bd,rv,bd,04/07/2018,EU,Positive,31.11218643,9.996465683,Negative ,0,0,NA,NA,NA,0,NA,NA,NA
+A2.17,Bb,2,Coinfection,Rv-Bd,rv,bd,04/07/2018,EU,Positive,32.43960571,4.44917202,Negative ,0,0,NA,NA,NA,1,20/02/2019,0.01874309,0.07231044
+A2.18,Bb,2,Coinfection,Rv-Bd,rv,bd,04/07/2018,EU,Positive,30.35778427,15.87069893,Negative ,0,0,NA,NA,NA,1,20/02/2019,0.022886377,0.065028392
+A2.19,Bb,2,Coinfection,Rv-Bd,rv,bd,04/07/2018,EU,Positive,33.30083466,2.631367922,Negative ,0,0,NA,NA,NA,0,NA,NA,NA
+A2.20,Bb,2,Coinfection,Rv-Bd,rv,bd,04/07/2018,EU,Positive,33.22408676,2.756113052,Negative ,0,0,NA,NA,NA,0,NA,NA,NA
+B2.1,Bb,2,Coinfection,Bd-Rv,bd,rv,04/07/2018,EU,Positive,31.93987846,7.186550617,Negative ,0,0,NA,NA,NA,1,20/02/2019,0.000790505,0
+B2.2,Bb,2,Coinfection,Bd-Rv,bd,rv,29/06/2018,MORT,Positive,30.09435654,22.06515121,Negative ,0,0,NA,NA,NA,1,20/02/2019,0.000221959,0.009394479
+B2.3,Bb,2,Coinfection,Bd-Rv,bd,rv,04/07/2018,EU,Positive,31.37129593,10.14721394,Negative ,0,0,NA,NA,NA,0,NA,NA,NA
+B2.4,Bb,2,Coinfection,Bd-Rv,bd,rv,04/07/2018,EU,Positive,33.60377502,2.609876633,Negative ,0,0,NA,NA,NA,0,NA,NA,NA
+B2.5,Bb,2,Coinfection,Bd-Rv,bd,rv,04/07/2018,EU,Positive,31.45330048,9.679929733,Negative ,0,0,NA,NA,NA,1,20/02/2019,0,0.013502929
+B2.6,Bb,2,Coinfection,Bd-Rv,bd,rv,04/07/2018,EU,Positive,31.01997185,12.57453346,Negative ,0,0,NA,NA,NA,1,20/02/2019,46.01511383,0.058734886
+B2.7,Bb,2,Coinfection,Bd-Rv,bd,rv,04/07/2018,EU,Positive,32.2609787,5.908554554,Negative ,0,0,NA,NA,NA,0,NA,NA,NA
+B2.8,Bb,2,Coinfection,Bd-Rv,bd,rv,04/07/2018,EU,Positive,31.84086609,7.625452042,Negative ,0,0,NA,NA,NA,0,NA,NA,NA
+B2.9,Bb,2,Coinfection,Bd-Rv,bd,rv,04/07/2018,EU,Positive,32.85445404,4.117028236,Negative ,0,0,NA,NA,NA,1,20/02/2019,0,0.002760737
+B2.10,Bb,2,Coinfection,Bd-Rv,bd,rv,04/07/2018,EU,Positive,42.28231049,0.013702871,Negative ,0,0,NA,NA,NA,1,20/02/2019,0,0.003637866
+B2.11,Bb,2,Coinfection,Bd-Rv,bd,rv,04/07/2018,EU,Positive,33.84779358,2.249049425,Positive ,32.41133881,14020.06738,Positive ,30.44924355,2155.673828,0,NA,NA,NA
+B2.12,Bb,2,Coinfection,Bd-Rv,bd,rv,04/07/2018,EU,Positive,32.06240463,6.674394608,Negative ,0,0,NA,NA,NA,0,NA,NA,NA
+B2.13,Bb,2,Coinfection,Bd-Rv,bd,rv,04/07/2018,EU,Positive,39.50881195,0.130261317,Negative ,0,0,NA,NA,NA,0,NA,NA,NA
+B2.14,Bb,2,Coinfection,Bd-Rv,bd,rv,04/07/2018,EU,Positive,30.4270134,18.04304886,Negative ,0,0,NA,NA,NA,0,NA,NA,NA
+B2.15,Bb,2,Coinfection,Bd-Rv,bd,rv,04/07/2018,EU,Positive,31.64418602,8.617416382,Positive ,49.65985489,1.448047638,Positive ,29.16986084,4684.683594,0,NA,NA,NA
+B2.16,Bb,2,Coinfection,Bd-Rv,bd,rv,04/07/2018,EU,Positive,36.31748199,0.912231863,Negative ,0,0,NA,NA,NA,0,NA,NA,NA
+B2.17,Bb,2,Coinfection,Bd-Rv,bd,rv,04/07/2018,EU,Positive,33.27999115,4.07447052,Negative ,0,0,NA,NA,NA,1,20/02/2019,0.022550307,0.060887881
+B2.18,Bb,2,Coinfection,Bd-Rv,bd,rv,04/07/2018,EU,Positive,47.66790009,0.000863856,Negative ,0,0,NA,NA,NA,1,20/02/2019,0,2.83982E-05
+B2.19,Bb,2,Coinfection,Bd-Rv,bd,rv,04/07/2018,EU,Positive,35.65625,0.943425059,Negative ,0,0,NA,NA,NA,1,20/02/2019,0,0
+B2.20,Bb,2,Coinfection,Bd-Rv,bd,rv,04/07/2018,EU,Positive,36.94071198,0.428657353,Negative ,0,0,NA,NA,NA,1,20/02/2019,1.81951E-05,0
+C2.1,Bb,2,Single,Rv ,bdsham,rv,04/07/2018,EU,Negative ,0,0,Negative ,0,0,NA,NA,NA,NA,,,
+C2.2,Bb,2,Single,Rv ,bdsham,rv,04/07/2018,EU,Negative ,0,0,Positive ,42.33534622,6.300626755,NA,NA,NA,NA,,,
+C2.3,Bb,2,Single,Rv ,bdsham,rv,04/07/2018,EU,Negative ,0,0,Negative ,0,0,NA,NA,NA,NA,,,
+C2.4,Bb,2,Single,Rv ,bdsham,rv,04/07/2018,EU,NA,NA,NA,Negative ,0,0,NA,NA,NA,NA,,,
+C2.5,Bb,2,Single,Rv ,bdsham,rv,04/07/2018,EU,NA,NA,NA,Negative ,0,0,NA,NA,NA,NA,,,
+C2.6,Bb,2,Single,Rv ,bdsham,rv,04/07/2018,EU,NA,NA,NA,Negative ,0,0,NA,NA,NA,NA,,,
+C2.7,Bb,2,Single,Rv ,bdsham,rv,04/07/2018,EU,NA,NA,NA,Negative ,0,0,NA,NA,NA,NA,,,
+C2.8,Bb,2,Single,Rv ,bdsham,rv,04/07/2018,EU,NA,NA,NA,Negative ,0,0,NA,NA,NA,NA,,,
+C2.9,Bb,2,Single,Rv ,bdsham,rv,04/07/2018,EU,NA,NA,NA,Negative ,0,0,NA,NA,NA,NA,,,
+C2.10,Bb,2,Single,Rv ,bdsham,rv,04/07/2018,EU,NA,NA,NA,Negative ,0,0,NA,NA,NA,NA,,,
+C2.11,Bb,2,Single,Rv ,bdsham,rv,04/07/2018,EU,NA,NA,NA,Negative ,0,0,NA,NA,NA,NA,,,
+C2.12,Bb,2,Single,Rv ,bdsham,rv,04/07/2018,EU,NA,NA,NA,Negative ,0,0,NA,NA,NA,NA,,,
+C2.13,Bb,2,Single,Rv ,bdsham,rv,04/07/2018,EU,NA,NA,NA,Negative ,0,0,NA,NA,NA,NA,,,
+C2.14,Bb,2,Single,Rv ,bdsham,rv,04/07/2018,EU,NA,NA,NA,Negative ,0,0,NA,NA,NA,NA,,,
+C2.15,Bb,2,Single,Rv ,bdsham,rv,04/07/2018,EU,Negative ,0,0,Negative ,0,0,NA,NA,NA,NA,,,
+C2.16,Bb,2,Single,Rv ,bdsham,rv,04/07/2018,EU,Negative ,0,0,Negative ,0,0,NA,NA,NA,NA,,,
+C2.17,Bb,2,Single,Rv ,bdsham,rv,04/07/2018,EU,Negative ,0,0,Negative ,0,0,NA,NA,NA,NA,,,
+C2.18,Bb,2,Single,Rv ,bdsham,rv,18/06/2018,EU,NA,NA,NA,Positive ,47.83711243,0.318618894,NA,NA,NA,NA,,,
+C2.19,Bb,2,Single,Rv ,bdsham,rv,04/07/2018,EU,Negative ,0,0,Negative ,0,0,NA,NA,NA,NA,,,
+C2.20,Bb,2,Single,Rv ,bdsham,rv,04/07/2018,EU,Negative ,0,0,Negative ,0,0,NA,NA,NA,NA,,,
+D2.1,Bb,2,Single,Bd,rvsham,bd,04/07/2018,EU,Positive,32.101395,5.588,NA,NA,NA,NA,NA,NA,1,21/02/2019,0.000276084,0.023836069
+D2.2,Bb,2,Single,Bd,rvsham,bd,04/07/2018,EU,Positive,34.55670929,1.218,NA,NA,NA,NA,NA,NA,1,21/02/2019,0.037874244,0
+D2.3,Bb,2,Single,Bd,rvsham,bd,04/07/2018,EU,Positive,34.41365814,1.329,NA,NA,NA,NA,NA,NA,1,21/02/2019,0,0.172964752
+D2.4,Bb,2,Single,Bd,rvsham,bd,04/07/2018,EU,Positive,31.67986679,7.092,NA,NA,NA,NA,NA,NA,1,21/02/2019,0.008424128,0.03589204
+D2.5,Bb,2,Single,Bd,rvsham,bd,04/07/2018,EU,Positive,30.4681263,14.791,NA,NA,NA,NA,NA,NA,1,21/02/2019,0,0.035441443
+D2.6,Bb,2,Single,Bd,rvsham,bd,04/07/2018,EU,Positive,29.51923561,26.413,NA,NA,NA,NA,NA,NA,1,21/02/2019,0.417108715,0.066222809
+D2.7,Bb,2,Single,Bd,rvsham,bd,04/07/2018,EU,Positive,29.75766754,22.92,NA,NA,NA,NA,NA,NA,1,21/02/2019,0.004121628,2.536823988
+D2.8,Bb,2,Single,Bd,rvsham,bd,04/07/2018,EU,Positive,31.53027344,7.7732,NA,NA,NA,NA,NA,NA,1,21/02/2019,0.072177887,0.012744697
+D2.9,Bb,2,Single,Bd,rvsham,bd,04/07/2018,EU,Positive,34.28339767,1.466,NA,NA,NA,NA,NA,NA,1,21/02/2019,0,0.121220142
+D2.10,Bb,2,Single,Bd,rvsham,bd,04/07/2018,EU,Positive,32.60671997,4.022,NA,NA,NA,NA,NA,NA,1,21/02/2019,0.000188925,0.009294905
+D2.11,Bb,2,Single,Bd,rvsham,bd,04/07/2018,EU,Positive,32.34477234,4.712,NA,NA,NA,NA,NA,NA,1,21/02/2019,0.000881771,0.010204105
+D2.12,Bb,2,Single,Bd,rvsham,bd,04/07/2018,EU,Positive,34.50271606,1.27,NA,NA,NA,NA,NA,NA,1,21/02/2019,0.004290156,2.925529242
+D2.13,Bb,2,Single,Bd,rvsham,bd,04/07/2018,EU,Positive,31.93505478,6.039,NA,NA,NA,NA,NA,NA,1,21/02/2019,0.033958107,0.004056385
+D2.14,Bb,2,Single,Bd,rvsham,bd,04/07/2018,EU,Positive,31.34777069,8.644,NA,NA,NA,NA,NA,NA,1,21/02/2019,0.028486691,0.047734946
+D2.15,Bb,2,Single,Bd,rvsham,bd,04/07/2018,EU,Positive,31.86625671,6.301,NA,NA,NA,NA,NA,NA,1,21/02/2019,0.063855328,0.04324542
+D2.16,Bb,2,Single,Bd,rvsham,bd,04/07/2018,EU,Positive,29.47919083,27.067,NA,NA,NA,NA,NA,NA,1,21/02/2019,0.007621838,0.082335085
+D2.17,Bb,2,Single,Bd,rvsham,bd,04/07/2018,EU,Positive,29.65997314,24.231,NA,NA,NA,NA,NA,NA,1,21/02/2019,0.00241758,0.105444297
+D2.18,Bb,2,Single,Bd,rvsham,bd,04/07/2018,EU,Positive,32.94144058,3.266,NA,NA,NA,NA,NA,NA,1,21/02/2019,0,0.007687551
+D2.19,Bb,2,Single,Bd,rvsham,bd,04/07/2018,EU,Positive,34.33166504,1.397,NA,NA,NA,NA,NA,NA,1,21/02/2019,0,0.020645238
+D2.20,Bb,2,Single,Bd,rvsham,bd,04/07/2018,EU,Positive,29.00299263,36.2,NA,NA,NA,NA,NA,NA,1,21/02/2019,0,0
+Q1,Rt,3,Coinfection,Rv-Bd,rv,bd,10/07/2018,EU,Negative ,0,0,Negative ,0,0,NA,NA,NA,1,05/07/2018,NA,NA
+Q2,Rt,3,Coinfection,Rv-Bd,rv,bd,10/07/2018,EU,Negative ,0,0,Negative ,0,0,NA,NA,NA,1,05/07/2018,NA,NA
+Q3,Rt,3,Coinfection,Rv-Bd,rv,bd,10/07/2018,EU,Negative ,0,0,Negative ,0,0,NA,NA,NA,0,NA,NA,NA
+Q4,Rt,3,Coinfection,Rv-Bd,rv,bd,10/07/2018,EU,Positive,36.04288483,1.178874731,Negative ,0,0,NA,NA,NA,1,05/07/2018,0,0
+Q5,Rt,3,Coinfection,Rv-Bd,rv,bd,10/07/2018,EU,Positive,41.22333908,0.061203457,Negative ,0,0,NA,NA,NA,1,05/07/2018,NA,NA
+Q6,Rt,3,Coinfection,Rv-Bd,rv,bd,28/06/2018,MORT,Positive,42.13223267,0.017164895,Positive ,22.32133293,2991213,Positive ,27.71177673,11383.0957,0,NA,NA,NA
+Q7,Rt,3,Coinfection,Rv-Bd,rv,bd,10/07/2018,EU,Negative ,0,0,Negative ,0,0,NA,NA,NA,1,05/07/2018,NA,NA
+Q8,Rt,3,Coinfection,Rv-Bd,rv,bd,10/07/2018,EU,Positive,38.62661743,0.267119944,Negative ,0,0,NA,NA,NA,1,05/07/2018,0,0.005233554
+Q9,Rt,3,Coinfection,Rv-Bd,rv,bd,10/07/2018,EU,Negative ,0,0,Negative ,0,0,NA,NA,NA,1,05/07/2018,NA,NA
+Q10,Rt,3,Coinfection,Rv-Bd,rv,bd,10/07/2018,EU,Negative ,0,0,Negative ,0,0,NA,NA,NA,1,05/07/2018,NA,NA
+Q11,Rt,3,Coinfection,Rv-Bd,rv,bd,10/07/2018,EU,Negative ,0,0,Negative ,0,0,NA,NA,NA,0,NA,NA,NA
+Q12,Rt,3,Coinfection,Rv-Bd,rv,bd,01/07/2018,MORT,Negative ,0,0,Negative ,0,0,NA,NA,NA,0,NA,NA,NA
+Q13,Rt,3,Coinfection,Rv-Bd,rv,bd,01/07/2018,,Positive,40.53260803,0.046291914,Positive ,36.05961609,2170.984619,Positive ,39.09767914,11.29615211,0,NA,NA,NA
+Q14,Rt,3,Coinfection,Rv-Bd,rv,bd,10/07/2018,EU,Positive,41.97417,0.009432436,Negative ,0,0,NA,NA,NA,0,NA,NA,NA
+Q15,Rt,3,Coinfection,Rv-Bd,rv,bd,10/07/2018,EU,Negative ,0,0,Negative ,0,0,NA,NA,NA,1,05/07/2018,NA,NA
+Q16,Rt,3,Coinfection,Rv-Bd,rv,bd,10/07/2018,EU,Negative ,0,0,Negative ,0,0,NA,NA,NA,1,05/07/2018,NA,NA
+Q17,Rt,3,Coinfection,Rv-Bd,rv,bd,10/07/2018,EU,Negative ,0,0,Negative ,0,0,NA,NA,NA,0,NA,NA,NA
+Q18,Rt,3,Coinfection,Rv-Bd,rv,bd,10/07/2018,EU,Negative ,0,0,Negative ,0,0,NA,NA,NA,0,NA,NA,NA
+Q19,Rt,3,Coinfection,Rv-Bd,rv,bd,10/07/2018,EU,Negative ,0,0,Negative ,0,0,NA,NA,NA,0,NA,NA,NA
+Q20,Rt,3,Coinfection,Rv-Bd,rv,bd,10/07/2018,EU,Negative ,0,0,Negative ,0,0,NA,NA,NA,1,05/07/2018,NA,NA
+R1,Rt,3,Coinfection,Bd-Rv,bd,rv,10/07/2018,EU,Negative ,0,0,Negative ,0,0,NA,NA,NA,NA,,NA,NA
+R2,Rt,3,Coinfection,Bd-Rv,bd,rv,10/07/2018,EU,Positive,42.01206207,0.014416404,Negative ,0,0,NA,NA,NA,NA,,NA,NA
+R3,Rt,3,Coinfection,Bd-Rv,bd,rv,10/07/2018,EU,Positive,34.74637985,0.714001417,Negative ,0,0,NA,NA,NA,NA,,NA,NA
+R4,Rt,3,Coinfection,Bd-Rv,bd,rv,10/07/2018,EU,Negative ,0,0,Negative ,0,0,NA,NA,NA,NA,,NA,NA
+R5,Rt,3,Coinfection,Bd-Rv,bd,rv,10/07/2018,EU,Negative ,0,0,Negative ,0,0,NA,NA,NA,NA,,NA,NA
+R6,Rt,3,Coinfection,Bd-Rv,bd,rv,10/07/2018,EU,Negative ,0,0,Negative ,0,0,NA,NA,NA,NA,,NA,NA
+R7,Rt,3,Coinfection,Bd-Rv,bd,rv,10/07/2018,EU,Negative ,0,0,Negative ,0,0,NA,NA,NA,NA,,NA,NA
+R8,Rt,3,Coinfection,Bd-Rv,bd,rv,10/07/2018,EU,Positive,40.3980217,0.033745397,Negative ,0,0,NA,NA,NA,NA,,NA,NA
+R9,Rt,3,Coinfection,Bd-Rv,bd,rv,20/06/2018,MORT,Positive,36.48470306,0.27849552,Negative ,0,0,NA,NA,NA,NA,,NA,NA
+R10,Rt,3,Coinfection,Bd-Rv,bd,rv,10/07/2018,EU,Negative ,0,0,Negative ,0,0,NA,NA,NA,NA,,NA,NA
+R11,Rt,3,Coinfection,Bd-Rv,bd,rv,10/07/2018,EU,Negative ,0,0,Positive ,43.29424286,42.79920197,Positive ,32.77457428,525.0339966,NA,,NA,NA
+R12,Rt,3,Coinfection,Bd-Rv,bd,rv,10/07/2018,EU,Positive,36.41691589,0.296958327,Negative ,0,0,NA,NA,NA,NA,,NA,NA
+R13,Rt,3,Coinfection,Bd-Rv,bd,rv,10/07/2018,EU,Negative ,0,0,Negative ,0,0,NA,NA,NA,NA,,NA,NA
+R14,Rt,3,Coinfection,Bd-Rv,bd,rv,10/07/2018,EU,Positive,44.78847504,0.001795,Negative ,0,0,NA,NA,NA,NA,,NA,NA
+R15,Rt,3,Coinfection,Bd-Rv,bd,rv,10/07/2018,EU,Negative ,0,0,Negative ,0,0,NA,NA,NA,NA,,NA,NA
+R16,Rt,3,Coinfection,Bd-Rv,bd,rv,10/07/2018,EU,Negative ,0,0,Negative ,0,0,NA,NA,NA,NA,,NA,NA
+R17,Rt,3,Coinfection,Bd-Rv,bd,rv,10/07/2018,EU,Negative ,0,0,Negative ,0,0,NA,NA,NA,NA,,NA,NA
+R18,Rt,3,Coinfection,Bd-Rv,bd,rv,10/07/2018,EU,Positive,0.183544472,0.507832766,Negative ,0,0,NA,NA,NA,NA,,NA,NA
+R19,Rt,3,Coinfection,Bd-Rv,bd,rv,10/07/2018,EU,Positive,0.125598952,0.093496442,Negative ,0,0,NA,NA,NA,NA,,NA,NA
+R20,Rt,3,Coinfection,Bd-Rv,bd,rv,10/07/2018,EU,Negative ,0,0,Negative ,0,0,NA,NA,NA,NA,,NA,NA
+S1,Rt,3,Single,Rv ,bdsham,rv,10/07/2018,EU,NA,NA,NA,Negative ,0,0,NA,NA,NA,NA,,NA,NA
+S2,Rt,3,Single,Rv ,bdsham,rv,10/07/2018,EU,NA,NA,NA,Negative ,0,0,NA,NA,NA,NA,,NA,NA
+S3,Rt,3,Single,Rv ,bdsham,rv,10/07/2018,EU,NA,NA,NA,Negative ,0,0,NA,NA,NA,NA,,NA,NA
+S4,Rt,3,Single,Rv ,bdsham,rv,10/07/2018,EU,NA,NA,NA,Negative ,0,0,NA,NA,NA,NA,,NA,NA
+S5,Rt,3,Single,Rv ,bdsham,rv,10/07/2018,EU,NA,NA,NA,Negative ,0,0,NA,NA,NA,NA,,NA,NA
+S6,Rt,3,Single,Rv ,bdsham,rv,10/07/2018,EU,NA,NA,NA,Negative ,0,0,NA,NA,NA,NA,,NA,NA
+S7,Rt,3,Single,Rv ,bdsham,rv,10/07/2018,EU,NA,NA,NA,Negative ,0,0,NA,NA,NA,NA,,NA,NA
+S8,Rt,3,Single,Rv ,bdsham,rv,10/07/2018,EU,NA,NA,NA,Negative ,0,0,NA,NA,NA,NA,,NA,NA
+S9,Rt,3,Single,Rv ,bdsham,rv,10/07/2018,EU,NA,NA,NA,Negative ,0,0,NA,NA,NA,NA,,NA,NA
+S10,Rt,3,Single,Rv ,bdsham,rv,30/06/2018,MORT,NA,NA,NA,Negative ,0,0,NA,NA,NA,NA,,NA,NA
+S11,Rt,3,Single,Rv ,bdsham,rv,10/07/2018,EU,NA,NA,NA,Negative ,0,0,NA,NA,NA,NA,,NA,NA
+S12,Rt,3,Single,Rv ,bdsham,rv,10/07/2018,EU,NA,NA,NA,Negative ,0,0,NA,NA,NA,NA,,NA,NA
+S13,Rt,3,Single,Rv ,bdsham,rv,10/07/2018,EU,NA,NA,NA,Negative ,0,0,NA,NA,NA,NA,,NA,NA
+S14,Rt,3,Single,Rv ,bdsham,rv,10/07/2018,EU,NA,NA,NA,Negative ,0,0,NA,NA,NA,NA,,NA,NA
+S15,Rt,3,Single,Rv ,bdsham,rv,10/07/2018,EU,NA,NA,NA,Negative ,0,0,NA,NA,NA,NA,,NA,NA
+S16,Rt,3,Single,Rv ,bdsham,rv,10/07/2018,EU,NA,NA,NA,Negative ,0,0,NA,NA,NA,NA,,NA,NA
+S17,Rt,3,Single,Rv ,bdsham,rv,02/07/2018,EU,NA,NA,NA,Negative ,0,0,NA,NA,NA,NA,,NA,NA
+S18,Rt,3,Single,Rv ,bdsham,rv,10/07/2018,EU,NA,NA,NA,Negative ,0,0,NA,NA,NA,NA,,NA,NA
+S19,Rt,3,Single,Rv ,bdsham,rv,10/07/2018,EU,NA,NA,NA,Negative ,0,0,NA,NA,NA,NA,,NA,NA
+S20,Rt,3,Single,Rv ,bdsham,rv,10/07/2018,EU,NA,NA,NA,Negative ,0,0,NA,NA,NA,NA,,NA,NA
+T1,Rt,3,Single,Bd,bd,rvsham,10/07/2018,EU,Negative ,0,0,Negative ,0,0,NA,NA,NA,1,05/07/2018,NA,NA
+T2,Rt,3,Single,Bd,bd,rvsham,10/07/2018,EU,Positive,41.46508789,0.021986999,Negative ,0,0,NA,NA,NA,1,05/07/2018,NA,NA
+T3,Rt,3,Single,Bd,bd,rvsham,10/07/2018,EU,Negative ,0,0,NA,NA,NA,NA,NA,NA,0,NA,NA,NA
+T4,Rt,3,Single,Bd,bd,rvsham,10/07/2018,EU,Negative ,0,0,Negative ,0,0,NA,NA,NA,1,05/07/2018,NA,NA
+T5,Rt,3,Single,Bd,bd,rvsham,10/07/2018,EU,Negative ,0,0,Negative ,0,0,NA,NA,NA,1,05/07/2018,NA,NA
+T6,Rt,3,Single,Bd,bd,rvsham,10/07/2018,EU,Negative ,0,0,NA,NA,NA,NA,NA,NA,1,05/07/2018,NA,NA
+T7,Rt,3,Single,Bd,bd,rvsham,10/07/2018,EU,Negative ,0,0,NA,NA,NA,NA,NA,NA,1,05/07/2018,NA,NA
+T8,Rt,3,Single,Bd,bd,rvsham,10/07/2018,EU,Negative ,0,0,NA,NA,NA,NA,NA,NA,1,05/07/2018,NA,NA
+T9,Rt,3,Single,Bd,bd,rvsham,10/07/2018,EU,Negative ,0,0,NA,NA,NA,NA,NA,NA,1,05/07/2018,NA,NA
+T10,Rt,3,Single,Bd,bd,rvsham,10/07/2018,EU,Negative ,0,0,NA,NA,NA,NA,NA,NA,1,05/07/2018,NA,NA
+T11,Rt,3,Single,Bd,bd,rvsham,10/07/2018,EU,Negative ,0,0,NA,NA,NA,NA,NA,NA,1,05/07/2018,NA,NA
+T12,Rt,3,Single,Bd,bd,rvsham,10/07/2018,EU,Positive,44.70567703,0.003307658,NA,NA,NA,NA,NA,NA,1,05/07/2018,NA,NA
+T13,Rt,3,Single,Bd,bd,rvsham,10/07/2018,EU,Negative ,0,0,NA,NA,NA,NA,NA,NA,0,N/A,NA,NA
+T14,Rt,3,Single,Bd,bd,rvsham,10/07/2018,EU,Negative ,0,0,NA,NA,NA,NA,NA,NA,1,05/07/2018,NA,NA
+T15,Rt,3,Single,Bd,bd,rvsham,10/07/2018,EU,Positive,41.23987579,0.010756836,NA,NA,NA,NA,NA,NA,1,05/07/2018,NA,NA
+T16,Rt,3,Single,Bd,bd,rvsham,10/07/2018,EU,Negative ,0,0,NA,NA,NA,NA,NA,NA,1,05/07/2018,NA,NA
+T17,Rt,3,Single,Bd,bd,rvsham,10/07/2018,EU,Negative ,0,0,NA,NA,NA,NA,NA,NA,1,05/07/2018,NA,NA
+T18,Rt,3,Single,Bd,bd,rvsham,10/07/2018,EU,Positive,33.76181793,2.370432377,NA,NA,NA,NA,NA,NA,0,N/A,NA,NA
+T19,Rt,3,Single,Bd,bd,rvsham,10/07/2018,EU,Negative ,0,0,NA,NA,NA,NA,NA,NA,1,05/07/2018,NA,NA
+T20,Rt,3,Single,Bd,bd,rvsham,10/07/2018,EU,Positive,38.8375206,0.109518602,NA,NA,NA,NA,NA,NA,1,05/07/2018,NA,NA
+J1,Am,4,Coinfection,Rv-Bd,rv,bd,21/10/2018,EU,Positive,47.05998993,0.002003485,Positive ,41.83902359,8.942388535,Positive ,29.35441589,4189.537598,0,NA,NA,NA
+J2,Am,4,Coinfection,Rv-Bd,rv,bd,21/10/2018,EU,Positive,37.3559494,0.835167825,Positive ,41.04553223,12.62146568,NA,NA,NA,1,16/10/2018,0.001913372,0
+J3,Am,4,Coinfection,Rv-Bd,rv,bd,21/10/2018,EU,Positive,37.06638718,0.9581967,Negative ,0,0,NA,NA,NA,0,NA,NA,NA
+J4,Am,4,Coinfection,Rv-Bd,rv,bd,21/10/2018,EU,Positive,35.13038635,3.148477554,Negative ,0,0,NA,NA,NA,0,NA,NA,NA
+J5,Am,4,Coinfection,Rv-Bd,rv,bd,21/10/2018,EU,Positive,37.48867035,0.735747933,Negative ,0,0,NA,NA,NA,0,NA,NA,NA
+J6,Am,4,Coinfection,Rv-Bd,rv,bd,21/10/2018,EU,Positive,36.2393837,1.597295761,Negative ,0,0,NA,NA,NA,1,16/10/2018,0,0
+J7,Am,4,Coinfection,Rv-Bd,rv,bd,21/10/2018,EU,Positive,36.02108765,1.819244742,Negative ,0,0,NA,NA,NA,0,NA,NA,NA
+J8,Am,4,Coinfection,Rv-Bd,rv,bd,21/10/2018,EU,Positive,36.14537811,1.682796478,Negative ,0,0,NA,NA,NA,0,NA,NA,NA
+J9,Am,4,Coinfection,Rv-Bd,rv,bd,21/10/2018,EU,Positive,36.0566864,1.797159195,Negative ,0,0,NA,NA,NA,1,16/10/2018,2.80195E-06,0.003747055
+J10,Am,4,Coinfection,Rv-Bd,rv,bd,21/10/2018,EU,Positive,38.59251404,0.373675317,Negative ,0,0,NA,NA,NA,0,NA,NA,NA
+J11,Am,4,Coinfection,Rv-Bd,rv,bd,21/10/2018,EU,Positive,35.35388184,2.757100582,Negative ,0,0,NA,NA,NA,1,16/10/2018,0.340680659,0.076146141
+J12,Am,4,Coinfection,Rv-Bd,rv,bd,21/10/2018,EU,Positive,38.78009796,0.330277979,Negative ,0,0,NA,NA,NA,1,16/10/2018,0.003419423,0
+J13,Am,4,Coinfection,Rv-Bd,rv,bd,21/10/2018,EU,Positive,38.47053528,0.403985381,Negative ,0,0,NA,NA,NA,1,16/10/2018,0.005227764,0
+J14,Am,4,Coinfection,Rv-Bd,rv,bd,21/10/2018,EU,Positive,38.17597198,0.482772082,Negative ,0,0,NA,NA,NA,0,NA,NA,NA
+K1,Am,4,Coinfection,Bd-Rv,bd,rv,21/10/2018,EU,Positive,38.18927002,0.474989325,Negative ,0,0,NA,NA,NA,0,NA,NA,NA
+K2,Am,4,Coinfection,Bd-Rv,bd,rv,21/10/2018,EU,Positive,37.97807312,0.541062474,Negative ,0,0,NA,NA,NA,1,16/10/2018,0,0
+K3,Am,4,Coinfection,Bd-Rv,bd,rv,21/10/2018,EU,Positive,41.28795624,0.072450183,Negative ,0,0,NA,NA,NA,1,16/10/2018,NA,NA
+K4,Am,4,Coinfection,Bd-Rv,bd,rv,21/10/2018,EU,NA,NA,NA,Positive,44.49789047,1.845872641,Positive ,30.40776825,2236.045654,1,16/10/2018,NA,NA
+K5,Am,4,Coinfection,Bd-Rv,bd,rv,21/10/2018,EU,Positive,37.78564453,0.610123813,Negative ,0,0,NA,NA,NA,0,NA,NA,NA
+K6,Am,4,Coinfection,Bd-Rv,bd,rv,21/10/2018,EU,Positive,37.16719818,0.898858607,Negative ,0,0,NA,NA,NA,1,16/10/2018,0,0
+K7,Am,4,Coinfection,Bd-Rv,bd,rv,21/10/2018,EU,Positive,40.19693375,0.138309807,Negative ,0,0,NA,NA,NA,0,NA,NA,NA
+K8,Am,4,Coinfection,Bd-Rv,bd,rv,21/10/2018,EU,Positive,36.79902649,1.119887829,Negative ,0,0,NA,NA,NA,1,16/10/2018,0,0
+K9,Am,4,Coinfection,Bd-Rv,bd,rv,21/10/2018,EU,Positive,39.00471115,0.292216033,Negative ,0,0,NA,NA,NA,0,NA,NA,NA
+K10,Am,4,Coinfection,Bd-Rv,bd,rv,21/10/2018,EU,Positive,35.97761154,1.857990026,Negative ,0,0,NA,NA,NA,1,16/10/2018,0.003365156,0
+K11,Am,4,Coinfection,Bd-Rv,bd,rv,21/10/2018,EU,Positive,39.93075562,0.162772059,Negative ,0,0,NA,NA,NA,0,NA,NA,NA
+K12,Am,4,Coinfection,Bd-Rv,bd,rv,21/10/2018,EU,Positive,34.66229248,4.183067322,Negative ,0,0,NA,NA,NA,0,NA,NA,NA
+K13,Am,4,Coinfection,Bd-Rv,bd,rv,21/10/2018,EU,Positive,38.99602509,0.290655971,Negative ,0,0,NA,NA,NA,0,NA,NA,NA
+K14,Am,4,Coinfection,Bd-Rv,bd,rv,21/10/2018,EU,Positive,37.50098801,0.728913188,Negative ,0,0,NA,NA,NA,0,NA,NA,NA
+L1,Am,4,Single,Rv ,bdsham,rv,21/10/2018,EU,NA,NA,NA,Negative ,0,0,NA,NA,NA,0,NA,NA,NA
+L2,Am,4,Single,Rv ,bdsham,rv,21/10/2018,EU,NA,NA,NA,Negative ,0,0,NA,NA,NA,0,NA,NA,NA
+L3,Am,4,Single,Rv ,bdsham,rv,21/10/2018,EU,NA,NA,NA,Negative ,0,0,NA,NA,NA,0,NA,NA,NA
+L4,Am,4,Single,Rv ,bdsham,rv,21/10/2018,EU,NA,NA,NA,Negative ,0,0,NA,NA,NA,0,NA,NA,NA
+L5,Am,4,Single,Rv ,bdsham,rv,21/10/2018,EU,NA,NA,NA,Negative ,0,0,NA,NA,NA,0,NA,NA,NA
+L6,Am,4,Single,Rv ,bdsham,rv,21/10/2018,EU,NA,NA,NA,Negative ,0,0,NA,NA,NA,0,NA,NA,NA
+L7,Am,4,Single,Rv ,bdsham,rv,21/10/2018,EU,NA,NA,NA,Undetermined,44.97509766,1.463927627,Positive ,27.12777328,16186.38672,0,NA,NA,NA
+L8,Am,4,Single,Rv ,bdsham,rv,21/10/2018,EU,NA,NA,NA,Negative ,0,0,NA,NA,NA,0,NA,NA,NA
+L9,Am,4,Single,Rv ,bdsham,rv,21/10/2018,EU,NA,NA,NA,Negative ,0,0,NA,NA,NA,0,NA,NA,NA
+L10,Am,4,Single,Rv ,bdsham,rv,21/10/2018,EU,NA,NA,NA,Negative ,0,0,NA,NA,NA,0,NA,NA,NA
+L11,Am,4,Single,Rv ,bdsham,rv,21/10/2018,EU,NA,NA,NA,Negative ,0,0,NA,NA,NA,0,NA,NA,NA
+L12,Am,4,Single,Rv ,bdsham,rv,21/10/2018,EU,NA,NA,NA,Negative ,0,0,NA,NA,NA,0,NA,NA,NA
+L13,Am,4,Single,Rv ,bdsham,rv,21/10/2018,EU,NA,NA,NA,Negative ,0,0,NA,NA,NA,0,NA,NA,NA
+L14,Am,4,Single,Rv ,bdsham,rv,21/10/2018,EU,NA,NA,NA,Negative ,0,0,NA,NA,NA,0,NA,NA,NA
+M1,Am,4,Single,Bd,bd,rvsham,21/10/2018,EU,Positive,34.29286575,5.355560303,NA,NA,NA,NA,NA,NA,1,16/10/2018,0.014627865,0.009967593
+M2,Am,4,Single,Bd,bd,rvsham,21/10/2018,EU,Positive,36.30028534,1.527485847,NA,NA,NA,NA,NA,NA,1,16/10/2018,0.004513148,0
+M3,Am,4,Single,Bd,bd,rvsham,21/10/2018,EU,Positive,35.8122406,2.072619915,NA,NA,NA,NA,NA,NA,1,16/10/2018,0.019157119,0.02277356
+M4,Am,4,Single,Bd,bd,rvsham,21/10/2018,EU,Positive,34.59418488,4.389936447,NA,NA,NA,NA,NA,NA,1,16/10/2018,0.002267617,0.000485406
+M5,Am,4,Single,Bd,bd,rvsham,21/10/2018,EU,Positive,37.41895294,0.763867736,NA,NA,NA,NA,NA,NA,1,16/10/2018,0,0.002894827
+M6,Am,4,Single,Bd,bd,rvsham,21/10/2018,EU,Positive,37.93948746,0.564327598,NA,NA,NA,NA,NA,NA,1,16/10/2018,0,0
+M7,Am,4,Single,Bd,bd,rvsham,21/10/2018,EU,Positive,36.65668869,1.224036932,NA,NA,NA,NA,NA,NA,1,16/10/2018,0.001020926,0
+M8,Am,4,Single,Bd,bd,rvsham,21/10/2018,EU,Positive,36.58185577,1.286400676,NA,NA,NA,NA,NA,NA,1,16/10/2018,0.005602477,0.025105178
+M9,Am,4,Single,Bd,bd,rvsham,21/10/2018,EU,Positive,34.91932678,3.57167387,NA,NA,NA,NA,NA,NA,1,16/10/2018,0.004697459,0
+M10,Am,4,Single,Bd,bd,rvsham,21/10/2018,EU,Positive,39.4177742,0.226636887,NA,NA,NA,NA,NA,NA,1,16/10/2018,0,0.004531117
+M11,Am,4,Single,Bd,bd,rvsham,21/10/2018,EU,Positive,39.24752808,0.25023374,NA,NA,NA,NA,NA,NA,1,16/10/2018,0.005198386,0.010348197
+M12,Am,4,Single,Bd,bd,rvsham,21/10/2018,EU,Positive,36.07284546,1.778191805,NA,NA,NA,NA,NA,NA,1,16/10/2018,0.000736027,0.028730344
+M13,Am,4,Single,Bd,bd,rvsham,21/10/2018,EU,Positive,37.74808121,0.623506904,NA,NA,NA,NA,NA,NA,1,16/10/2018,0.000602643,0
+M14,Am,4,Single,Bd,bd,rvsham,21/10/2018,EU,Positive,38.13021469,0.493723154,NA,NA,NA,NA,NA,NA,1,16/10/2018,0.0005569,0.001955706
+G1,Am,5,Single,Bd,bd,rvsham,21/10/2018,EU,Positive,34.35161591,3.103198528,NA,NA,NA,NA,NA,NA,0,NA,NA,NA
+G2,Am,5,Single,Bd,bd,rvsham,21/10/2018,EU,Positive,34.52692413,2.910458326,NA,NA,NA,NA,NA,NA,1,16/10/2018,0.017145742,0
+G3,Am,5,Single,Bd,bd,rvsham,21/10/2018,EU,Positive,36.61099243,0.861612141,NA,NA,NA,NA,NA,NA,1,16/10/2018,0.000874446,0.001541334
+G4,Am,5,Single,Bd,bd,rvsham,21/10/2018,EU,Positive,34.79431152,2.391803741,NA,NA,NA,NA,NA,NA,1,16/10/2018,0.000151391,0.002090243
+G5,Am,5,Single,Bd,bd,rvsham,21/10/2018,EU,Positive,36.23508453,1.050914764,NA,NA,NA,NA,NA,NA,1,16/10/2018,0,0.014728615
+G6,Am,5,Single,Bd,bd,rvsham,21/10/2018,EU,Positive,35.23925781,1.881076813,NA,NA,NA,NA,NA,NA,1,16/10/2018,0,0.08144743
+G7,Am,5,Single,Bd,bd,rvsham,21/10/2018,EU,Positive,35.47655869,1.620876074,NA,NA,NA,NA,NA,NA,1,16/10/2018,0,0
+G8,Am,5,Single,Bd,bd,rvsham,21/10/2018,EU,Positive,34.76234436,2.43991375,NA,NA,NA,NA,NA,NA,1,16/10/2018,0.003755562,0.05134495
+G9,Am,5,Single,Bd,bd,rvsham,21/10/2018,EU,Positive,35.40494537,1.688154221,NA,NA,NA,NA,NA,NA,1,16/10/2018,0.01921152,0.014728642
+G10,Am,5,Single,Bd,bd,rvsham,21/10/2018,EU,Positive,36.46222687,0.924517393,NA,NA,NA,NA,NA,NA,1,16/10/2018,0.001015998,0
+G11,Am,5,Single,Bd,bd,rvsham,21/10/2018,EU,Positive,38.82838821,0.238742679,NA,NA,NA,NA,NA,NA,0,NA,NA,NA
+G12,Am,5,Single,Bd,bd,rvsham,21/10/2018,EU,Positive,38.6783905,0.260224432,NA,NA,NA,NA,NA,NA,0,NA,NA,NA
+G13,Am,5,Single,Bd,bd,rvsham,21/10/2018,EU,Positive,34.59991074,2.671587944,NA,NA,NA,NA,NA,NA,0,NA,NA,NA
+G14,Am,5,Single,Bd,bd,rvsham,21/10/2018,EU,Positive,33.38867569,5.340875626,NA,NA,NA,NA,NA,NA,1,16/10/2018,0.086708933,0.016427547
+G15,Am,5,Single,Bd,bd,rvsham,21/10/2018,EU,Positive,37.79063416,0.433172226,NA,NA,NA,NA,NA,NA,0,NA,NA,NA
+G16,Am,5,Single,Bd,bd,rvsham,21/10/2018,EU,Positive,37.37262344,0.553720295,NA,NA,NA,NA,NA,NA,0,NA,NA,NA
+G17,Am,5,Single,Bd,bd,rvsham,21/10/2018,EU,Positive,35.42975616,1.662188053,NA,NA,NA,NA,NA,NA,1,NA,0,0.000148467
+G18,Am,5,Single,Bd,bd,rvsham,21/10/2018,EU,Positive,36.02688217,1.181299925,NA,NA,NA,NA,NA,NA,0,NA,NA,NA
+G19,Am,5,Single,Bd,bd,rvsham,21/10/2018,EU,Positive,35.24388885,1.849072337,NA,NA,NA,NA,NA,NA,1,16/10/2018,0,0
+G20,Am,5,Single,Bd,bd,rvsham,21/10/2018,EU,Positive,37.58688354,0.484411508,NA,NA,NA,NA,NA,NA,1,16/10/2018,0,0.00065716
+G21,Am,5,Single,Bd,bd,rvsham,21/10/2018,EU,Positive,34.49487305,2.842905283,NA,NA,NA,NA,NA,NA,1,16/10/2018,0.086708933,0.046609197
+G22,Am,5,Single,Bd,bd,rvsham,21/10/2018,EU,Positive,35.25200653,1.845337033,NA,NA,NA,NA,NA,NA,1,16/10/2018,,
+G23,Am,5,Single,Bd,bd,rvsham,21/10/2018,EU,Positive,33.69856262,4.48262167,NA,NA,NA,NA,NA,NA,1,16/10/2018,,
+G24,Am,5,Single,Bd,bd,rvsham,21/10/2018,EU,Positive,34.40261078,2.990768433,NA,NA,NA,NA,NA,NA,1,16/10/2018,,
+G25,Am,5,Single,Bd,bd,rvsham,21/10/2018,EU,Positive,35.3404007,0.914792717,NA,NA,NA,NA,NA,NA,1,16/10/2018,,
