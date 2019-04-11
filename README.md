@@ -6,20 +6,21 @@
 The goal of P1_CoinfectionShedding_2018 is to analyse data collected from a co-infection challenge experiment conducted in summer 2018. Further deatils below...  
 
 
-
 Data and scripts used for analysis are available in a GitHub repository  
 
 https://github.com/bea-22/P1_CoinfectionShedding_2018 
 
+Questions and comments can be tracked under the issues tab or emailed to bryony.allen@liverpool.ac.uk. 
+
 METADATA
 ============
-title (sub-project): 
-
-“Project looking at infection burden and output (shedding) from individuals exposed to two pathogens under different exposure scenarios (single pathogen vs. coinfection) for three species of larval amphibians (Bufo bufo, Rana temporaria and Alytes muletensis) 
-
 title (project): 
 
 "From individual behaviour to population-level transmission: bridging disease ecology scales with the amphibian pathogens."
+
+title (sub-project): 
+
+“Project looking at infection burden and output (shedding) from individuals exposed to two pathogens under different exposure scenarios (single pathogen vs. coinfection) for three species of larval amphibians (Bufo bufo, Rana temporaria and Alytes muletensis) 
 
 authors:
 - name: Bryony E. Allen *
@@ -48,7 +49,16 @@ ethics:
 
 PREREQUISITES
 ============
+All code files have been created with RMarkdown and use relative paths.
 
+-- RMarkdown -- 
+
+Code scripts have been written in RMarkdown. Scripts include text content as well as embedded R code chunks. Only RMarkdown scripts in the "reports" folder are functional and generate RMarkdown outputs (e.g. .html or .pdf documents) if you click the **Knit** button. Otherwise, RMarkdown has simply been used as a means of recording workflow and comments. R code chunks function as usual in all scripts.   
+      
+-- Relative paths -- 
+
+The working directory will be set automatically to the location of RProj. file. Open the RProj. file and then open all code files within this project. 
+The scripts assumes that you have the following subfolders called "code", "data", "doc", "figs", "output", "raw", and "reports" within this directory. 
 
 
 PROJECT LAYOUT 
@@ -56,21 +66,19 @@ PROJECT LAYOUT
 
 Folders: 
 ------------------------
-code: 
-data: 
-doc: 
-figs:
-output:
-raw:
-reports: 
-trackers: 
+"code": 
 
+"data": 
 
-R scripts: 
-------------------------
+"doc": 
 
+"figs":
 
+"output":
 
-Outputs
-------------------------
+"raw":
+
+"reports": 
+
+"trackers": 
 
