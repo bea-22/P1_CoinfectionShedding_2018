@@ -1,0 +1,534 @@
+---
+title: "03_exploratory-analysis_P1-infection-endpoint"
+author: "Bryony Allen"
+date: "11/12/2018"
+output: pdf_document
+---
+
+# Housekeeping Note #
+This document is an RMarkdown document and uses relative paths.
+-- RMarkdown -- 
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document.
+The following arguments allow you to select the code chunks and output that appear in the final document
+     {   echo=FALSE} hides the code so the code chunk doesn't appear in the final document 
+     {   include=FALSE} hides the code and the output 
+      
+-- Relative paths -- 
+The working directory will be set automatically to the location of this script file. The following script assumes that in this folder there are subfolders called "code", "data", "doc", "figs", "output", "raw", and "reports" 
+
+
+# NOTES & SOURCES #
+* Working directory and relative path info: 
+https://groups.google.com/forum/#!topic/knitr/knM0VWoexT0  & https://yihui.name/knitr/faq/ 
+
+* dplyr guidance
+https://datacarpentry.org/R-genomics/04-dplyr.html
+https://sites.google.com/site/simonthelwall/home/r/data_manipulation_with_dplyr 
+
+* tidyr guidance
+http://garrettgman.github.io/tidying/
+
+* ggplot 
+
+
+# Install & load in required packages 
+
+```{r packages, include=FALSE}
+# for tidying data  
+library(dplyr)
+library(tidyr)
+library(tibble)
+
+library(binom) 
+library(reshape2)
+
+# for plotting 
+library(ggplot2)
+library(ggridges)
+library(lattice)
+library(gcookbook)
+library(wesanderson)
+
+```
+
+# Part 1: Import data 
+
+At the moment this code chuck reads in a .csv file with endpoint infection data, originally compiled in excel and then cleaned in "02_tidy_data-qpcr"script
+..... in the future ...... Read in the .csv file of merged qPCR outputs (created, checked and cleaned in "02_tidy_data-qpcr"script) and experiment metadata (checked and cleaned in "02_tidy_data-metadata"script) 
+
+```{r import data, include=FALSE}
+data.endpoint <- read.csv('data/02_clean-data.csv') 
+
+glimpse(data.endpoint)   # check the dataset 
+    data.endpoint$ExperimentNo <-  as.factor(data.endpoint$ExperimentNo)   # makes experiment number a factor 
+```
+
+
+# Part 2: Summarise the data 
+
+```{r max/min, include=FALSE}
+#### code chuck to look at the pathogens min/max load  #### 
+
+sum.max.Bd <- data.endpoint %>% 
+  group_by(ExperimentNo, Treatment) %>%   
+    filter(Bd.endpoint.status=='1') %>%    # used to remove the Rv only controls tested for Bd otherwise samples shouldn't have a GE score and not be scored Bd positive 
+      slice(which.max(Bd.endpoint.GE)) %>% 
+       select(Species, ExperimentNo, Treatment, Bd.endpoint.GE) %>% 
+         rename(Bd.max = Bd.endpoint.GE)
+
+sum.min.Bd <- data.endpoint %>% 
+  group_by(ExperimentNo, Treatment) %>%     
+    filter((Bd.endpoint.status=='1' & Bd.endpoint.GE > 0.1)) %>%   # look at the minimum load (above the 0.1 threshold) for each treatment group 
+    slice(which.min(Bd.endpoint.GE)) %>%
+     select(Species, ExperimentNo, Treatment, Bd.endpoint.GE) %>% 
+      rename(Bd.min = Bd.endpoint.GE)
+
+# check what samples register as Bd positive but fall below the Bd threshold 
+Bd.below.thresh <- data.endpoint %>% 
+    filter((Bd.endpoint.status=='1' & Bd.endpoint.GE < 0.1)) %>% 
+    select(ID, Species, ExperimentNo, Treatment, Bd.endpoint.status, Bd.endpoint.CTmean, Bd.endpoint.Qmean, Bd.endpoint.GE)
+
+sum.max.Rv <- data.endpoint %>% 
+  group_by(ExperimentNo, Treatment) %>%    
+    slice(which.max(Rv.endpoint.load))  %>% 
+      select(Species, ExperimentNo, Treatment, Rv.endpoint.load) %>% 
+        rename(Rv.max = Rv.endpoint.load)
+
+sum.min.Rv <- data.endpoint %>% 
+  group_by(ExperimentNo, Treatment) %>%     
+    slice(which.min(Rv.endpoint.load)) %>% 
+      select(Species, ExperimentNo, Treatment, Rv.endpoint.load) %>% 
+        rename(Rv.min = Rv.endpoint.load)
+```
+Bd load (GE) -  minimum and maximun scores by Species and Treatment 
+```{r Bd max/min, echo=FALSE}
+Bd.min.max <- bind_cols(sum.max.Bd, sum.min.Bd) %>%
+     select(ExperimentNo, Species, Treatment, Bd.min, Bd.max)
+
+Bd.min.max
+
+```
+
+Rv load (normalised viral load) -  minimum and maximun scores by Species and Treatment 
+````{r Rv max/min, echo=FALSE}
+Rv.min.max <- bind_cols(sum.max.Rv,sum.min.Rv) %>%
+     select(ExperimentNo, Species, Treatment, Rv.min, Rv.max)
+
+Rv.min.max
+```
+
+A summary table of the proportion of infected individuals by treatment group and species. (N.B. N shows the number of individuals in that treatment group)
+
+```{r proportion infected, echo=False}
+endpoint.sum <- data.endpoint %>%
+  group_by(ExperimentNo, Treatment) %>%     # use experiment no. here so that experiments using the same species but different variables (Bd dose, host life history stage) are not grouped
+    summarize(Proportion.Infected.Rv = mean(Rv.MCPendpoint.status, na.rm = TRUE),Proportion.Infected.Bd = mean(Bd.endpoint.status, na.rm = TRUE), N=length(Rv.MCPendpoint.status)) 
+
+endpoint.sum
+```
+
+Calculating the summary statistics 
+```{r proportion infected summary, echo=T}
+
+# TO DO : find a cleaner way of calculating the summary statistics for Rv and Bd (without having to create seperate df's)
+
+Bd.prop.sum <- data.endpoint %>%      # seperate table for Bd
+  group_by(ExperimentNo, Treatment) %>%    
+    summarize(proportion.infected = mean(Bd.endpoint.status, na.rm = TRUE), N=length(Bd.endpoint.status))
+Bd.prop.SE <- binom.confint(Bd.prop.sum$proportion.infected * Bd.prop.sum$N, Bd.prop.sum$N, conf.level = 0.95, methods= "logit", Bd.prop.sum)   # calculate SE 
+Bd.prop.sum <- bind_cols(Bd.prop.sum,Bd.prop.SE)    # bind to the dataframe
+
+
+Rv.prop.sum <- data.endpoint %>%      # seperate table for Rv
+  group_by(ExperimentNo, Treatment) %>%     
+    summarize(proportion.infected = mean(Rv.MCPendpoint.status, na.rm = TRUE),N=length(Rv.MCPendpoint.status)) 
+Rv.prop.SE <- binom.confint(Rv.prop.sum$proportion.infected * Rv.prop.sum$N, Rv.prop.sum$N, conf.level = 0.95, methods= "logit", Rv.prop.sum)   # calculate SE 
+Rv.prop.sum<- bind_cols(Rv.prop.sum, Rv.prop.SE)  # bind to the dataframe
+
+# create new columns for the pathogen type  
+Bd.prop.sum$InfectType <- "Bd"
+Rv.prop.sum$InfectType <- "Rv"
+
+prop.infect.sum <- bind_rows(Bd.prop.sum, Rv.prop.sum)  %>%   # bind the dfs together (N.B. when row-binding, columns are matched by name, and any missing columns will be filled with NA)
+  select(ExperimentNo, Treatment,InfectType, N, proportion.infected, mean, lower, upper)  # choose the columns to keep 
+
+prop.infect.sum
+
+write.csv(prop.infect.sum,file="data/03_prop-sum_data.csv", row.names=FALSE)
+
+```
+
+# Part 3: Plot endpoint infection status (aka Proportion Infected)
+
+The following code chunks create and export plots as .png images 
+
+```{r plot labels, include=FALSE}
+# make label vectors to use in plots
+sp.labs <- c(Bb = "Bufo bufo", Rt = "Rana temporaria", Am = "Alytes muletensis")
+exp.labs <- c("1" = "Bufo bufo I", "2" = "Bufo bufo II", "3" = "Rana temporaria", "4" = "Alytes muletensis","5" = "Alytes muletensis II")
+exp.short.labs <- c("1" = "Bb1", "2" = "Bb2", "3" = "Rt", "4" = "Am")
+infect.labs <- c(Bd = "Bd infection", Rv = "Rv infection")
+expos.labs <- c("1" = "Bd", "2" = "Rv", "3" = "Bd-Rv", "4"="Rv-Bd")
+
+```
+
+... by species 
+
+```{r plot by species, echo=False}
+
+plot.endpoint.prop.sp <- 
+  prop.infect.sum %>% 
+  filter(!ExperimentNo=='5')  %>% 
+    ggplot(aes(x=Treatment, y= proportion.infected, fill=InfectType ))+ 
+      geom_bar(position= "dodge", stat="identity") + 
+      scale_x_discrete(name ="Treatment Group", limits=c("Bd","Rv","Bd-Rv", "Rv-Bd")) +       #change the order of the x axis ticks
+      geom_errorbar(aes(ymin=upper, ymax=lower), width= .2, position= position_dodge(0.9)) +   #alpha to change transparancy 
+      facet_grid(.~ExperimentNo, labeller=labeller(ExperimentNo = exp.labs)) + 
+      theme(strip.text.x = element_text(size=12, face="italic")) +
+      labs(x="Treatment Group",y="Proportion Infected") + 
+      guides(fill=guide_legend(title="Pathogen")) 
+
+
+plot.endpoint.prop.sp <- plot.endpoint.prop.sp + theme(legend.position="top",legend.justification='right', legend.direction='horizontal') + theme(legend.key=element_blank()) + theme(axis.text.x = element_text(angle=30, hjust=1,vjust=1)) + theme(axis.title = element_text(size=14))
+
+
+# export plot as .png 
+png("figs/03_exploratory-analysis_infection-end_proportion_species2.png")  #create .png file named 
+print(plot.endpoint.prop.sp)
+dev.off()
+
+
+# TO DO : rotate or reduce the size of the x axis labels 
+```
+
+...by pathogen (a hideous plot)
+
+```{r plot by pathogen, echo=False}
+
+plot.endpoint.prop.path <- 
+  prop.infect.sum %>% 
+  filter(!ExperimentNo=='5')  %>% 
+  ggplot(aes(x=Treatment, y= proportion.infected, fill=ExperimentNo))+ 
+  geom_bar(position= "dodge", stat="identity") + 
+  scale_x_discrete(name ="Treatment Group", limits=c("Bd","Rv","Bd-Rv", "Rv-Bd")) +       #change the order of the x axis ticks
+  geom_errorbar(aes(ymin=upper, ymax=lower), width= .2, position= position_dodge(0.9), alpha= 0.3) +   #alpha to change transparancy  #dodge to make them sit central 
+  facet_grid(.~InfectType, labeller=labeller(InfectType = infect.labs)) + 
+  theme(strip.text.x = element_text(size=12)) +
+  labs(x="Treatment Group",y="Proportion of Infected") + 
+  guides(fill=guide_legend(title="Species"))+
+  scale_fill_discrete(labels=exp.labs)+     
+  theme(legend.text = element_text(face = "italic"))
+
+# export plot as .png 
+png("figs/03_exploratory-analysis_infection-end-proportion-pathogen_barplot.png", type="cairo", units="in", width= 14, height=8, pointsize= 12, res=1000)
+print(plot.endpoint.prop.path)
+dev.off()
+
+```
+# Part 3 : Plot Bd endpoint infection loads 
+
+Plotting the Genomic Equivalent (GE) for Bd endpoint infections above the 0.1 threshold 
+
+??? work out whether to log the data or axis ???? 
+
+```{r plot Bd GE, echo=False}
+
+data.endpoint %>% 
+   filter((Bd.endpoint.status=='1' & Bd.endpoint.GE > 0.1))  %>%   # filter so its just Bd infection that are over the threshold 
+      ggplot(aes(interaction(x= Treatment, ExperimentNo), y= Bd.endpoint.GE, fill = ExperimentNo)) + 
+        geom_boxplot() +
+        stat_summary(fun.y="mean", geom="point", shape=23, size=3, fill="red") +    # adds a marker for mean - for normally distibuted data the median and mean will match closely 
+        geom_jitter(width = 0.05) +   # adds the data points 
+        scale_y_log10() +  # logs the axis 
+        scale_x_discrete(labels=c("Bd", "Bd>Rv", "Rv>Bd","Bd", "Bd>Rv", "Rv>Bd","Bd", "Bd>Rv", "Rv>Bd", "Bd", "Bd>Rv", "Rv>Bd", "Bd")) +
+        xlab("Treatment Group") +
+        ylab("Bd load\n(GE)") +
+        theme(axis.title.y = element_text(angle=0, size=14), legend.text = element_text(face = "italic")) + 
+        scale_fill_grey(start=1, end=.5, labels=exp.labs) +
+        theme_bw()
+
+data.endpoint %>%     # ridge plot to see distribution of data  
+    filter((Bd.endpoint.status=='1' & Bd.endpoint.GE > 0.1))  %>%  ggplot(aes(Bd.endpoint.GE, Treatment)) +
+      geom_density_ridges(
+                      jittered_points = TRUE, quantile_lines = TRUE, scale = 0.9, alpha = 0.7,
+                      vline_size = 1, vline_color = "red",
+                      point_size = 0.4, point_alpha = 1,
+                      position = position_raincloud(adjust_vlines = TRUE)
+          ) + theme_ridges()
+
+# TO DO : fix the message "Picking joint bandwidth of 19.2" see https://github.com/clauswilke/ggridges/issues/19
+
+plot.Bd.GE.sp <- data.endpoint %>% 
+  filter((Bd.endpoint.status=='1' & Bd.endpoint.GE > 0.1))  %>% 
+     ggplot(aes(interaction(x= Treatment, Species), y= Bd.endpoint.GE, fill = Species)) +   #plot as boxplot with or without means and data points (see comments below)
+        geom_boxplot() +
+        geom_jitter(width = 0.05) +   # adds the data points 
+        scale_y_log10() +  # logs the axis 
+        scale_x_discrete(labels=c("Bd", "Bd>Rv", "Rv>Bd","Bd", "Bd>Rv", "Rv>Bd","Bd", "Bd>Rv", "Rv>Bd")) +
+        xlab("Treatment Group") +
+        ylab("Bd load\n(GE)") +
+       # theme(axis.title.y = element_text(angle=0, size=14), legend.text = element_text(face = "italic")) + 
+        scale_fill_grey(start=1, end=.5, labels=sp.labs) +
+   theme_bw()
+        
+  
+plot.Bd.GE.sp <- plot.Bd.GE.sp +  theme(legend.key=element_blank()) +theme(legend.text = element_text(face = "italic")) +theme(axis.text.x = element_text(angle=30, hjust=1,vjust=1)) + theme(axis.title = element_text(size=16))
+      
+# export plot as .png 
+png("figs/03_exploratory-analysis_infection-end_Bd-GE_sp.png", type="cairo", units="in", width= 14, height=8, pointsize= 12, res=1000)
+print(plot.Bd.GE.sp)
+dev.off()
+
+```
+
+# Part 3 : Plot Rv enpoint infection loads 
+
+**** At the moment there are 3 samples missing EBF3N qPCR data so as a temporary fix I have averaged the EBF3N score for all the samples and used that to calculate a rough viral load for these 3 samples
+
+```{r plot Rv viral load, echo=False}
+
+plot.Rv.load.sp <- data.endpoint %>% 
+ filter(!Rv.endpoint.load > 2000) %>%  # filtering out the extremely high Rv viral load so that we can see the data better 
+  ggplot(aes(x = interaction(Treatment, ExperimentNo), y= Rv.endpoint.load, fill = ExperimentNo)) + 
+        geom_boxplot() +
+        #stat_summary(fun.y="mean", geom="point", shape=23, size=3, fill="red") +    
+        geom_jitter(width = 0.05) +   # adds the data points       
+        xlab("Treatment Group") +
+        ylab("Rv viral load\n (log)") +
+        theme(legend.text = element_text(face = "italic")) + 
+        scale_fill_grey(start=1, end=.5, labels=exp.labs) +
+        scale_x_discrete(labels=c("Bd>Rv", "Rv>Bd", "Bd>Rv", "Rv","Rv>Bd", "Bd>Rv", "Rv>Bd","Bd>Rv","Rv","Rv>Bd")) +
+        labs(fill="Species")+
+        theme_bw()
+
+plot.Rv.load.sp <- plot.Rv.load.sp +  theme(legend.key=element_blank()) +theme(legend.text = element_text(face = "italic")) +theme(axis.text.x = element_text(angle=30, hjust=1,vjust=1)) + theme(axis.title = element_text(size=16))
+
+
+data.endpoint %>%     # re-create the plot but with viral load transformed log(n+1)
+filter(Rv.endpoint.load > 0) %>%  # filtering out the extremely high Rv viral load so that we can see the data better 
+  ggplot(aes(x = interaction(Treatment, Species), y= log(Rv.endpoint.load+1), fill = Species)) + 
+        geom_boxplot() +
+        geom_jitter(width = 0.05) +   # adds the data points       
+        xlab("Treatment Group") +
+        ylab("Rv viral load\n (log)") +
+        theme(axis.title.y = element_text(angle=0, size=14), legend.text = element_text(face = "italic")) + 
+        scale_x_discrete(labels=c("Bd>Rv", "Rv>Bd", "Bd>Rv", "Rv","Rv>Bd", "Bd>Rv", "Rv>Bd","Bd>Rv","Rv","Rv>Bd")) +
+        scale_fill_grey(start=1, end=.5, labels=sp.labs) +
+        theme_bw()
+
+# export plot as .png 
+png("figs/03_exploratory-analysis_infection-end_Rv-load_sp.png", type="cairo", units="in", width= 14, height=8, pointsize= 12, res=1000)
+print(plot.Rv.load.sp)
+dev.off()
+
+```
+
+# Part 5: Coinfection
+
+```{r coinfection, echo=False}
+
+names(data.endpoint)
+
+# coinfection +Bd & -Rv
+coinfection.Bd <- data.endpoint %>%     
+  filter(Scenario=="Coinfection") %>%
+  filter((Bd.endpoint.GE > 0.1 & Rv.MCPendpoint.status=='0')) %>%
+  select(ID, Species,ExperimentNo,Treatment,Scenario,Bd.endpoint.status,Bd.endpoint.GE, Rv.MCPendpoint.status, Rv.endpoint.load ) 
+    # 93 cases of +Bd -Rv infection in coinfection treatment groups 
+
+# coinfection -Bd & +Rv
+coinfection.Rv <- data.endpoint %>%   
+  filter(Scenario=="Coinfection") %>%
+  filter((Bd.endpoint.status == '0' & Rv.endpoint.load > 0)) %>%
+  select(ID, Species,ExperimentNo,Treatment,Scenario,Bd.endpoint.status,Bd.endpoint.GE, Rv.MCPendpoint.status, Rv.endpoint.load ) 
+    # 3 cases of -Bd +Rv infection in coinfection treatment groups (one of these (K4) has yet to be tested for Bd)
+
+# coinfection +Bd & +Rv
+data.endpoint %>% 
+  filter(Bd.endpoint.GE > 0.1 & Rv.endpoint.load > 0) %>%
+    select(ID, Species, ExperimentNo, Treatment, Rv.endpoint.load, Rv.MCPendpoint.status, Rv.MCPendpoint.Qmean, Rv.EBF3Nendpoint.status, Rv.EBF3Nendpoint.Qmean)
+  # 17 cases of +Bd -Rv infection in coinfection treatment groups /OR/ 20 cases if you use >0 instead of >0.1 for Rv
+
+# coinfection -Bd & -Rv (no infections)
+data.endpoint %>%    
+  filter(Scenario=="Coinfection") %>%
+  filter((Bd.endpoint.status == '0' & Rv.MCPendpoint.status=='0')) %>%
+  select(ID, Species,ExperimentNo,Treatment,Scenario,Bd.endpoint.status,Bd.endpoint.GE, Rv.MCPendpoint.status, Rv.endpoint.load,Rv.EBF3Nendpoint.status ) 
+      # 25 cases of -Bd -Rv infection in coinfection treatment groups > mainly Rt and 6 x Bb II
+
+
+dim(data.endpoint[data.endpoint$Bd.endpoint.GE >0.1,])
+
+dim(data.endpoint[data.endpoint$Rv.endpoint.load > 0.1,])
+
+Rv.all <- data.endpoint %>% 
+  filter(Rv.endpoint.load > 0) %>%
+  select(ID, Species,ExperimentNo,Treatment,Scenario, Rv.MCPendpoint.status, Rv.endpoint.load ) 
+
+length(unique(Rv.all$ID))
+
+Bd.all <- data.endpoint %>% 
+  filter(Bd.endpoint.GE > 0.1) %>%
+  select(ID, Species,ExperimentNo,Treatment,Scenario, Bd.endpoint.status, Bd.endpoint.GE ) 
+
+length(unique(Bd.all$ID))
+
+```
+
+# Part 5: Plot relationship 
+
+```{r relationship plot}
+
+plot.endpoint.relation<- data.endpoint %>% 
+  filter(Bd.endpoint.GE > 0.1 & Rv.endpoint.load > 0)  %>%
+ # filter(!Rv.endpoint.load > 2000) %>%  # filtering out the extremely high Rv viral load so that we can see the data better 
+      ggplot(aes(x=Rv.endpoint.load, y= Bd.endpoint.GE, colour = Treatment)) + 
+      geom_point() +
+        theme_bw()
+
+data.endpoint[which(data.endpoint$Rv.endpoint.load > 2000),c("ID", "ExperimentNo", "Treatment","Rv.endpoint.load", "Rv.MCPendpoint.status", "Rv.MCPendpoint.Qmean", "Rv.EBF3Nendpoint.status", "Rv.EBF3Nendpoint.Qmean")]   # check the outlier (N.B it qPCR well location looks fine) 
+
+```
+Playing witht the plot here ...
+R doesn't plot the samples with missing values (NA's) for either Rv or Bd so remove them to have a look
+```{r relationship plot 2}
+
+trial.endpoint <- data.endpoint
+# make the NAs 0's for now 
+trial.endpoint$Bd.endpoint.GE[is.na(trial.endpoint$Bd.endpoint.GE)]<-0 
+trial.endpoint$Rv.endpoint.load[is.na(trial.endpoint$Rv.endpoint.load)]<-0
+
+plot.coinfect.load <- trial.endpoint %>% 
+  filter(!Rv.endpoint.load > 2000) %>%  # filtering out the extremely high Rv viral load so that we can see the data better
+      ggplot(aes(x=Bd.endpoint.GE, y=Rv.endpoint.load, colour = Treatment, shape=Species)) + 
+      geom_point() +
+        theme_bw()
+
+# export plot as .png 
+png("figs/03_exploratory-analysis_infection-end_coinfect-load.png", type="cairo", units="in", width= 14, height=8, pointsize= 12, res=1000)
+print(plot.coinfect.load)
+dev.off()
+
+```
+# Part 6: Plot EMA 
+ 
+ ***move this to another script file later
+
+Made a  bar graph of the EMA GE values split by live/dead zoospores and with the endpoint infection load ploted as a 
+
+Threshold the EMA GE score? ? 
+###### EDIT ME ####### 
+```{r plot EMA, echo=False}
+
+EMA.df <- EndInfect %>%
+        filter(Bd.endpoint.status=='1' & EMA.YN =='1')  %>%    # choose the EMA samples where $EMA.YN contains 1's and 0's where 1 means that an EMA sample was taken
+          mutate(viable.GE = EMA.GE.EMA) %>% 
+           mutate(dead.GE = EMA.GE.WS-EMA.GE.EMA) %>%
+           gather(live.dead, Bd.EMA.GE, viable.GE:dead.GE, na.rm = TRUE) %>%  # make a column “key” column of EMA and WS and a "value" column with the GE score for each sample type
+               mutate(live.dead = gsub(".GE", "", live.dead))  %>%  # cut the names in  $live.dead down (aka remove the .GE part)
+                   select(ID, Species, ExperimentNo, Treatment, Bd.endpoint.status, Bd.endpoint.GE, EMA.YN,live.dead, Bd.EMA.GE) # select the cols to keep 
+
+
+# need to work out what is going on with this one sample - contamination? its very high???!!  ID = B2.16
+EMA.df$Bd.EMA.GE[EMA.df$ID== "B2.6"] <- 0
+
+
+# make a stacked bar graph using geombar() and fill =     (to reverse the stacking order use order = desc())
+ggplot(EMA.df, aes(x=Treatment, y= Bd.EMA.GE, fill= live.dead))+ geom_bar(position= "identity", stat="identity") + facet_grid(.~ ExperimentNo)  
+ 
+
+# data points and boxplot 
+EMA.df %>% ggplot(aes(x =Treatment, y= Bd.EMA.GE)) + 
+        geom_boxplot() +
+        geom_jitter(width = 0.05) + 
+        scale_y_log10()
+```
+
+
+############### -- Bits of redundant code --  #####################
+# shade out those too low to be considered an infection         
+plot.endpoint.relation + annotate("rect", xmin=-0.1, xmax=3000, ymin=-0.1, ymax=0.1, alpha=.1, fill= "blue") 
+
+info.min.Bd <- data.endpoint %>% 
+    group_by(ExperimentNo) %>% 
+    slice(which.min(Rv.MCPendpoint.Qmean)) %>% 
+    select(ID, Species, ExperimentNo, Treatment, Rv.endpoint.load, Rv.MCPendpoint.status, Rv.MCPendpoint.Qmean, Rv.EBF3Nendpoint.status, Rv.EBF3Nendpoint.Qmean)
+    
+    
+
+info.min.Bd <- data.endpoint %>% 
+    group_by(ExperimentNo) %>% 
+    filter((Bd.endpoint.status=='1' & Bd.endpoint.GE > 0.1)) %>%   # look at the minimum load (above the 0.1 threshold) for each treatment group 
+    slice(which.min(Bd.endpoint.GE)) %>%
+    select(ID, Species, ExperimentNo, Treatment, endpoint.date, endpoint.code, Bd.endpoint.CTmean, Bd.endpoint.Qmean, Bd.endpoint.GE)
+    
+    # Bd.prop.sum$Proportion.Infected[grep("NaN", Bd.prop.sum$Proportion.Infected)]<-0  # Remove the NaN (for the time being)
+
+
+# drop the Bd infection Rv only group and the Rv infection Bd only group 
+CoInfect <- CombineInfect %>% 
+  filter(!(Treatment=='Bd' & InfectType=='Rv'| Treatment=='Rv' & InfectType=='Bd'))
+
+# I think below works better when plotting as it doesn't make the bars go massive 
+CombineInfect$upper[CombineInfect$Treatment=='Bd' & CombineInfect$InfectType=='Rv']<- NA
+
+CombineInfect$upper[CombineInfect$Treatment=='Rv' & CombineInfect$InfectType=='Bd']<- NA
+
+###### CODE TO PLAY WITH ###### 
+
+#  %>%  filter(ExperimentNo != "5")   %>%    # filter out experiment no. 5 as the babies were only exposed to Bd 
+        #droplevels()  # remove the unused levels 
+
+############  END ############  
+
+#### Subset the data by species required for this analysis  ####
+EndInfect <- subset(InfectData, ExperimentNo %in% c('1', '2', '3', '4'), drop=TRUE)
+EndInfect <- droplevels(EndInfect)    # remove the unused levels
+
+* Proportion infected with Bd * 
+BdProp<- tapply(EndInfect$Bd.endpoint.status,list(EndInfect$Treatment,EndInfect$Species),mean, na.rm=TRUE)
+
+* Proportion infected with Rv * 
+RvProp <- tapply(EndInfect$Rv.MCPendpoint.status,list(EndInfect$Treatment,EndInfect$Species),mean, na.rm=TRUE)
+Have a feeling that I will need to calculate the Status > maybe as a proportion? 
+
+*
+EndInfect %>%
+  group_by(Species, Treatment) %>%
+  summarize(Proportion.Infected.Bd = mean(Bd.endpoint.status, na.rm = TRUE), N=length(Bd.endpoint.status))
+
+EndInfect %>%
+  group_by(Species, Treatment) %>%
+  summarize(Proportion.Infected.Rv = mean(Rv.MCPendpoint.status, na.rm = TRUE), N=length(Rv.MCPendpoint.status))
+  
+  
+  
+  
+  EMA.df <- EndInfect %>%
+      filter(Bd.endpoint.status=='1' & EMA.YN =='1')  %>%    # choose the EMA samples where $EMA.YN contains 1's and 0's where 1 means that an EMA sample was taken
+        mutate_at(c("EMA.GE.EMA", "EMA.GE.WS"), as.character) %>%   # convert these cols to character strings so they work with the next bit of the pipe
+          gather(live.dead, Bd.EMA.GE, EMA.GE.EMA:EMA.GE.WS, na.rm = TRUE) %>%    # make a column “key” column of EMA and WS and a "value" column with the GE score for each sample type
+             mutate(live.dead = gsub("EMA.GE.", "", live.dead))  %>%  # cut the names in  $live.dead down (aka remove the EMA.GE part)
+                mutate(Bd.EMA.GE = as.numeric(Bd.EMA.GE))  %>% 
+                   select(ID, Species, ExperimentNo, Treatment, Bd.endpoint.status, Bd.endpoint.GE, EMA.YN,live.dead, Bd.EMA.GE) # select the cols to keep 
+
+
+
+```{r, echo=False}
+
+##### EDIT ME ###### 
+# do above but with SE included 
+# source https://sites.google.com/site/simonthelwall/home/r/data_manipulation_with_dplyr 
+#Bd.Infect.sum <- EndInfect %>%
+  #group_by(Species, Treatment) %>%     # group by Species and Treatment group 
+   # summarize(Proportion.Infected = mean(Bd.endpoint.status, N=length(Bd.endpoint.status)), SE.Infected = binom.confint(Proportion.Infected, methods = "logit", N=length(Bd.endpoint.status, na.rm =TRUE))
+####################
+
+# Make all the Rv infected proportions negative  (use for a split bar graph where Rv is negative and Bd positive)
+    # Rv.Infect.sum[,3] <- -Rv.Infect.sum[,3]
+
+  # Bar graph displaying pathogen information simultaneously as a positive and negative value (N.B. need to un-hash the line of code above that converts the proportion of Ranavirus infected)
+#ggplot(CoInfect, aes(x=Treatment, y= Proportion.Infected, fill= InfectType))+ geom_bar(position= "identity", stat="identity")
+
+```
+
