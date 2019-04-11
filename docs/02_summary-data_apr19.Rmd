@@ -1,0 +1,312 @@
+---
+title: "Project 1: Co-infection and pathogen shedding in a multi-host, multi-pathogen amphibian disease system"
+subtitle: <h2> Summary Report <h2>
+author: "[Bryony Allen](https://eegid.wordpress.com/phd-students/bryony-allen/) ^[University of Liverpool & Zoological Society of London]- `r format(Sys.time(), '%d %B %Y')`"
+output: 
+  bookdown::html_document2:
+    toc: true 
+    toc_float: true
+    toc_depth: 2 
+    fig_caption: yes
+    force_captions: yes
+    number_sections: no
+    theme: sandstone
+    code_folding: hide 
+---
+
+```{r load packages, include=FALSE, warning=FALSE, error=FALSE, message=FALSE}
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+library(knitr)
+library(bookdown)
+```
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+
+knitr::opts_chunk$set(dev="png", dpi=36) # defines chunk options for all figures 
+# dev="png" is the default raster graphics format for HTML output whereas the default dev="svg" produces very large vector graphics files 
+# dpi= 36  (72 is the default) this lowers the image resolution >> decrease the HTML output file size further
+
+# I set the out.width and out.height chunk options equal to "600px", to increase the image dimensions.You can change the dpi, out.width, and out.height options, until you get the HTML output file size and the image dimension to what you want. There's a trade-off between output file size and image resolution
+
+opts_chunk$set(cache=TRUE)   # set the chunk option `optipng` to a non-`NULL` value, e.g. `optipng=''`, to activate the hook
+knit_hooks$set(optipng = hook_optipng)    # optimize PNG images with `optipng`
+# https://github.com/yihui/knitr-examples/blob/master/035-optipng.Rmd
+```
+
+
+# Project Overview 
+
+
+#####**Project Title**: *"From individual behaviour to population-level transmission: bridging disease ecology scales with the amphibian pathogens."*
+
+
+Many important pathogens circulate within multi-host communities ^[Holt et al., 2003; Webster, Borlase, & Rudge, 2017; Woolhouse, Taylor, & Haydon, 2001]. Equally, many hosts can be infected with multiple pathogens at any given time ^[Hellard, Fouchet, Vavre, & Pontier, 2015; Petney & Andrews, 1998; Rigaud, Perrot-Minnot, & Brown, 2010]. Recent studies of declining amphibian populations indicate that the two pathogens of most concern, Ranavirus and *Batrachochytrium dendrobatidis* (Bd), commonly occur as co-infections ^[Reshetnikov et al., 2014; Rosa et al., 2017; Souza et al., 2012]. Yet, experimental evidence of co-infection dynamics in amphibians remains sparse. 
+
+While both pathogens are host generalist, significant heterogeneity exists in host susceptibility, infectiousness and burden of each disease, at a species and individual level ^[DiRenzo, Langhammer, Zamudio, & Lips, 2014a; Fernández-Beaskoetxea et al., 2016; Reeder, Pessier, Vredenburg, & Litvintseva, 2012; Searle et al., 2011; Gray & Chinchar, 2015; Schock, Bollinger, Gregory Chinchar, Jancovich, & Collins, 2008]. Which conforms with a wider body of literature showing host species unevenly contribute to disease transmission in multi-host communities ^[Begon et al., 1999; Duffus, Nichols, & Garner, 2014; Fenton et al., 2015; Fernández-Beaskoetxea, Bosch, & Bielby, 2016; Woolhouse et al., 1997]. As a result, pathogen persistence at a community level is largely dictated by the composition of host species ^[Holt et al., 2003; Keesing, Holt, & Ostfeld, 2006]. Predicting how these heterogeneities in disease contribution across different host species relates to the establishment and persistence of a pathogen in a host community, revolves around understanding the transmission process between the infectious stage of a pathogen and a susceptible individual ^[Begon et al., 2002; McCallum, Barlow, & Hone, 2001; McCallum et al., 2017]. 
+
+To help unpick the tangled dynamics of this multi-host, multi-pathogen system we conducted an experiment looking at how susceptibility, infectiousness and burden of disease changed with infection scenario (single vs coinfection) across a panel of host species (*Bufo bufo*, *Rana temporaria* and *Alytes muletensis*) that range in their reported susceptibility. We measured the contributions of each host, at an individual level, to the environmental pool of infectious particles, by quantifying Bd zoospores and ranavirus virion outputs for four days post exposure. Endpoint infection load of each host was also measured to link the hosts' infection burdens with their infectiousness. 
+
+Understanding the susceptibility and infectiousness of each host at an individual level allows us to predict how host species community composition influences the establishment and persistence of both pathogens, singularly and as coinfections, at the community level. Our study provides previously lacking emperical evidence of within-host and between-host dynamics under different infection scenarios (single vs co-infection) and highlights the importance of understanding host contributions to enviromental reservoirs of disease.
+
+# Aims 
+
+I. Ascertain whether the sequence of exposure to co-infecting pathogens (Bd and Rv) alters the disease outcome for the host and subsequent transmission of the pathogens.
+<br>II.	Establish the contributions of hosts to the environmental “pool” of infectious particles, across species at an individual level, to understand variations in host infectiousness and by proxy transmission. 
+
+  i. Understand how host infectiousness, measured by quantifying Bd zoospore and ranavirus virons shed into the water body, changes with the exposure regime in single pathogen vs. co-infection scenarios.
+  ii. Assess the viability of infectious particles shed into the aquatic environment. 
+
+# Methods {.tabset}
+
+## Study Species
+
+In order to capture a range of host susceptibilities to infection by Bd and/or Rv I examined shedding rates and infection intensity of two co-occurring species (*B. bufo* & *R. temporaria*) that display contrasting resistances, and one other species (*A. muletensis*) documented to respond distinctly to Bd exposure but which has no empirical records of ranavirus exposure.  
+
+### Source 
+
+*B. bufo* and *R. temporaria* clutches were collected, with the permission of the landowner and under licence, from a pond site in Henley as spawn and hatched out in an approved facility. 
+Larval *A. muletensis* were reared from egg clutches by the ZSL Living Collections. 
+
+### Numbers 
+
+The total number of animals that underwent procedures (includes controls that had sham bath exposures).<br>
+*Bufo bufo* = 220, 
+*Rana temporaria* = 110,
+*Alytes muletensis* = 107
+
+Experiments were run in batches comprising of two *B.bufo* experiments of 100 animals, with 10 reference animals, a *R.temporaria* experiment, also with 10 reference animals, one experiment of 70 *A.muletensis* tadpoles, with all treatment groups, and one Bd-only experiment with less developed *A.muletensis* (n=37). Each treatment group had n=20 bar the *A.muletensis*. The larger *A.muletensis* (here on in referred to as *A.muletensis* I) had n=14 per treatment and the smaller *A.muletensis* (*A.muletensis* II) had n=25 in the Bd-only exposure treatment group and n=12 tadpoles as controls.   
+
+The number of tadpoles used in the experiments is based on previous experiments where the lab group have investigated such parameters as endpoint infectious burdens.
+
+Reference animals were euthanised on exposure day 12 (see Figure \@ref(fig:schedule)) as a means of assessing whether the exposure schedule resulted in infection. Before euthanasia, the reference animals underwent the shedding/filtering process (see relevant method section below) so we could compare early stage shedding rates with endpoint infection loads and to initially trial the procedure on live samples.     
+
+## Animal Husbandry  
+
+### Housing 
+Tadpoles were transferred to the experimental rooms and into individual housing once the gills were reabsorbed, free swimming and exhibit normal behaviour.
+For each species, larvae of similar mass and developmental stage (Gosner 25; Gosner, 1960) were randomly selected, acclimatised to the individual housing (Really Useful Boxes (RUBs)) of the appropriate size for the species (see below) and then randomly assigned to a treatment group. As outlined in Figure 1, treatment groups consisted of 20 individuals per species. 
+
+All individuals were checked and rotated daily, left to right between treatments and front to back within treatments.  
+
+Experiment            | RUB size | exposure water vol.   | housing water vol.
+--------------------- | -------------|------------- |-------------
+*Bufo bufo* I          | 0.075L | 210mL       | 375mL  
+*Bufo bufo* II         | 0.075L | 210mL       | 375mL  
+*Rana temporaria*     | 0.075L | 210mL       | 375mL  
+*Alytes muletensis* I  | 0.7L| 520mL       | 1000mL  
+*Alytes muletensis* II | 0.075L | 210mL       | 375mL  
+
+### Diet 
+Larval amphibians were fed 200µL of ground Tetra Tabimin tablets dispersed in double-distilled water with a ratio of 1g/100mL, every other day during the experiment. Tadpoles in the first Bufo experiment were fed 300µL for the first few feeds but it was evident they were not consuming all the food so it was reduced down to 220µL. The older *A.multenesis* (II) tadpoles recieved double the feed (~400µL) due to their larger size.
+
+All the *Alytes muletensis* received a slightly altered diet. Half of the ground Tetra Tabimin was subsituted with coarse ground Spirulina tablets, in an attempt to improve water quality. 
+
+```In hindsight I think the volume of food was still too high but unfortunately we didn't record tadpoles weight change so we have no emperical evidence.```
+
+### Water Changes 
+
+Full water changes (100%) were made every 4 days throughout the course of the experiment or before an exposure. A 15ml water samples was collected before the 100% water change pre-exposure and from the hosuing and shedding container after the shedding period for four sentinel tadpoles per experiment. 
+
+``` Water quality was an issue throughout the experimental period. Steps have been taken to resolve this issue for future experiments mainly by the installation of Reverse Osmosis units in the animal rooms - thanks to Chris S. ```  
+    
+### Temperature 
+
+The temperature of the animal rooms followed natural ambient conditions (18-24^o^C) and was monitored throughout. The summer heatwave alongside faulty temperate control units meant temperature fluctuated significantly. See Table 2 for minimum and maximum recordings during each experiment. Free standing air-con units were installed as a temporary, emergency measure to control room temperatures by the begining of August 2018. Meaning the temperature for the *A.muletensis* experiments was carefully controlled.
+
+Experiment            | min. temp. (^o^C) | max. temp. (^o^C)
+--------------------- | -------------|------------- 
+*Bufo bufo* I          | 16.6        | 23.5  
+*Bufo bufo* II         | 16.7        | 27.6
+*Rana temporaria*       | 16.7         | 27.6 
+*Alytes muletensis* I & II  | 15     | 16.6
+
+Table 1. Minimum and maximum temperatures during each experiment measured by thermometer placed in the middle of the animal room. The temperatures for the *A.muletensis* experiments are readings from a thermometer in the water vat. 
+
+``` Temperature control was an problem for the majority of the experiments. Unfortunately, despite best efforts (thanks again to Chris S.) it looks to be an ongoing issue.```
+
+## Pathogen Exposure 
+Tadpoles were exposed individually to controlled doses of Bd and/or Rv or the correlating sham media (see Figure \@ref(fig:schedule)). The exposure inoculum was added directly to the housing container after a 100% water change. Following the 6-hour exposure period the water volume in the housing containers was raised to maintain water quality. 
+
+```{r schedule, echo=FALSE, message=FALSE, optipng='-o7', fig.cap= "Schedule of exposures and sampling, by treatment group. A dose is denoted by a green (Rv) or yellow (Bd) coloured square, and sham doses are displayed as cross-hatched squares. The blue squares indicate when 50ml “soak” water samples were collected from individuals and filtered. EMA water samples (for quantification of viable Bd zoospores) are collected directly from the housing container and shown by an asterisk.", out.width="600px", out.height="600px"}
+
+include_graphics("../figs/images/exp-schedule.png")
+``` 
+
+### Strain Details 
+**Ranavirus strain**: isolate RUK13 ^[Cunningham, Hyatt, Russell, & Bennett, 2007] was cultivated on epithelioma papillosum carp (EPC) cell lines at 18^o^C and 5% CO2 (courtesy of S.J.Price, C.Owen and L. Brookes), and quantified using the TCID50 method ^[Reed & Muench, 1938]. The harvested cell culture fluid contained a virus titre of 10^7^ TCID50/ml. 
+
+**Bd strain**: IA’9’13, a member of the hypervirulent BdGPL lineage isolated during an epidemic at Ibón Acherito (Pyrenees, Spain) in 2013 by Prof. M. Fisher, was cultured in TGhL broth, in a 25cm^2^ cell culture flasks, at 18^o^C. Zoospores were collected and counted using a haemocytometer. 
+
+### Dosage Details 
+
+**Ranavirus** Designated individuals were exposed to 105µL (or 263µL for *A.muletensis* II) meaning an effective exposure of 10^4.5^ TCID50/ml. The dose was deemed suitable based on previous work where similar inoculums induced infection but had a longer time till death in tadpoles then higher concentrations ^[Duffus et al., 2014; Pearman, Garner, Straub, & Greber, 2004]. 
+
+**Bd** A Bd positive dose consistent of 15,000 to 600,000 active zoospores in 210µL liquid media, or 525µL for *A.muletensis* II. The volume of media was standardised across doses in order to maintain water quality during the exposure period. Total exposure are shown in the table below. 
+
+Experiment            | total zoospores   
+--------------------- | -------------
+*Bufo bufo* I          | 3,675,000       
+*Bufo bufo* II         | 1,443,750       
+*Rana temporaria*     | 2,336,250        
+*Alytes muletensis* I  | 472,500       
+*Alytes muletensis* II | 294759.9       
+
+## Within-host Dynamics (co-infection) 
+
+### Endpoint Tissue Samples
+
+At the end of the experiment (day 9 post-exposure) tadpoles were euthanised, under licence, by buffered (pH 7.0) 5 mg/L tricaine methylsulfonate (MS-222) and then stored in 100% ethanol.
+
+The Bd infection load of tadpoles was confirmed by excision and DNA extraction of mouthparts, the site of Bd colonization and infection in tadpoles, using Prepman Ultra (Life Technologies) as per Hyatt et al. (2007). Extracts were screened by the qPCR diagnostic outlined in Boyle et al. (2004) which targets the ITS-1 and 5.8S regions and diluted 1:10 before qPCR to avoid inhibition. The infection load with be express in genomic equivalents (GE), where one GE is equivalent to a single zoospore. 
+
+The quantification of ranaviral DNA from tissue samples (mainly livers and kidneys) of the tadpoles stored in 100% ethanol was by DNeasy Blood and Tissue (Qiagen) extraction following the manufacturers protocol. DNA samples were then analysed with a qPCR assay specific to the ranaviral major capsid protein (MCP) sequence and normalised by host cell quantity as outlined in Leung et al. (2017). 
+
+```{r endpoint, echo=FALSE, message=FALSE, optipng='-o7', fig.cap= "*Left* DNA extraction procedure for endpoint tissue samples. *Right* ", fig.show='hold', out.width = "50%", fig.align = "default"}
+
+include_graphics(c("../figs/images/endpoint-sample.png", "../figs/images/qPCR.png"))
+``` 
+
+## Between-host Dynamics (shedding) 
+
+### Shedding Samples 
+
+One limitation of using common frog and common toad larvae is that individuals can not be sampled for infections without first being euthanized. For this reason, we tracked infectious particle output post-exposure using a modified version of the "soak" technique ^[Di Renzo et al. (2014); Reeder et al. (2012)]. Individuals were transferred into a temporary shedding unit containing clean, aged water to “soak” for 4 hours, after which they will be returned to their housing unit. The shedding containers used are shown in Figure \@ref(fig:shedding). The soak period of 4 hours was choosen to balance the need to sensitively detect zoospores/virions shed with the considerations of the tadpoles welfare needs. 
+
+```{r shedding, echo=FALSE, message=FALSE, optipng='-o7', fig.cap= "Images of the disposable containers used as temporary holding units to generate a water sample of shed pathogens from the tadpoles. *Left* shows the standard shedding container for all experiments,, where the water volume was 50mL, *right* shows the shedding containers used for the larger *Alytes muletensis* tadpoles, where the water volume was 100mL.",fig.show='hold', out.width = "50%", fig.align = "default"}
+
+include_graphics(c("../figs/images/shedding-small.png", "../figs/images/shedding-big.png"))
+``` 
+
+The soak water was filtered through a cellulose nitrate filter membrane (Nalgene Analytical Test Filter Funnel, ThermoFisher) with 0.45µm pore size to capture 1-2µm to 3-5µm zoospores ^[Berger, Speare, & Kent, 1999; Longcore et al., 1999], by a vacuum manifold, see Figure \@ref(fig:filter). Following filtration, each membrane was removed from the filter unit, cut in half using a sterile scalpel blade, and stored at -20^o^C for a week before being transferred to -80^o^C until processing. DNA extractions were performed for each filter membrane half. One half underwent extraction by Prepman Ultra (Life Technologies) following the procedure described in Hyatt et al. (2007) to target Bd. Whereas DNeasy Blood & Tissue kit was used to isolate Rv DNA following the protocol Goldberg et al.(2011) with the modifications outlined by Kosch & Summers (2013). All DNA extractions were assayed by quantitative polymerase chain reaction (qPCR) specific to each pathogen and run in duplicate. A positive result was scored if both wells amplify above the detection threshold when compared to the curve of standards.
+
+```{r filter, echo=FALSE, message=FALSE, optipng='-o7', fig.cap= "Setup of the vacuum manifold with the cellulose nitrate filter units.", fig.width=4, fig.height=2}
+
+include_graphics("../figs/images/filters.png")
+``` 
+
+Water samples were obtained every day for the first four days and then day 9 post-exposure, to capture the Bd reproduction cycle ^[DiRenzo, Langhammer, Zamudio, & Lips, 2014b; Garmyn et al., 2012] and Rv attenuation ^[Duffus et al., 2014]. See Figure \@ref(fig:schedule)) for sampling schedule. After the last shedding sample (day 9 post-exposure) tadpoles were immediately euthanised, under licence, by buffered (pH 7.0) 5 mg/L tricaine methylsulfonate (MS- 222) and then stored in 100% ethanol. 
+
+### Viability (EMA) Samples  
+
+Quantification of viable zoospores shed into the housing container over the course of the shedding sampling period (4 days) was achieved by ethidium monoazide (EMA) treatment following the protocol in Blooi et al. (2013), see Figure \@ref(fig:EMA) for an overview. In brief, at 4 days post-infection, two sub-samples were taken from the housing container, one to be treated with EMA and the other untreated before DNA extraction by Prepman Ultra. EMA binds to dead zoospores penetrating their compromised membranes and blocks qPCR amplification thus EMA treated samples represent the viable proportion of Bd zoospores in a sample compared to an untreated sample that records both the viable and dead fractions.
+
+```{r EMA, echo=FALSE, message=FALSE, optipng='-o7', fig.cap= "Viability staining protocol for quantification of live vs. dead Bd zoospores.", fig.width=8, fig.height=4}
+
+include_graphics("../figs/images/EMA-process-overview.png")
+``` 
+
+# Results {.tabset}
+
+## Mortality 
+
+We saw some mortality across all species and treatment groups. In the *Bufo bufo* we saw increase mortality in the coinfection treatment group (Rv>Bd). Several individuals in this treatment group showed signs of disease. The main signs observed were ragged tail fin, signs of haemorraghages (most often on the tail) and edemas. 
+
+#### Survival Analysis
+
+``` results pending``` 
+
+## Within-host Dynamics (co-infection) 
+
+### Endpoint Infection Status 
+
+```{r proportion, echo=FALSE, warning=FALSE, error=FALSE, message=FALSE, fig.cap= "Proportion of individuals infected, by pathogen, within a treatment group for the three host species. N.B. that *Alytes* II is excluded.", fig.width=8, fig.height=4}
+
+sp.labs <- c(Bb = "Bufo bufo", Rt = "Rana temporaria", Am = "Alytes muletensis")
+exp.labs <- c("1" = "Bufo bufo I", "2" = "Bufo bufo II", "3" = "Rana temporaria", "4" = "Alytes muletensis","5" = "Alytes muletensis II")
+
+prop.sum <- read.csv('../data/03_prop-sum_data.csv') 
+
+plot.endpoint.prop.sp <- 
+  prop.sum %>% 
+  filter(!ExperimentNo=='5')  %>% 
+    ggplot(aes(x=Treatment, y= proportion.infected, fill=InfectType ))+ 
+      geom_bar(position= "dodge", stat="identity") + 
+      scale_x_discrete(name ="Treatment Group", limits=c("Bd","Rv","Bd-Rv", "Rv-Bd")) +       #change the order of the x axis ticks
+      geom_errorbar(aes(ymin=upper, ymax=lower), width= .2, position= position_dodge(0.9)) +   #alpha to change transparancy 
+      facet_grid(.~ExperimentNo, labeller=labeller(ExperimentNo = exp.labs)) + 
+      theme(strip.text.x = element_text(size=12, face="italic")) +
+      labs(x="Treatment Group",y="Proportion Infected") + 
+      guides(fill=guide_legend(title="Pathogen")) 
+
+
+plot.endpoint.prop.sp + theme(legend.position="top",legend.justification='right', legend.direction='horizontal') + theme(legend.key=element_blank()) + theme(axis.text.x = element_text(angle=30, hjust=1,vjust=1)) + theme(axis.title = element_text(size=14))
+
+```
+
+### Endpoint Infection Load 
+
+
+##### Bd endpoint pathogen load (see Figure \@ref(fig:Bd-GE-plot))
+
+```{r Bd-GE-plot, echo=FALSE, error=FALSE, message=FALSE, fig.cap= "Boxplot of the endpoint Bd load for each treatment group across the three host species. Bd load is quantified as genomic equivalents (GE) where 1 GE represents 1 Bd zoospore. The black dots represent each sample.", fig.width=8, fig.height=4}
+
+data.endpoint <- read.csv('../data/02_clean-data.csv') 
+data.endpoint$ExperimentNo <- as.factor(data.endpoint$ExperimentNo)  
+
+plot.Bd.GE.sp <- data.endpoint %>% 
+  filter((Bd.endpoint.status=='1' & Bd.endpoint.GE > 0.1))  %>% 
+        ggplot(aes(interaction(x= Treatment, ExperimentNo), y= Bd.endpoint.GE, fill = ExperimentNo)) +   #plot as boxplot with or without means and data points (see comments below)
+        geom_boxplot() +
+        geom_jitter(width = 0.05) +   # adds the data points 
+        scale_y_log10() +  # logs the axis 
+        scale_x_discrete(labels=c("Bd", "Bd>Rv", "Rv>Bd","Bd", "Bd>Rv", "Rv>Bd","Bd", "Bd>Rv", "Rv>Bd", "Bd", "Bd>Rv", "Rv>Bd", "Bd")) +
+        scale_fill_grey(start=1, end=.5, labels=exp.labs) +
+        xlab("Treatment Group") +
+        ylab("Bd load\n(GE)") +
+        labs(fill="Species")+
+   theme_bw()
+        
+plot.Bd.GE.sp +  theme(legend.key=element_blank()) +theme(legend.text = element_text(face = "italic")) +theme(axis.text.x = element_text(angle=30, hjust=1,vjust=1)) + theme(axis.title = element_text(size=16))
+       
+```
+
+
+#### Ranavirus endpoint pathogen load (see Figure \@ref(fig:Rv-plot))
+
+```{r Rv-plot, echo=FALSE, error=FALSE, message=FALSE, fig.cap= "Boxplot of the endpoint Ranaviral load for each treatment group across the three host species. Viral load has been normalised using Leung et al.'s (2017) method. The black dots represent each sample.", fig.width=8, fig.height=4}
+
+plot.Rv.load.sp <- data.endpoint %>% 
+ filter(!Rv.endpoint.load > 2000) %>%  # filtering out the extremely high Rv viral load so that we can see the data better 
+  ggplot(aes(x = interaction(Treatment, ExperimentNo), y= Rv.endpoint.load, fill = ExperimentNo)) + 
+        geom_boxplot() +
+        geom_jitter(width = 0.05) +   # adds the data points       
+        xlab("Treatment Group") +
+        ylab("Rv viral load") +
+        theme(legend.text = element_text(face = "italic")) + 
+        scale_fill_grey(start=1, end=.5, labels=exp.labs) +
+        scale_x_discrete(labels=c("Bd>Rv", "Rv>Bd", "Bd>Rv", "Rv","Rv>Bd", "Bd>Rv", "Rv>Bd","Bd>Rv","Rv","Rv>Bd")) +
+        labs(fill="Species")+
+        theme_bw()
+
+plot.Rv.load.sp + theme(legend.key=element_blank()) +theme(legend.text = element_text(face = "italic")) +theme(axis.text.x = element_text(angle=30, hjust=1,vjust=1)) + theme(axis.title = element_text(size=16))
+```
+
+## Between-host Dynamics (Shedding) 
+
+``` results pending``` 
+
+# Future Project Direction 
+
+Eventually, I hope to use my experimental outputs to construct mathematical models that realistically replicate the disease dynamics of the pathogens, which will enable me to test how pathogen persistence, amplification and/or loss might occur under different scenarios of host community complexity and coinfections.
+
+**Future Aims**  
+
+1. Build an understanding of the spatial dynamics of Bd zoospores in the aquatic environment, focussing on zoospore activity and trajectory.   <br>
+2. Parametrizing the transmission coefficients of Bd in a multi-host system to develop realistic models.  <br>
+3. Combine these results into a predictive framework to understand how individual-level behaviours influence disease transmission in natural ecological communities. <br>
+4. Elucidate the role of specific behaviours in modifying contact rates and how that influences transmission rates, within and between species.   <br>
+    i. Establish whether exposure to pathogens (Bd and/or Rv) changes tadpole behaviour (e.g. activity rates, foraging performance, and aggregation behaviour). <br>
+    ii. Identify which species-to-species and individual-to-individual contacts alter pathogen transmission. <br>
+    iii. Assess how transmission rates change under different scenarios that encourage shifts in contact rates (e.g. variations in host density, temperature and food availability).  <br>
+
+# Feedback
+Please email any comments to [bryony.allen@liverpool.ac.uk](bryony.allen@liverpool.ac.uk). 
+Here are the links to my [website bio](https://eegid.wordpress.com/phd-students/bryony-allen/). 
+
+Please note all graphics were created with [BioRender](https://biorender.com). 
+
+# References 
+
