@@ -16,6 +16,14 @@ where "1" = "Bufo bufo I", "2" = "Bufo bufo II", "3" = "Rana temporaria", "4" = 
 
 https://bookdown.org/ndphillips/YaRrr/linear-regression-with-lm.html 
 
+
+# QUESTIONS #
+
+? should I look at the Pearson residuals ? 
+  Pearson residual is the raw residual divided by the square root of the variance function. To account for the mean variance relationship...shows whether particular observations affect estimation and results 
+
+https://data.princeton.edu/wws509/notes/c3s8 
+
 # Install & load in required packages 
 
 ```{r packages, include=FALSE, warning=FALSE, error=FALSE, message=FALSE}
