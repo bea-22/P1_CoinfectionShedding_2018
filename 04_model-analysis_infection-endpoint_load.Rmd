@@ -1,7 +1,7 @@
 ---
-title: "03_model-analysis_infection-endpoint_status"
+title: "03_model-analysis_infection-endpoint_load"
 author: "Bryony Allen"
-date: "16/02/2018"
+date: "11/04/2019"
 output:
   pdf_document:
     toc: false 
@@ -11,8 +11,16 @@ output:
 ---
 # NOTES & SOURCES #
  
-I use ExperimentNo as a proxy for species
-where "1" = "Bufo bufo I", "2" = "Bufo bufo II", "3" = "Rana temporaria", "4" = "Alytes muletensis"
+Throughout this script I use ExperimentNo" as a proxy for species, where 
+"1" = "Bufo bufo I", "2" = "Bufo bufo II", "3" = "Rana temporaria", "4" = "Alytes muletensis" 
+
+
+Can pathogen load (Bd GE or ranavirus viral load) be explained by pathogen exposure scenario? 
+    Do coinfection treatment groups have higher pathogen loads? 
+  
+Does pathogen load (Bd GE or ranavirus viral load) vary with host species?
+Does pathogen load (Bd GE or ranavirus viral load) vary predictably for different levels of pathogen exposure & species?
+
 
 # Install & load in required packages 
 
@@ -27,7 +35,7 @@ library(ggplot2)
 library(lattice)
 
 # for stats 
-library(binom)
+# library(binom)
 # library(purr)  # purr guidance > for evaluating models http://ijlyttle.github.io/isugg_purrr/presentation.html#(1) 
 # library(broom)   # broom summarizes key information about models in tidy tibble()s >> https://github.com/tidymodels/broom
 ```
@@ -52,108 +60,133 @@ GLM's where
 
 ## Bd
 
-Here I have removed the Rv-only treatment group as they have never been exposued to Bd << ? could use them as a control group? I also removed the Am5 (baby Alytes) as they only have one treatment group which I will analyse seperately.   
+Here I take only individuals that am infected with Bd, at a level over the detection threshold of 0.1GE
 
-```{r Bd status df, echo=FALSE}
-Bd.status <- data.endpoint %>%
-  filter(!Treatment=="Rv") %>%
-  filter(!ExperimentNo=='5')  %>% 
-  mutate(ExperimentNo = as.factor(ExperimentNo)) %>% 
+```{r Bd load df, echo=FALSE}
+Bd.load <- data.endpoint %>%
+  filter((Bd.endpoint.status=='1' & Bd.endpoint.GE > 0.1))  %>% 
   select(ID, Species, ExperimentNo, Scenario, Treatment, Bd.endpoint.status, Bd.endpoint.GE) 
 
-droplevels(Bd.status)
+droplevels(Bd.load)
 ```
 
-### Maximal Model: Species*Treamtent interaction 
-Fit the most complex model first (maximal model). 
+### Model Selection:  
 
-Look at the estimates of the coefficients using ```summary()```
-```{r Bd binomial glm}
-Bd.status1 <- glm(Bd.endpoint.status ~ Treatment * ExperimentNo, data=Bd.status, family=binomial)
-summary(Bd.status1)
+```{r Bd error structure checks}
+Bd.load2.1 <- glm(Bd.endpoint.GE ~ Treatment + ExperimentNo, data=Bd.load, family=gaussian())
+summary(Bd.load2.1)   #AIC = 2226.8  #Residual deviance:  862653  on 190  degrees of freedom
+plot(Bd.load2.1)
+
+Bd.load2.2 <- glm(Bd.endpoint.GE ~ Treatment + ExperimentNo, data=Bd.load, family=Gamma())
+summary(Bd.load2.2)   #AIC = 1832.7  #Residual deviance: 239.21  on 190  degrees of freedom
+plot(Bd.load2.2)
+
 ```
 
-```{r Bd binomial glm plot, fig.cap= "Diagnostic plots for GLM looking at Bd endpoint infection status by Treamtent group and Species with interactions"}
-par(mfrow=c(2,2), mar=c(3,3,3,1), mgp=c(2,0.8,0))
-plot(Bd.status1)
-```
-The diagnostic plots in Figure \@ref(fig:Bd binomial glm plot) aren't ideal 
+The diagnostic plots are bad 
 - residual vs. fitted shows patterning meaning the variance is non-consistent
-- residual vs. leverage also shows patterning suggesting certain data points have strong influence  
+- QQ plot is S shaped meaning the errors are not normally distributed 
+- scale-location the scatter of the residuals increases with the fitted values (bad)
+- residual vs. leverage 
 
-### Simplification Model 1: Species + Treamtent  
-Now fit a simpler model has an with only the main effects for Species and Treatment 
-```{r binomial glm 2}
-Bd.status2 <- glm(Bd.endpoint.status ~ Treatment + ExperimentNo, data=Bd.status, family=binomial)
-summary(Bd.status2)
-```
 
-```{r binomial glm plot 2, fig.cap= "Diagnostic plots for GLM looking at Bd endpoint infection status by Treamtent group and Species (no interaction)"}
-par(mfrow=c(2,2), mar=c(3,3,3,1), mgp=c(2,0.8,0))
-plot(Bd.status2)
-```
+... both the linear regression models violate the expectation/assumption of constant normal vairnace 
+
+**** GAMMA error family??? Gamma regression, useful for highly positively skewed data
 
 ### Model Comparison: ANOVA 
 
 Analysis of deviance with ```test='Chi'``` selected because of the binomial error family 
 ... "an ANOVA testing whether the more complex model is significantly better at capturing the data than the simpler model. If the resulting p-value is sufficiently low (usually less than 0.05), we conclude that the more complex model is significantly better than the simpler model, and thus favor the more complex model. If the p-value is not sufficiently low (usually greater than 0.05), we should favor the simpler model."
 
-```{r binomial glm anova}
-Bd.status1 <- glm(Bd.endpoint.status ~ Treatment * ExperimentNo, data=Bd.status, family=binomial)
-Bd.status2 <- glm(Bd.endpoint.status ~ Treatment + ExperimentNo, data=Bd.status, family=binomial)
-Bd.status3 <- glm(Bd.endpoint.status ~ Treatment, data=Bd.status, family=binomial)
-Bd.status4 <- glm(Bd.endpoint.status ~ ExperimentNo, data=Bd.status, family=binomial)
+ANOVA (one-way) 
+
+y= ß1 + ß2xs + ß3xa   
+  ...where  
+          - baseline value (control) is ß1  (here we use the single pathogen treatment group)
+          - levels (treatments) are xs and xa  (here we use coinfection treatment groups)
+
+```{r Bd model comparison}
+Bd.load1 <- glm(Bd.endpoint.GE ~ Treatment * ExperimentNo, data=Bd.load, family=Gamma())
+Bd.load2 <- glm(Bd.endpoint.GE ~ Treatment + ExperimentNo, data=Bd.load, family=Gamma())
+Bd.load3 <- glm(Bd.endpoint.GE ~ Treatment, data=Bd.load, family=Gamma())
+Bd.load4 <- glm(Bd.endpoint.GE ~ ExperimentNo, data=Bd.load, family=Gamma())
 
 # compare the simplest models first 
-anova(Bd.status2, Bd.status4, test="Chisq") # compares Trt and Sp to just Sp 
-anova(Bd.status2, Bd.status3, test="Chisq") # compares Trt and Sp to just Trt 
+anova(Bd.load2, Bd.load4, test="Chisq") # compares Trt and Sp to just Sp 
+anova(Bd.load2, Bd.load3, test="Chisq") # compares Trt and Sp to just Trt 
 # compare more complex model to one with interaction 
-anova(Bd.status1, Bd.status2, test="Chisq")
+anova(Bd.load1, Bd.load2, test="Chisq")
 
-summary(Bd.status2)
 ```
-ANOVA 1: suggests we should reject the more complex model (Treatment + ExperimentNo) in favour for just the model with ExperimentNo only  (pvalue = 0.48)
+ANOVA 1: suggests we should reject the more complex model (Treatment + ExperimentNo) in favour for just the model with ExperimentNo only  (pvalue = 0.4725)
 ANOVA 2: suggests we should favour the more complex model (Treatment + ExperimentNo) over the model with Treatment only  (pvalue = < .001)  as adding ExperimentNo did lead to significantly improved fit 
-ANOVA 1: shows adding a interaction term between Treatment and ExperimentNo did not significantly imporve fit (p-value = 0.5752)
+ANOVA 3: shows adding a interaction term between Treatment and ExperimentNo did not significantly imporve fit (p-value = 0.122)
 
-### Model Fit:   
-To see the fitted values from a regression object (the values of the dependent variable predicted by the model), access the ```fitted.values``` attribute from a regression object with ````$fitted.values```.
+### Model Fit: 
 
-```{r fitted values}
-names(Bd.status2)   # look at the components of the glm object
+To see the fitted values from a regression object (the values of the dependent variable predicted by the model), access the ```fitted.values``` attribute from a regression object with ````$fitted.values```  Look at https://bookdown.org/ndphillips/YaRrr/linear-regression-with-lm.html
 
-Bd.status$bi.glm <- Bd.status2$fitted.values  # add logisitic fitted values back to the dataframe as a new col
+```{r Bd fitted values}
+names(Bd.load2)   # look at the components of the glm object
 
-head(Bd.status)   # look at the components of the glm object
+Bd.load$glm.fit <- Bd.load2$fitted.values  # add logisitic fitted values back to the dataframe as a new col
 
+head(Bd.load)   # look at the components of the glm object
+
+plot(x = Bd.load$Bd.endpoint.GE, y = Bd.load$glm.fit,  # plot relationship between true values (x-axis) and glm fitted values (y-axis)
+     xlab = "True Values",
+     ylab = "Model Fitted Values",
+     main = "Regression fits of Bd load")
+
+abline(b = 1, a = 0)   # values should fall around this line!
+```
+
+Model doesn't fit the data very well. 
+
+Check the model fit for Bd.load4 <- glm(Bd.endpoint.GE ~ ExperimentNo, data=Bd.load, family=Gamma())
+
+```{r Bd fitted values 2}
+
+Bd.load$sp.glm <- Bd.load4$fitted.values  # add logisitic fitted values back to the dataframe as a new col
+
+head(Bd.load)   # look at the components of the glm object
+
+plot(x = Bd.load$Bd.endpoint.GE, y = Bd.load$sp.glm,  # plot relationship between true values (x-axis) and glm fitted values (y-axis)
+     xlab = "True Values",
+     ylab = "Model Fitted Values",
+     main = "Regression fits of Bd load")
+
+abline(b = 1, a = 0)   # values should fall around this line!
 ```
 
 
 ### Model Plotting:   
 To plot the model you need a range of values for which to produce fitted values. Then use the ```predict()``` function to create the model for all the values. ```predict()``` gives you the predicted values based on your (fitted) linear model, the argument type="response" will give you the predicted probabilities 
 
-**N.B** the code isn't working here (09.04.19) 
 
 ```{r plot - bi.glm - species and treatment}
-Bd.status2 <- glm(Bd.endpoint.status ~ Treatment + ExperimentNo, data=Bd.status, family=binomial)
+Bd.load2 <- glm(Bd.endpoint.GE ~ Treatment + ExperimentNo, data=Bd.load, family=Gamma())
 
 # create a dataframe of "new" data 
-newdat <- expand.grid(ExperimentNo=c("1", "2", "3", "4"),Treatment=c("Bd", "Bd-Rv", "Rv-Bd"))
+newdat <- expand.grid(ExperimentNo=c("1", "2", "3", "4", "5"),Treatment=c("Bd", "Bd-Rv", "Rv-Bd"))
 
 # predict the value/result of the new data using the glm
-newdat <-cbind(newdat, predict(object = Bd.status2,   # the model 
+newdat <-cbind(newdat, predict(object = Bd.load2,   # the model 
                                newdata=newdat, se=TRUE, type="response", print.matrix=T))  # dataframe of new data 
 newdat
 
 expl.var <- c(1:3) # chose the range for the x-axis (Experiment No.)
-exp.labs <- c("1" = "Bufo bufo I", "2" = "Bufo bufo II", "3" = "Rana temporaria", "4" = "Alytes muletensis")
+exp.labs <- c("1" = "Bufo bufo I", "2" = "Bufo bufo II", "3" = "Rana temporaria", "4" = "Alytes muletensis I", "5" = "Alytes muletensis II")
 
 newdat1<- subset(newdat, ExperimentNo== "1")    # need to subset the data so you can plot each seperatly 
 newdat2<- subset(newdat, ExperimentNo=="2")
 newdat3<- subset(newdat, ExperimentNo=="3")
 newdat4<- subset(newdat, ExperimentNo=="4")
+newdat5<- subset(newdat, ExperimentNo=="5")
 
-Bd.status.predict <- ggplot(newdat, aes(x= expl.var, y= fit, color=ExperimentNo)) +       # plot model estimates, color= the data you subsetted by
+
+Bd.load.predict <- ggplot(newdat, aes(x= expl.var, y= fit, color=ExperimentNo)) +       # plot model estimates, color= the data you subsetted by
   geom_line(data = newdat1, aes(x= expl.var, y= fit), size=1) +                                   # add lines for subset newdat1
   geom_errorbar(data = newdat1, aes(ymin=fit-se.fit, ymax=fit+se.fit), width=.03, size=1)  +      # error bars for subset newdat1
   geom_line(data = newdat2, aes(x= expl.var, y= fit), size=1) +                                   # add lines for subset newdat2
@@ -162,13 +195,15 @@ Bd.status.predict <- ggplot(newdat, aes(x= expl.var, y= fit, color=ExperimentNo)
   geom_errorbar(data = newdat3, aes(ymin=fit-se.fit, ymax=fit+se.fit), width=.03, size=1)  +      # error bars for subset newdat1
   geom_line(data = newdat4, aes(x= expl.var, y= fit), size=1) +                                   # add lines for subset newdat1
   geom_errorbar(data = newdat4, aes(ymin=fit-se.fit, ymax=fit+se.fit), width=.03, size=1) +       # error bars for subset newdat1
+  geom_line(data = newdat5, aes(x= expl.var, y= fit), size=1) +                                   # add lines for subset newdat1
+  geom_errorbar(data = newdat5, aes(ymin=fit-se.fit, ymax=fit+se.fit), width=.03, size=1) +       # error bars for subset newdat1
     scale_x_continuous(breaks=seq(1:3),labels=c("Bd", "Bd-Rv", "Rv-Bd"))    # sets the breaks at 1,2 and 3 which correspond to the label names
       
-Bd.status.predict.plot <- Bd.status.predict + 
-  ylab("Bd status predictions\n(fit)") +            # TO DO: would be good to have the axis marking 0 & 1 
+Bd.load.predict.plot <- Bd.load.predict + 
+  ylab("Bd load predictions\n(fit)") +            # TO DO: would be good to have the axis marking 0 & 1 
   xlab("Treatment Group") +
-  ggtitle("Probability of Bd infection predicted by\n glm(Bd.endpoint.status ~ Treatment + ExperimentNo, 
-    family = binomial)") +
+  ggtitle("Probability of Bd infection load (GE) predicted by\n glm(Bd.endpoint.status ~ Treatment + ExperimentNo, 
+    family = Gamma)") +
   #guides(fill=guide_legend(title="Species")) +      # TO DO: fix the labelling issues here 
   #scale_fill_discrete(labels=exp.labs) +
   theme_bw() +
@@ -176,37 +211,12 @@ Bd.status.predict.plot <- Bd.status.predict +
         panel.grid.minor = element_blank(), axis.line = element_line(colour = "black")) 
 
 # export plot as .png 
-png("figs/04_model-analysis_infection-end-status.png", type="cairo", units="in", width= 14, height=8, pointsize= 12, res=1000)
-print(Bd.status.predict.plot)
+png("figs/04_model-analysis_infection-end-load.png", type="cairo", units="in", width= 14, height=8, pointsize= 12, res=1000)
+print(Bd.load.predict.plot)
 dev.off()
 
 ```
 
-# Part 3a: models of infection burden (endpoint infection load) 
-
-Can pathogen load (Bd GE or ranavirus viral load) be explained by pathogen exposure scenario? 
-    Do coinfection treatment groups have higher pathogen loads? 
-  
-Does pathogen load (Bd GE or ranavirus viral load) vary with host species?
-Does pathogen load (Bd GE or ranavirus viral load) vary predictably for different levels of pathogen exposure & species?
-
---- A) linear regression of Bd genomic equivalence by species and treatment interaction --- 
-
-```{r Bd infection burden: lm}
-mod.burden.Bd.LM <- lm(Bd.endpoint.GE ~ ExperimentNo * Treatment, data=data.endpoint)
-summary(mod.burden.Bd.LM)
-```
-- residuals skewed (not symmetrical around 0 and should be similar magnitude)
-- 
-
-```{r}
-plot(mod.burden.Bd.LM)
-```
-The diagnostic plots are bad 
-- residual vs. fitted shows patterning meaning the variance is non-consistent
-- QQ plot is S shaped meaning the errors are not normally distributed 
-- scale-location the scatter of the residuals increases with the fitted values (bad)
-- residual vs. leverage 
 
 
 ```{r Bd infection burden: log lm}
@@ -252,9 +262,6 @@ plot(mod.burden.Rv.logLM)
 ```
 
 
-... both the linear regression models violate the expectation/assumption of constant normal vairnace 
-
-**** GAMMA error family??? Gamma regression, useful for highly positively skewed data
 
 # Part 3b: better models of infection burden (endpoint infection load) 
 
@@ -292,41 +299,9 @@ anova(modBi, modBi2, test='Chi')
 
 ```
 
-
-
-
-```{r fitted values} 
-# https://bookdown.org/ndphillips/YaRrr/linear-regression-with-lm.html
-names(Bd.status2)   # look at the components of the glm object
-
-Bd.status$bi.glm <- Bd.status2$fitted.values
-
-# plot the relationship between true values and glm fitted values
-plot(x = Bd.status$Bd.endpoint.status,                          # True values on x-axis
-     y = Bd.status$bi.glm,               # fitted values on y-axis
-     xlab = "True Values",
-     ylab = "Model Fitted Values",
-     main = "Regression fits of Bd status")
-
-abline(b = 1, a = 0)                             # Values should fall around this line!
-```
-
-
-
-
-
-
-
-
-
 --- D) model selection --- 
 
-ANOVA (one-way) 
 
-y= ß1 + ß2xs + ß3xa   
-  ...where  
-          - baseline value (control) is ß1  (here we use the single pathogen treatment group)
-          - levels (treatments) are xs and xa  (here we use coinfection treatment groups)
 
 
 : GE :  Bd genomic equivalence 
@@ -369,50 +344,9 @@ predict(modQPois, newdata=df, type='response')
 ```
 
 
-# Part 5: 
-
-
-
-
 
 
 
 
 ################### SCRAPS ################### SCRAPS ################### SCRAPS ################### SCRAPS ################### SCRAPS ################### SCRAPS ################### SCRAPS ###################
 
-
-data.endpoint %>% 
-   filter((Bd.endpoint.status=='1' & Bd.endpoint.GE > 0.1))  %>% 
-     do(model = lm(Bd.endpoint.GE ~ Species + Treatment, data = .))
-
-mod.Bd.status.bi <- data.endpoint %>%
-  filter(!Treatment== "Rv") %>% do(model = glm(Bd.endpoint.status ~ Treatment * ExperimentNo, data=., family=binomial)) 
-  
-```{r do models worked example}
-by_cyl <- group_by(mtcars, cyl)
-do(by_cyl, head(., 2))
-models <- by_cyl %>% do(mod = lm(mpg ~ disp, data = .))
-models
-
-summarise(models, rsq = summary(mod)$r.squared)
-models %>% do(data.frame(coef = coef(.$mod)))
-models %>% do(data.frame(
-  var = names(coef(.$mod)),
-  coef(summary(.$mod)))
-)
-
-```
-
-
-#### 
-
-anova(
-)
-
-newdat <- expand.grid(symbiont=c("S-", "S+"),
-                      wasp_strain=c("Madeira", "Lh14", "France"),
-                      ethanol=c("EtOH-", "EtOH+"))  
-newdat <-cbind(newdat, predict(wm5, newdata=newdat, se=TRUE, type="response", print.matrix=T))
-newdat #the complete dummy dataset with predicted effect sizes
-
-plot(fit~expl.var, data = data)
