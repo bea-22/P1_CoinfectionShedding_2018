@@ -62,7 +62,9 @@ The scripts assumes that you have the following subfolders called "code", "data"
 
 -- GitHub -- 
 
-https://guides.github.com 
+https://guides.github.com  << general overview of Git
+https://www.rstudio.com/resources/videos/happy-git-and-gihub-for-the-user-tutorial/   << tutorial outlining how to syn GitHub with RStudio
+https://happygitwithr.com/index.html  << best resource for Git 
 
 
 PROJECT LAYOUT 
