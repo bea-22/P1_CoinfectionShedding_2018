@@ -128,6 +128,9 @@ endpoint.sum
 ```
 
 Calculating the summary statistics 
+
+***TO DO: work out why you selected "logit" method for obtaining binomial confidence intervals **
+
 ```{r proportion infected summary, echo=T}
 
 # TO DO : find a cleaner way of calculating the summary statistics for Rv and Bd (without having to create seperate df's)
@@ -247,7 +250,7 @@ data.endpoint %>%
         scale_fill_grey(start=1, end=.5, labels=exp.labs) +
         theme_bw()
 
-data.endpoint %>%     # ridge plot to see distribution of data  
+Bd.dist <- data.endpoint %>%     # ridge plot to see distribution of data  
     filter((Bd.endpoint.status=='1' & Bd.endpoint.GE > 0.1))  %>%  ggplot(aes(Bd.endpoint.GE, Treatment)) +
       geom_density_ridges(
                       jittered_points = TRUE, quantile_lines = TRUE, scale = 0.9, alpha = 0.7,
@@ -255,6 +258,9 @@ data.endpoint %>%     # ridge plot to see distribution of data
                       point_size = 0.4, point_alpha = 1,
                       position = position_raincloud(adjust_vlines = TRUE)
           ) + theme_ridges()
+
+
+# ggsave("figs/03_Bd_load-dist.png", plot= Bd.dist, device=NULL)
 
 # TO DO : fix the message "Picking joint bandwidth of 19.2" see https://github.com/clauswilke/ggridges/issues/19
 
@@ -271,13 +277,9 @@ plot.Bd.GE.sp <- data.endpoint %>%
         scale_fill_grey(start=1, end=.5, labels=sp.labs) +
    theme_bw()
         
-  
 plot.Bd.GE.sp <- plot.Bd.GE.sp +  theme(legend.key=element_blank()) +theme(legend.text = element_text(face = "italic")) +theme(axis.text.x = element_text(angle=30, hjust=1,vjust=1)) + theme(axis.title = element_text(size=16))
       
-# export plot as .png 
-png("figs/03_exploratory-analysis_infection-end_Bd-GE_sp.png", type="cairo", units="in", width= 14, height=8, pointsize= 12, res=1000)
-print(plot.Bd.GE.sp)
-dev.off()
+ggsave("figs/03_Bd_load-GE_sp.png", plot= plot.Bd.GE.sp, device=NULL)    # export plot as .png 
 
 ```
 
