@@ -14,7 +14,6 @@ output:
 Throughout this script I use ExperimentNo" as a proxy for species, where 
 "1" = "Bufo bufo I", "2" = "Bufo bufo II", "3" = "Rana temporaria", "4" = "Alytes muletensis" 
 
-
 Can pathogen load (Bd GE or ranavirus viral load) be explained by pathogen exposure scenario? 
     Do coinfection treatment groups have higher pathogen loads? 
   
@@ -56,7 +55,7 @@ glimpse(data.endpoint)   # check how the dataset has imported (aka whether it ha
 
 GLM's where 
   response variable = Endpoint status [continuous; ] 
-  explanatory variable(s) = Treatment  [categorical]   &   Species [categorical]
+  explanatory variable(s) = Treatment [categorical, levels = 4] & Species [categorical, levels = 5]
 
 ## Bd
 
@@ -72,14 +71,33 @@ droplevels(Bd.load)
 
 ### Model Selection:  
 
+Choosing a error structure family 
+
+N.B. "the most appropriate link function is the one whcih produces the minimum residual deviance"
+
+... for the log-linear GLMs = arithmetric means whereas the log -transmformed GLM is the geometric mean < interpretation of effects and predictions need to be considered
+
 ```{r Bd error structure checks}
-Bd.load2.1 <- glm(Bd.endpoint.GE ~ Treatment + ExperimentNo, data=Bd.load, family=gaussian())
-summary(Bd.load2.1)   #AIC = 2226.8  #Residual deviance:  862653  on 190  degrees of freedom
+
+# gaussian distribution with data log transformed  
+Bd.load2.1 <- glm(log(Bd.endpoint.GE) ~ Treatment + ExperimentNo, data=Bd.load, family= "gaussian")
+summary(Bd.load2.1)   #AIC = 680.91  #Residual deviance:  337.15  on 190  degrees of freedom
 plot(Bd.load2.1)
 
-Bd.load2.2 <- glm(Bd.endpoint.GE ~ Treatment + ExperimentNo, data=Bd.load, family=Gamma())
-summary(Bd.load2.2)   #AIC = 1832.7  #Residual deviance: 239.21  on 190  degrees of freedom
+# gaussian distribution with log link  <<< TERRIBLE
+Bd.load2.2 <- glm(Bd.endpoint.GE ~ Treatment + ExperimentNo, data=Bd.load,family="gaussian"(link='log'))
+summary(Bd.load2.2)   #AIC = 680.91  #Residual deviance:  337.15  on 190  degrees of freedom
 plot(Bd.load2.2)
+
+# Gamma distribution
+Bd.load2.3 <- glm(Bd.endpoint.GE ~ Treatment + ExperimentNo, data=Bd.load, family=Gamma())
+summary(Bd.load2.3)   #AIC = 1832.7  #Residual deviance: 239.21  on 190  degrees of freedom
+plot(Bd.load2.3)
+
+# Gamma distribution with log link 
+Bd.load2.4 <- glm(Bd.endpoint.GE ~ Treatment + ExperimentNo, data=Bd.load, family="Gamma"(link='log'))
+summary(Bd.load2.4)   #AIC = 1829.2  #Residual deviance: 235.62  on 190  degrees of freedom
+plot(Bd.load2.4)
 
 ```
 
@@ -140,6 +158,9 @@ plot(x = Bd.load$Bd.endpoint.GE, y = Bd.load$glm.fit,  # plot relationship betwe
      main = "Regression fits of Bd load")
 
 abline(b = 1, a = 0)   # values should fall around this line!
+
+length(unique(Bd.load$ID))
+
 ```
 
 Model doesn't fit the data very well. 
@@ -197,26 +218,26 @@ Bd.load.predict <- ggplot(newdat, aes(x= expl.var, y= fit, color=ExperimentNo)) 
   geom_errorbar(data = newdat4, aes(ymin=fit-se.fit, ymax=fit+se.fit), width=.03, size=1) +       # error bars for subset newdat1
   geom_line(data = newdat5, aes(x= expl.var, y= fit), size=1) +                                   # add lines for subset newdat1
   geom_errorbar(data = newdat5, aes(ymin=fit-se.fit, ymax=fit+se.fit), width=.03, size=1) +       # error bars for subset newdat1
-    scale_x_continuous(breaks=seq(1:3),labels=c("Bd", "Bd-Rv", "Rv-Bd"))    # sets the breaks at 1,2 and 3 which correspond to the label names
+    scale_x_continuous(breaks=seq(1:3),labels=c("Bd", "Bd-Rv", "Rv-Bd")) +   # sets the breaks at 1,2 and 3 which correspond to the label names
+  ggtitle("Probability of Bd infection load (GE) predicted by\n glm(Bd.endpoint.status ~ Treatment + ExperimentNo, family = Gamma)") 
       
 Bd.load.predict.plot <- Bd.load.predict + 
-  ylab("Bd load predictions\n(fit)") +            # TO DO: would be good to have the axis marking 0 & 1 
-  xlab("Treatment Group") +
-  ggtitle("Probability of Bd infection load (GE) predicted by\n glm(Bd.endpoint.status ~ Treatment + ExperimentNo, 
-    family = Gamma)") +
-  #guides(fill=guide_legend(title="Species")) +      # TO DO: fix the labelling issues here 
-  #scale_fill_discrete(labels=exp.labs) +
+  # ylab("Bd load predictions\n(fit)") +            # TO DO: would be good to have the axis marking 0 & 1 
+ # xlab("Treatment Group") +
+  guides(fill=guide_legend(title=NULL))  + 
   theme_bw() +
   theme(panel.border = element_blank(), panel.grid.major = element_blank(),
         panel.grid.minor = element_blank(), axis.line = element_line(colour = "black")) 
 
+```
+
+```{r export Bd plot}
 # export plot as .png 
 png("figs/04_model-analysis_infection-end-load.png", type="cairo", units="in", width= 14, height=8, pointsize= 12, res=1000)
 print(Bd.load.predict.plot)
 dev.off()
 
 ```
-
 
 
 ```{r Bd infection burden: log lm}
@@ -235,6 +256,23 @@ The diagnostic plots are better but not great
 - QQ plot is S shaped meaning the errors are not normally distributed 
 - scale-location the scatter of the residuals increases with the fitted values (bad)
 - residual vs. leverage 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+################### SCRAPS ################### SCRAPS ################### SCRAPS ################### SCRAPS ################### SCRAPS ################### SCRAPS ################### SCRAPS ###################
 
 
 --- B) linear regression of Rv viral load by species and treatment interaction--- 
