@@ -1,5 +1,5 @@
 ---
-title: "03_model-analysis_infection-endpoint_status"
+title: "03_model-analysis_infection-endpoint_load"
 author: "Bryony Allen"
 date: "09/05/2019"
 output: word_document
@@ -46,15 +46,13 @@ data.endpoint <- read.csv('data/02_clean-data.csv')
 glimpse(data.endpoint)   #check how the dataset has imported (aka whether it has the data type right)  
 ```
 
-# Part 2: Visualise the data 
+# Part 2: Visualise Bd endpoint infection load data 
 ```{r graph labels, include=FALSE, warning=FALSE, error=FALSE, message=FALSE}
 # make label vectors to use in plots
 sp.labs <- c(Bb = "Bufo bufo", Rt = "Rana temporaria", Am = "Alytes muletensis")
 exp.labs <- c("1" = "Bufo bufo I", "2" = "Bufo bufo II", "3" = "Rana temporaria", "4" = "Alytes muletensis","5" = "Alytes muletensis II")
 expos.labs <- c("1" = "Bd", "2" = "Rv", "3" = "Bd-Rv", "4"="Rv-Bd")
 ```
-
-## Part 2a : plot Bd endpoint infection loads 
 
 Here I only include Bd infection loads over the 0.1 GE threshold. 
 
@@ -110,66 +108,8 @@ data.endpoint %>%     # ridge plot to see distribution of data
 
 <br>
 
-## Part 2b : plot Rv endpoint infection loads 
 
-**N.B.**  At the moment there are 3 samples missing EBF3N qPCR data so as a temporary fix I have averaged the EBF3N score for all the samples and used that to calculate a rough viral load for these 3 samples
-
-For the plots below I only plot Rv infection loads over 0 and filter out one extremely high Rv viral load (greater than 2000).
-
-```{r boxplot Rv viral load, echo=FALSE, fig.cap= "Fig.3. Boxplot of the endpoint Ranaviral load for each treatment group across the three host species. Viral load has been normalised using Leung et al.'s (2017) method. The black dots represent each sample.", fig.width=16, fig.height=8}
-
-plot.Rv.load.sp <- data.endpoint %>% 
- filter(Rv.endpoint.load > 0 & !Rv.endpoint.load > 2000) %>%  # filtering out the extremely high Rv viral load so that we can see the data better 
-  ggplot(aes(x = interaction(Treatment, ExperimentNo), y= Rv.endpoint.load, fill = ExperimentNo)) + 
-        geom_boxplot() +
-        #stat_summary(fun.y="mean", geom="point", shape=23, size=3, fill="red") +    
-        geom_jitter(width = 0.05) +   # adds the data points       
-        xlab("Treatment Group") +
-        ylab("Rv viral load\n (log)") +
-        theme(legend.text = element_text(face = "italic")) + 
-        scale_fill_grey(start=1, end=.5, labels=exp.labs) +
-        scale_x_discrete(labels=c("Bd>Rv", "Rv>Bd", "Bd>Rv", "Rv","Rv>Bd", "Bd>Rv", "Rv>Bd","Bd>Rv","Rv","Rv>Bd")) +
-        labs(fill="Species")+
-        theme_bw()
-
-plot.Rv.load.sp +  theme(legend.key=element_blank()) +theme(legend.text = element_text(face = "italic")) +theme(axis.text.x = element_text(angle=30, hjust=1,vjust=1)) + theme(axis.title = element_text(size=16))
-
-```
-
-
-?? **QUESTION** is it ok to do this? Or am I better often doing log(n+1)? My reasoning was that we are not interested in no infection!?
-
-
-The distribution of logged Rv viral load.
-
-```{r distribution Rv load, echo=FALSE, warning=FALSE, error=FALSE, message=FALSE, fig.cap= "Fig. 4a. The  distribution of Rv load from endpoint tissue samples.", fig.width=16, fig.height=6}
-data.endpoint %>%     # ridge plot to see distribution of data  
-    filter(Rv.endpoint.load > 0 & !Rv.endpoint.load > 2000)  %>%  ggplot(aes(Rv.endpoint.load, Treatment)) +
-      geom_density_ridges(
-                      jittered_points = TRUE, quantile_lines = TRUE, scale = 0.9, alpha = 0.7,
-                      vline_size = 1, vline_color = "red",
-                      point_size = 0.4, point_alpha = 1,
-                      position = position_raincloud(adjust_vlines = TRUE)
-          ) + theme_ridges()
-```
-
-...and when Rv viral load is logged because the distribution of Rv load is skewed. 
-
-
-```{r log distribution Rv load, echo=FALSE, warning=FALSE, error=FALSE, message=FALSE, fig.cap= "Fig. 4b. The logged distribution of Rv load from endpoint tissue samples.", fig.width=16, fig.height=6}
-data.endpoint %>%     # ridge plot to see distribution of data  
-    filter(Rv.endpoint.load > 0 & !Rv.endpoint.load > 2000)  %>%  ggplot(aes(log(Rv.endpoint.load), Treatment)) +
-      geom_density_ridges(
-                      jittered_points = TRUE, quantile_lines = TRUE, scale = 0.9, alpha = 0.7,
-                      vline_size = 1, vline_color = "red",
-                      point_size = 0.4, point_alpha = 1,
-                      position = position_raincloud(adjust_vlines = TRUE)
-          ) + theme_ridges()
-```
-
-
-
-# Part 3: Apply models to Endpoint Infection Load
+# Part 3: Apply models to **Bd** Endpoint Infection Load
 
 GLM's where    
 <br>
@@ -302,7 +242,6 @@ anova(Bd.load1, Bd.load2, test="Chisq") # compare more complex model to one with
 ANOVA 1: suggests we should reject the more complex model (Treatment + ExperimentNo) in favour for just the model with ExperimentNo only  (pvalue = 0.3633)
 
 ANOVA 2: suggests we should favour the more complex model (Treatment + ExperimentNo) over the model with Treatment only  (pvalue = < .001)  as adding ExperimentNo did lead to significantly improved fit 
-
 ANOVA 3: shows adding a interaction term between Treatment and ExperimentNo did not significantly imporve fit (p-value = 0.5595)
 
 **Conclusion**: we should choose the model with just ExperimentNo (aka species) 
@@ -355,7 +294,7 @@ newdat5<- subset(newdat, ExperimentNo=="5")
 ```
 
 
-```{r Bd - glm - plot, echo=FALSE, warning=FALSE, error=FALSE, message=FALSE, fig.cap= "Fig. 7. Probability of Bd infection load (GE) predicted by model", fig.width=16, fig.height=10}
+```{r Bd - glm - plot, echo=FALSE, warning=FALSE, error=FALSE, message=FALSE, fig.cap= "Fig. 7. Probability of Bd infection load (GE) predicted by model"}
 
 Bd.load.predict <- ggplot(newdat, aes(x= expl.var, y= fit, color=ExperimentNo)) +       # plot model estimates, color= the data you subsetted by
   geom_line(data = newdat1, aes(x= expl.var, y= fit), size=1) +                                   # add lines for subset newdat1
@@ -369,7 +308,7 @@ Bd.load.predict <- ggplot(newdat, aes(x= expl.var, y= fit, color=ExperimentNo)) 
   geom_line(data = newdat5, aes(x= expl.var, y= fit), size=1) +                                   # add lines for subset newdat5
   geom_errorbar(data = newdat5, aes(ymin=fit-se.fit, ymax=fit+se.fit), width=.03, size=1) +       # error bars for subset newdat5
     scale_x_continuous(breaks=seq(1:3),labels=c("Bd", "Bd-Rv", "Rv-Bd")) +   # sets the breaks at 1,2 and 3 which correspond to the label names
-  ggtitle("glm(Bd.endpoint.status ~ ExperimentNo,family = gaussian)") 
+  ggtitle("glm(Bd.endpoint.load ~ ExperimentNo,family = gaussian)") 
       
 Bd.load.predict <- Bd.load.predict + 
   ylab("Bd load predictions\n(fit)") +            
@@ -441,13 +380,247 @@ The AIC suggests you don't gain much explanatory power by lossing a parameter (T
 
 
 
+############################################
+
+# Part 4: Visualise Rv endpoint infection load data 
+
+**N.B.**  At the moment there are 3 samples missing EBF3N qPCR data so as a temporary fix I have averaged the EBF3N score for all the samples and used that to calculate a rough viral load for these 3 samples
+
+For the plots below I only plot Rv infection loads over 0 and filter out one extremely high Rv viral load (greater than 2000).
+
+```{r boxplot Rv viral load, echo=FALSE, fig.cap= "Fig.3. Boxplot of the endpoint Ranaviral load for each treatment group across the three host species. Viral load has been normalised using Leung et al.'s (2017) method. The black dots represent each sample.", fig.width=16, fig.height=8}
+
+plot.Rv.load.sp <- data.endpoint %>% 
+ filter(Rv.endpoint.load > 0 & !Rv.endpoint.load > 2000) %>%  # filtering out the extremely high Rv viral load so that we can see the data better 
+  ggplot(aes(x = interaction(Treatment, ExperimentNo), y= Rv.endpoint.load, fill = ExperimentNo)) + 
+        geom_boxplot() +
+        #stat_summary(fun.y="mean", geom="point", shape=23, size=3, fill="red") +    
+        geom_jitter(width = 0.05) +   # adds the data points       
+        xlab("Treatment Group") +
+        ylab("Rv viral load\n (log)") +
+        theme(legend.text = element_text(face = "italic")) + 
+        scale_fill_grey(start=1, end=.5, labels=exp.labs) +
+        scale_x_discrete(labels=c("Bd>Rv", "Rv>Bd", "Bd>Rv", "Rv","Rv>Bd", "Bd>Rv", "Rv>Bd","Bd>Rv","Rv","Rv>Bd")) +
+        labs(fill="Species")+
+        theme_bw()
+
+plot.Rv.load.sp +  theme(legend.key=element_blank()) +theme(legend.text = element_text(face = "italic")) +theme(axis.text.x = element_text(angle=30, hjust=1,vjust=1)) + theme(axis.title = element_text(size=16))
+
+```
+
+
+?? **QUESTION** is it ok to do this? Or am I better often doing log(n+1)? My reasoning was that we are not interested in no infection!?
+
+
+The distribution of logged Rv viral load.
+
+```{r distribution Rv load, echo=FALSE, warning=FALSE, error=FALSE, message=FALSE, fig.cap= "Fig. 4a. The  distribution of Rv load from endpoint tissue samples.", fig.width=16, fig.height=6}
+data.endpoint %>%     # ridge plot to see distribution of data  
+    filter(Rv.endpoint.load > 0 & !Rv.endpoint.load > 2000)  %>%  ggplot(aes(Rv.endpoint.load, Treatment)) +
+      geom_density_ridges(
+                      jittered_points = TRUE, quantile_lines = TRUE, scale = 0.9, alpha = 0.7,
+                      vline_size = 1, vline_color = "red",
+                      point_size = 0.4, point_alpha = 1,
+                      position = position_raincloud(adjust_vlines = TRUE)
+          ) + theme_ridges()
+```
+
+...and when Rv viral load is logged because the distribution of Rv load is skewed. 
+
+
+```{r log distribution Rv load, echo=FALSE, warning=FALSE, error=FALSE, message=FALSE, fig.cap= "Fig. 4b. The logged distribution of Rv load from endpoint tissue samples.", fig.width=16, fig.height=6}
+data.endpoint %>%     # ridge plot to see distribution of data  
+    filter(Rv.endpoint.load > 0 & !Rv.endpoint.load > 2000)  %>%  ggplot(aes(log(Rv.endpoint.load), Treatment)) +
+      geom_density_ridges(
+                      jittered_points = TRUE, quantile_lines = TRUE, scale = 0.9, alpha = 0.7,
+                      vline_size = 1, vline_color = "red",
+                      point_size = 0.4, point_alpha = 1,
+                      position = position_raincloud(adjust_vlines = TRUE)
+          ) + theme_ridges()
+```
+
+
+## Part 5: Endpoint Infection Status: **Rv** 
+
+Here I create a dataframe with only individuals that am infected with Rv 
+
+?? **QUESTION** is there a threshold for ranavirus infection ??? 
+
+<br>
+```{r Rv load df, results='hide', warning=FALSE, error=FALSE, message=FALSE}
+
+Rv.load <- data.endpoint %>%
+  filter((Rv.endpoint.load > 0.1))  %>% 
+  select(ID, Species, ExperimentNo, Scenario, Treatment, Rv.MCPendpoint.status, Rv.EBF3Nendpoint.status, Rv.endpoint.load) 
+
+droplevels(Rv.load)
+```
+
+### Model Selection:  
+
+Choosing a error structure family. Again, I decided to do this with a semi-maximal model to help the fitting as much as possible. 
+
+
+1. gaussian distribution with data log transformed  
+
+```{r Rv log gaussian}
+Rv.load2.1 <- glm(log(Rv.endpoint.load) ~ Treatment + ExperimentNo, data=Rv.load, family= "gaussian")
+summary(Rv.load2.1)   #AIC = 76.262  #Residual deviance:  41.834  on 14  degrees of freedom
+
+par(mfrow=c(2,2), mar=c(3,3,3,1), mgp=c(2,0.8,0))
+plot(Rv.load2.1)
+```
+- residuals vs fitted:   
+- QQ plot is not great, (not normally distributed?)
+- residual vs. leverage reflects the data, low sample numbers means a few data points are influencing the model 
+
+2. gaussian distribution with log link
+
+```{r Rv gaussian log link}
+Rv.load2.2 <- glm(Rv.endpoint.load ~ Treatment + ExperimentNo, data=Rv.load,family="gaussian"(link='log'))
+summary(Rv.load2.2)   #AIC = 293.47  #Residual deviance:  7283161  on 14  degrees of freedom  degrees of freedom
+
+par(mfrow=c(2,2), mar=c(3,3,3,1), mgp=c(2,0.8,0))
+plot(Rv.load2.2)
+```
+
+Again, this is a terrible model 
+
+
+3. Gamma distribution
+
+```{r Rv Gamma }
+# Gamma distribution
+Rv.load2.3 <- glm(Rv.endpoint.load ~ Treatment + ExperimentNo, data=Rv.load, family=Gamma())
+summary(Rv.load2.3)   #AIC = 257.35  #Residual deviance: 23.678  on 14  degrees of freedom
+
+par(mfrow=c(2,2), mar=c(3,3,3,1), mgp=c(2,0.8,0))
+plot(Rv.load2.3)
+```
+- residuals vs fitted: patterning  
+- QQ plot is not great, (not normally distributed?)
+- residual vs. leverage is better but still reflects the data, low sample numbers means a few data points are influencing the model 
 
 
 
+4. Gamma distribution with log-link
+
+```{r Rv Gamma log link}
+Rv.load2.4 <- glm(Rv.endpoint.load ~ Treatment + ExperimentNo, data=Rv.load, family="Gamma"(link='log'))
+summary(Rv.load2.4)   #AIC = 255.8  #Residual deviance: 22.027  on 14  degrees of freedom
+
+par(mfrow=c(2,2), mar=c(3,3,3,1), mgp=c(2,0.8,0))
+plot(Rv.load2.4)
+```
+
+?? **QUESTION** log(Rv load) and gaussian or Gamma? None of them look ideal 
 
 
 
+### Model Comparison
 
+The four models (all using log(Bd load) and gaussian error structure)
+```{r Rv load glm}
+Rv.load1 <- glm(log(Rv.endpoint.load) ~ Treatment * ExperimentNo, data=Rv.load, family=gaussian)
+
+Rv.load2 <- glm(log(Rv.endpoint.load) ~ Treatment + ExperimentNo, data=Rv.load, family=gaussian)
+
+Rv.load3 <- glm(log(Rv.endpoint.load) ~ Treatment, data=Rv.load, family=gaussian)
+
+Rv.load4 <- glm(log(Rv.endpoint.load) ~ ExperimentNo, data=Rv.load, family=gaussian)
+```
+
+?? **QUESTION** should I change the `test = ` to better reflect the data type? 
+
+```{r Rv load model comparison}
+
+anova(Rv.load2, Rv.load4, test="Chisq") # compares Trt and Sp to just Sp 
+
+anova(Rv.load2, Rv.load3, test="Chisq") # compares Trt and Sp to just Trt 
+
+anova(Rv.load1, Rv.load2, test="Chisq") # compare more complex model to one with interaction 
+
+```
+
+ANOVA 1: suggests we should favour the more complex model (Treatment + ExperimentNo) over the model with ExperimentNo only  (pvalue = < .001)
+
+ANOVA 2: suggests we should reject the more complex model (Treatment + ExperimentNo) in favour of the model with Treatment only  (pvalue = 0.6146)  as adding ExperimentNo didn't lead to significantly improved fit 
+
+ANOVA 3: shows adding a interaction term between Treatment and ExperimentNo did not significantly imporve fit (p-value = 0.2214)
+
+**Conclusion**: we should choose the model with just Treatment (like Rv status)
+
+
+### Model Fit: 
+
+
+```{r Rv fitted values, echo=FALSE, fig.cap= "Fig. 6. Plot of relationship between the fitted values from the model and the true data values."}
+
+Rv.load$glm.fit <- Rv.load3$fitted.values  # add logisitic fitted values back to the dataframe as a new col
+
+plot(x = Rv.load$Rv.endpoint.load, y = Rv.load$glm.fit,  # 
+     xlab = "True Values",
+     ylab = "Model Fitted Values",
+     main = "Regression fits of Rv load")
+
+abline(b = 1, a = 0)   # values should fall around this line!
+
+```
+
+Errmmmmm...... ?? 
+
+
+### Model Plotting:   
+
+
+```{r Rv - glm - predicted values, include=TRUE, warning=FALSE, error=FALSE, message=FALSE}
+Rv.load3 <- glm(log(Rv.endpoint.load) ~ Treatment, data=Rv.load, family=gaussian)
+
+# create a dataframe of "new" data 
+newdat <- expand.grid(ExperimentNo=c("1", "2", "3", "4", "5"),Treatment=c( "Bd-Rv", "Rv-Bd"))
+
+# predict the value/result of the new data using the glm
+Rv.newdat <-cbind(newdat, predict(object = Rv.load3,   # the model 
+                               newdata=newdat, se=TRUE, type="response", print.matrix=T))  # dataframe of new data 
+Rv.newdat
+
+expl.var <- c(1:2) # chose the range for the x-axis (Treatment)
+exp.labs <- c("1" = "Bufo bufo I", "2" = "Bufo bufo II", "3" = "Rana temporaria", "4" = "Alytes muletensis I")
+
+newdat1<- subset(Rv.newdat, ExperimentNo== "1")    # need to subset the data so you can plot each seperatly 
+newdat2<- subset(Rv.newdat, ExperimentNo=="2")
+newdat3<- subset(Rv.newdat, ExperimentNo=="3")
+newdat4<- subset(Rv.newdat, ExperimentNo=="4")
+```
+
+
+```{r Rv - glm - plot, echo=FALSE, warning=FALSE, error=FALSE, message=FALSE, fig.cap= "Fig. 7. Probability of Rv infection load predicted by model"}
+
+Rv.load.predict <- ggplot(Rv.newdat, aes(x= expl.var, y= fit, color=ExperimentNo)) +       # plot model estimates, color= the data you subsetted by
+  geom_line(data = newdat1, aes(x= expl.var, y= fit), size=1) +                                   # add lines for subset newdat1
+  geom_errorbar(data = newdat1, aes(ymin=fit-se.fit, ymax=fit+se.fit), width=.03, size=1)  +      # error bars for subset newdat1
+  geom_line(data = newdat2, aes(x= expl.var, y= fit), size=1) +                                   # add lines for subset newdat2
+  geom_errorbar(data = newdat2, aes(ymin=fit-se.fit, ymax=fit+se.fit), width=.03, size=1)  +      # error bars for subset newdat2
+  geom_line(data = newdat3, aes(x= expl.var, y= fit), size=1) +                                   # add lines for subset newdat3
+  geom_errorbar(data = newdat3, aes(ymin=fit-se.fit, ymax=fit+se.fit), width=.03, size=1)  +      # error bars for subset newdat3
+  geom_line(data = newdat4, aes(x= expl.var, y= fit), size=1) +                                   # add lines for subset newdat4
+  geom_errorbar(data = newdat4, aes(ymin=fit-se.fit, ymax=fit+se.fit), width=.03, size=1) +       # error bars for subset newdat4
+    scale_x_continuous(breaks=seq(1:2),labels=c("Bd-Rv","Rv-Bd")) +   # sets the breaks at 1,2 and 3 which correspond to the label names
+  ggtitle("glm(Rv.endpoint.load ~ ExperimentNo,family = gaussian)") 
+      
+Rv.load.predict <- Rv.load.predict + 
+  ylab("Rv load predictions\n(fit)") +            
+  xlab("Treatment Group") +
+  scale_fill_discrete(labels=exp.labs) +  # still not working!!!
+  theme_bw() +
+  theme(panel.border = element_blank(), panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(), axis.line = element_line(colour = "black")) 
+
+Rv.load.predict
+
+#  ggsave("figs/04_Rv_load-predict.png", plot= Rv.load.predict, device=NULL)
+ 
+```
 
 
 
@@ -468,32 +641,6 @@ ANOVA tests how much variation in the response variable is explained by each exp
 aka comparing the variation in ge score explained by treamtent (or another variable) to the total variation in ge score (the null model). 
 Look at how much smaller the residuals are for the treatment group model to the null model. Graphically, how much shorter are the red residuals than
 the blue residuals
-
-
-# sum of squares of residuals 
-
-We can get the sums of the squares of these residuals from the two models using the function
-resid, and then square them and add them up:
-
-
-
-
-
-# Part 4: Model Simplification 
-
-```{r model simplification }
-
-#drop.scope(modQPois)
-#modQPois2 <- update(modQPois, . ~ . - Strain:Treatment)
-#anova(modQPois, modQPois2, test='F')
-
-# F) predictions
-#df <- expand.grid(Strain=levels(coloniesCN$Strain), 
-                  #Treatment=levels(coloniesCN$Treatment))
-#predict(modQPois, newdata=df, type='response')
-
-```
-
 
 
 
