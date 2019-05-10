@@ -50,7 +50,7 @@ expos.labs <- c("1" = "Bd", "2" = "Rv", "3" = "Bd-Rv", "4"="Rv-Bd")
 
 ```
 
-```{r proportion infected by species, echo=FALSE}
+```{r proportion infected by species, echo=FALSE, fig.cap= "Fig.1. Proportion of individuals infected, by pathogen, within a treatment group for the three host species. Please note that Alytes II has been excluded.", fig.width=16, fig.height=10}
 plot.endpoint.prop.sp <- 
   prop.infect.sum %>% 
   filter(!ExperimentNo=='5')  %>% 
@@ -131,6 +131,7 @@ anova(Bd.status2, Bd.status3, test="Chisq") # compares Trt and Sp to just Trt
 
 anova(Bd.status1, Bd.status2, test="Chisq")  # compare more complex model to one with interaction 
 ```
+
 ANOVA 1: suggests we should reject the more complex model (Treatment + ExperimentNo) in favour for just the model with ExperimentNo only  (pvalue = 0.48)
 <br>
 
@@ -178,7 +179,7 @@ newdat4<- subset(newdat, ExperimentNo=="4")
 ```
 
 
-```{r Bd - bi.glm - plot, echo=FALSE, warning=FALSE, error=FALSE, message=FALSE}
+```{r Bd - bi.glm - plot, echo=FALSE, warning=FALSE, error=FALSE, message=FALSE, fig.cap= "Fig. 2. Probability of Bd infection status (GE) predicted by model"}
 Bd.status.predict <- ggplot(newdat, aes(x= expl.var, y= fit, color=ExperimentNo)) +       # plot model estimates, color= the data you subsetted by
   geom_line(data = newdat1, aes(x= expl.var, y= fit), size=1) +                                   # add lines for subset newdat1
   geom_errorbar(data = newdat1, aes(ymin=fit-se.fit, ymax=fit+se.fit), width=.03, size=1)  +      # error bars for subset newdat1
@@ -193,7 +194,7 @@ Bd.status.predict <- ggplot(newdat, aes(x= expl.var, y= fit, color=ExperimentNo)
 Bd.status.predict.plot <- Bd.status.predict + 
   ylab("Bd status predictions\n(fit)") +            # TO DO: would be good to have the axis marked at 0 & 1 
   xlab("Treatment Group") +
-  ggtitle("Probability of Bd infection predicted by\n glm(Bd.endpoint.status ~ ExperimentNo, family = binomial)") +
+  ggtitle("glm(Bd.endpoint.status ~ ExperimentNo, family = binomial)") +
   #guides(fill=guide_legend(title="Species")) +      # TO DO: fix the labelling issues here 
   # scale_fill_discrete(labels=exp.labs) +
   theme_bw() +
@@ -252,7 +253,6 @@ Bd.status.predict.plot2 <- Bd.status.predict2 +
 
 Bd.status.predict.plot2
 ```
-
 
 
 ### Models Checks 
@@ -385,7 +385,7 @@ newdat3<- subset(Rv.newdat, ExperimentNo=="3")
 newdat4<- subset(Rv.newdat, ExperimentNo=="4")
 ```
 
-```{r Rv - bi.glm - plot, echo=FALSE, warning=FALSE, error=FALSE, message=FALSE}
+```{r Rv - bi.glm - plot, echo=FALSE, warning=FALSE, error=FALSE, message=FALSE, fig.cap= "Fig. 3. Probability of Rv infection status (GE) predicted by model"}
 Rv.status.predict <- ggplot(Rv.newdat, aes(x= expl.var, y= fit)) +       # plot model estimates, color= the data you subsetted by
   geom_line(data = newdat1, aes(x= expl.var, y= fit), size=1) +                                   # add lines for subset newdat1
   geom_errorbar(data = newdat1, aes(ymin=fit-se.fit, ymax=fit+se.fit), width=.03, size=1)  +      # error bars for subset newdat1
@@ -399,8 +399,7 @@ Rv.status.predict <- ggplot(Rv.newdat, aes(x= expl.var, y= fit)) +       # plot 
 Rv.status.predict.plot <- Rv.status.predict + 
   ylab("Rv status predictions\n(fit)") +            # TO DO: would be good to have the axis marking 0 & 1 
   xlab("Treatment Group") +
-  ggtitle("Probability of Ranavirus infection predicted by\n glm(Rv.MCPendpoint.status ~ Treatment, 
-    family = binomial)") +
+  ggtitle("glm(Rv.MCPendpoint.status ~ Treatment, family = binomial)") +
   theme_bw() +
   theme(panel.border = element_blank(), panel.grid.major = element_blank(),
         panel.grid.minor = element_blank(), axis.line = element_line(colour = "black")) 
