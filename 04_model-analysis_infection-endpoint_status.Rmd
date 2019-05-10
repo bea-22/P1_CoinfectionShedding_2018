@@ -194,7 +194,8 @@ Bd.status.predict <- ggplot(newdat, aes(x= expl.var, y= fit, color=ExperimentNo)
 Bd.status.predict.plot <- Bd.status.predict + 
   ylab("Bd status predictions\n(fit)") +            # TO DO: would be good to have the axis marked at 0 & 1 
   xlab("Treatment Group") +
-  ggtitle("glm(Bd.endpoint.status ~ ExperimentNo, family = binomial)") +
+  ggtitle("glm(Bd.endpoint.status ~ ExperimentNo, 
+          family = binomial)") +
   #guides(fill=guide_legend(title="Species")) +      # TO DO: fix the labelling issues here 
   # scale_fill_discrete(labels=exp.labs) +
   theme_bw() +
