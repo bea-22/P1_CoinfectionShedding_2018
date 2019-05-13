@@ -5,7 +5,7 @@ date: "09/05/2019"
 output: word_document
 ---
 
-```{r questions, include=FALSE,}
+```{r questions, include=FALSE}
 #Can pathogen load (Bd GE or ranavirus viral load) be explained by pathogen exposure scenario? 
    # Do coinfection treatment groups have higher pathogen loads? 
   
