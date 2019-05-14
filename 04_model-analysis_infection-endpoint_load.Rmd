@@ -345,7 +345,6 @@ Experiment No. | Species              | total Bd zsp's   | min. temp. (^o^C) | m
 Here I check the chosen model ``` Bd.load4 <- glm(Bd.endpoint.GE ~ ExperimentNo, data=Bd.load, family="Gamma"(link='log'))``` 
  
 ```{r Bd - bi.glm - checks2, echo=FALSE, warning=FALSE, error=FALSE, message=FALSE}
-
 summary(Bd.load4)   # Residual deviance: 340.74  on 192 df   AIC: 679
 ```
 
@@ -355,13 +354,12 @@ plot(Bd.load4)
 ```
 
 <br>
-
 # Part 4: Bd: post-hoc tests 
 
-Tukry's honest significant difference 
+Tukey's honest significant difference 
 
 ```{r Bd - posthoc - , echo=FALSE, warning=FALSE, error=FALSE, message=FALSE, fig.width=8, fig.height=5}
-# Bd.load4 <- glm(log(Bd.endpoint.GE) ~ ExperimentNo, data=Bd.load, family=gaussian)
+# Bd.load4 <- glm(Bd.endpoint.GE ~ ExperimentNo, data=Bd.load, family="Gamma"(link='log'))
 
 Tukey.Bd.load <- glht(Bd.load4, linfct=mcp(ExperimentNo='Tukey'))
 summary(Tukey.Bd.load) 
@@ -369,7 +367,13 @@ summary(Tukey.Bd.load)
 <br>
 ```{r Bd - posthoc - plot , echo=FALSE, warning=FALSE, error=FALSE, message=FALSE, fig.width=8, fig.height=5}
 
+par(mar=c(2,8,2,1))   #change the size of the margins the first number referes to the bottom margin, the second to the left margin, and so on in a clockwise fashion
 plot(Tukey.Bd.load)
+
+# export plot as .png 
+#png("figs/04_Bd_load-posthoc.png", type="cairo", units="in", width= 16, height=8, pointsize= 12, res=1000)
+#print(plot(Tukey.Bd.load))
+#dev.off()
 ```
 
 <br>
