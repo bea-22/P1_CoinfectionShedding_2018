@@ -19,11 +19,13 @@ library(lattice)
 
 # for stats 
 library(binom)
+library(multcomp)  ## WARNING this package masks dplyr::select
+
 # library(purr)  # purr guidance > for evaluating models http://ijlyttle.github.io/isugg_purrr/presentation.html#(1) 
 # library(broom)   # broom summarizes key information about models in tidy tibble()s >> https://github.com/tidymodels/broom
 ```
 
-# Part 1: Import data 
+# Part 1: import data 
 
 > **N.B.**   At the moment this code chuck reads in a .csv file with endpoint infection data, originally compiled in excel and then cleaned in "02_tidy_data-qpcr"script. In the future you will read in the .csv file of merged qPCR outputs (created, checked and cleaned in "02_tidy_data-qpcr"script) and experiment metadata (checked and cleaned in "02_tidy_data-metadata"script). 
 
@@ -34,7 +36,7 @@ data.endpoint <- read.csv('data/02_clean-data.csv')
 glimpse(data.endpoint)   #check how the dataset has imported (aka whether it has the data type right)  
 ```
 
-# Part 2: Visualise data 
+# Part 2: visualise data 
 
 ```{r import proportion data , include=FALSE, warning=FALSE, error=FALSE, message=FALSE}
 prop.infect.sum <- read.csv('data/03_prop-sum_data.csv') 
@@ -71,7 +73,7 @@ plot.endpoint.prop.sp + theme(legend.position="top",legend.justification='right'
 > **N.B.** *Bufo bufo* II have 2 individuals with Rv infection status in the Rv only group. These two records are sketchy as the qPCR results were inconclusive first time and then low the second time. Interestingly, the *Alytes muletensis* have the same pattern of a few individuals infected with ranavirus in the Rv only group with an equivalent number in the Bd-Rv treatment group.   ?? susceptibility pattern or timing of Rv dose pattern ???  
 
 
-# Part 3: Apply models to Endpoint Infection Status
+# Part 3: Bd: apply models to endpoint infection status  
 
 Binomial GLM's where    
 <br>
@@ -104,13 +106,14 @@ Here I create a dataframe with the Rv-only treatment group removed (as they have
 Bd.status <- data.endpoint %>%
   filter(!Treatment=="Rv") %>%   # removal of Rv only treatment group 
   filter(!ExperimentNo=='5')  %>%   # removal of Alytes babies
-  mutate(ExperimentNo = as.factor(ExperimentNo)) %>%   
-  select(ID, Species, ExperimentNo, Scenario, Treatment, Bd.endpoint.status, Bd.endpoint.GE) 
+  mutate(ExperimentNo = as.factor(ExperimentNo)) %>%
+  dplyr::select(ID, Species, ExperimentNo, Treatment, Bd.endpoint.status, Bd.endpoint.GE) 
 
+unique(data.endpoint$Treatment)
 droplevels(Bd.status)
 ```
 
-### Model Comparison
+## Part 3a: Bd: model comparison
 
 The four models: 
 ```{r Bd glm}
@@ -124,7 +127,6 @@ Bd.status4 <- glm(Bd.endpoint.status ~ ExperimentNo, data=Bd.status, family=bino
 
 Bd.status.N <- glm(Bd.endpoint.status ~ 1, data=Bd.status, family=binomial)
 
-summary(Bd.status.N)
 ```
 
 Models compared using analysis of deviance with ```test='Chi'``` selected because of the binomial error family. This tests whether... "the more complex model is significantly better at capturing the data than the simpler model. If the resulting p-value is sufficiently low (usually less than 0.05), we conclude that the more complex model is significantly better than the simpler model, and thus favor the more complex model. If the p-value is not sufficiently low (usually greater than 0.05), we should favor the simpler model."
@@ -156,7 +158,7 @@ ANOVA 4: suggests we should favour the more complex model (ExperimentNo.) over t
 **Conclusion**: we should choose the model with just ExperimentNo (aka species) 
 
 
-### Model Fit:   
+## Part 3b: Bd: model fit 
 
 ```{r Bd fitted values, results='hide', warning=FALSE, error=FALSE, message=FALSE}
 # To see the fitted values from a regression object (the values of the dependent variable predicted by the model), access the ```fitted.values``` attribute from a regression object with ````$fitted.values```.
@@ -168,7 +170,7 @@ Bd.status$bi.glm <- Bd.status4$fitted.values  # add logisitic fitted values back
 head(Bd.status) 
 ```
 
-### Model Plotting:   
+## Part 3c: Bd: model plotting   
 
 > *Note* To plot the model you need a range of values for which to produce fitted values. Then use the ```predict()``` function to create the model for all the values. ```predict()``` gives you the predicted values based on your (fitted) linear model, the argument type="response" will give you the predicted probabilities 
 
@@ -264,12 +266,12 @@ Bd.status.predict.plot2
 ```
 
 
-### Models Checks 
+## Part 3d: Bd: model checks 
 
 Here I check the two best models, looking at the estimates of the coefficients using ```summary(model)``` and the diagnostic plots using ```plot(model)```
 
 
-#### Maximal Model: Species + Treamtent (no interaction)
+### Maximal Model: Species + Treamtent (no interaction)
 
 ```{r Bd - bi.glm - checks1, echo=FALSE, warning=FALSE, error=FALSE, message=FALSE}
 # Bd.status2 <- glm(Bd.endpoint.status ~ Treatment + ExperimentNo, data=Bd.status, family=binomial)
@@ -288,7 +290,7 @@ The diagnostic plots for `glm(Bd.endpoint.status ~ Treatment + ExperimentNo)` ar
 - residual vs. fitted shows patterning meaning the variance is non-consistent
 - residual vs. leverage also shows patterning suggesting certain data points have strong influence  
 
-#### Simplified Model: Species 
+### Simplified Model: Species 
 
 ```{r Bd - bi.glm - checks2, echo=FALSE, warning=FALSE, error=FALSE, message=FALSE}
 # Bd.status4 <- glm(Bd.endpoint.status ~ ExperimentNo, data=Bd.status, family=binomial)
@@ -308,17 +310,31 @@ The diagnostic plots for `glm(Bd.endpoint.status ~ ExperimentNo)` aren't much be
 - residual vs. leverage again certain data points have strong influence  
 
 
-Check the normality of the residuals. 
-```{r Bd - bi.glm - residuals2 plot, echo=FALSE, warning=FALSE, error=FALSE, message=FALSE, fig.width=8, fig.height=5}
-hist(resid(Bd.status2))  # check the residuals 
+
+# Part 4: Bd: post-hoc tests 
+
+Tukey's honest significant difference 
+How to interpret the plots "Comparisons having intervals that do not overlap the vertical dashed line are significanty different. 
+The vertical dashed line indicates no difference between the mean values for the factor-level comparisons indicated on the y-axis." ~ R BOOK  
+
+```{r Bd - posthoc - , echo=FALSE, warning=FALSE, error=FALSE, message=FALSE, fig.width=8, fig.height=5}
+# Bd.status4 <- glm(Bd.endpoint.status ~ ExperimentNo, data=Bd.status, family=binomial)
+
+Tukey.Bd.status <- glht(Bd.status4, linfct=mcp(ExperimentNo='Tukey'))
+summary(Tukey.Bd.status) 
+```
+<br>
+```{r Bd - posthoc - plot , echo=FALSE, warning=FALSE, error=FALSE, message=FALSE, fig.width=8, fig.height=5}
+
+plot(Tukey.Bd.status)
 ```
 
+**Conclusion** the summary suggests that *Rana* are significantly different from *Bufo* and *Alytes* but the plot doesn't show this. In fact the plot suggests nothing is significant.
+
 <br>
 
 
-<br>
-
-## Part 3b: Endpoint Infection Status: **Ranavirus** 
+# Part 5: Rv: : apply models to endpoint infection status  
 
 Here I create a dataframe with the Bd-only treatment group removed (as they have never been exposed to Rv) and without *Alytes muletensis* babies as they don't have Rv tratment groups.   
 
@@ -327,15 +343,14 @@ Rv.status <- data.endpoint %>%
   filter(!Treatment=="Bd") %>%
   filter(!ExperimentNo=='5')  %>% 
   mutate(ExperimentNo = as.factor(ExperimentNo)) %>% 
-  select(ID, Species, ExperimentNo, Scenario, Treatment, Rv.MCPendpoint.status, Rv.endpoint.load) 
-
+  dplyr::select(ID, Species, ExperimentNo, Scenario, Treatment, Rv.MCPendpoint.status, Rv.endpoint.load) 
 droplevels(Rv.status)
 
 ```
 
 <br>
 
-### Model Comparison
+## Part 5a: Rv: model selection
 
 The four models: 
 ```{r Rv glm}
@@ -351,6 +366,7 @@ Rv.status.N <- glm(Rv.MCPendpoint.status ~ 1, data=Rv.status, family=binomial)
 
 ```
 
+## Part 5b: Rv: model comparison
 Again models compared using analysis of deviance with ```test='Chi'``` selected because of the binomial error family. This tests whether... "the more complex model is significantly better at capturing the data than the simpler model. If the resulting p-value is sufficiently low (usually less than 0.05), we conclude that the more complex model is significantly better than the simpler model, and thus favor the more complex model. If the p-value is not sufficiently low (usually greater than 0.05), we should favor the simpler model."
 
 <br>
@@ -388,7 +404,7 @@ ANOVA 5: suggests we should reject the more complex model (ExperimentNo) and cho
 **Conclusion**: we should choose the model with just Treatment
 
 
-### Model Fit:   
+## Part 5c: Rv: model fit
 
 ```{r Rv fitted values, echo=FALSE, warning=FALSE, error=FALSE, message=FALSE}
 # To see the fitted values from a regression object (the values of the dependent variable predicted by the model), access the ```fitted.values``` attribute from a regression object with ````$fitted.values```.
@@ -400,7 +416,7 @@ head(Rv.status)
 
 ?? **QUESTION** It looks like the model is struggling to predict the probability of Rv infection status accurately ((**edit** *... in the Rv only treatment group. I agree that the predictions for both the coinfection groups match the raw data*)) 
 
-### Model Plotting:   
+## Part 5d: Rv: model plotting
 
 ```{r Rv - bi.glm - predictors, echo=FALSE, warning=FALSE, error=FALSE, message=FALSE}
 Rv.status3 <- glm(Rv.MCPendpoint.status ~ Treatment, data=Rv.status, family=binomial)
@@ -448,11 +464,11 @@ Rv.status.predict.plot
 ```
 
 
-### Models Checks 
+## Part 5e: Rv: model checks 
 
 Here I check the two best models, looking at the estimates of the coefficients using ```summary(model)``` and the diagnostic plots using ```plot(model)```
 
-#### Maximal Model: Species + Treamtent (no interaction)
+### Maximal Model: Species + Treamtent (no interaction)
 
 ```{r Rv - bi.glm - checks1, echo=FALSE, warning=FALSE, error=FALSE, message=FALSE}
 # Rv.status2 <- glm(Rv.MCPendpoint.status ~ Treatment + ExperimentNo, data=Rv.status, family=binomial)
@@ -471,7 +487,7 @@ The diagnostic plots for `glm(Rv.MCPendpoint.status ~ Treatment + ExperimentNo)`
 - residual vs. fitted shows patterning meaning the variance is non-consistent
 - residual vs. leverage also shows patterning suggesting certain data points have strong influence  
 
-#### Simplified Model: Treatment 
+### Simplified Model: Treatment 
 
 ```{r Rv - bi.glm checks2, echo=FALSE, warning=FALSE, error=FALSE, message=FALSE}
 # Rv.status3 <- glm(Rv.MCPendpoint.status ~ Treatment, data=Rv.status, family=binomial)
@@ -485,5 +501,31 @@ plot(Rv.status3)
 
 
 <br>
-The diagnostic plots for `glm(Bd.endpoint.status ~ Treatment)` aren't much better 
+The diagnostic plots for `glm(Rv.MCPendpoint.status ~ Treatment)` aren't much better 
 
+# Part 6: Rv: post-hoc tests 
+
+Tukey's honest significant difference 
+
+```{r Rv - posthoc - , echo=FALSE, warning=FALSE, error=FALSE, message=FALSE, fig.width=8, fig.height=5}
+# Rv.status3 <- glm(Rv.MCPendpoint.status ~ Treatment, data=Rv.status, family=binomial)
+
+Tukey.Rv.status <- glht(Rv.status3, linfct=mcp(Treatment='Tukey'))
+summary(Tukey.Rv.status) 
+```
+<br>
+```{r Rv - posthoc - plot , echo=FALSE, warning=FALSE, error=FALSE, message=FALSE, fig.width=8, fig.height=5}
+
+par(mar=c(2,8,2,1))   #change the size of the margins the first number referes to the bottom margin, the second to the left margin, and so on in a clockwise fashion
+plot(Tukey.Rv.status)
+```
+
+**Conclusion** 
+
+- Rv vs. Bd-Rv is not significant 
+- Rv-Bd vs. Bd-Rv there is significant difference between the coinfection groups 
+- Rv-Bd vs. Rv is significant 
+
+?? **QUESTION** is this highlighting the timing/sequence of dose again ?? 
+
+<br>
