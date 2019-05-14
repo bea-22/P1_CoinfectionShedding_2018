@@ -160,7 +160,7 @@ ANOVA 4: suggests we should favour the more complex model (ExperimentNo.) over t
 
 ## Part 3b: Bd: model fit 
 
-```{r Bd fitted values, results='hide', warning=FALSE, error=FALSE, message=FALSE}
+```{r Bd fitted values, echo=FALSE, warning=FALSE, error=FALSE, message=FALSE}
 # To see the fitted values from a regression object (the values of the dependent variable predicted by the model), access the ```fitted.values``` attribute from a regression object with ````$fitted.values```.
 
 names(Bd.status4)   # look at the components of the glm object
@@ -216,9 +216,9 @@ Bd.status.predict.plot <- Bd.status.predict +
   theme(panel.border = element_blank(), panel.grid.major = element_blank(),
         panel.grid.minor = element_blank(), axis.line = element_line(colour = "black")) 
 
-# ggsave("figs/04_Bd_status_sp.png", plot= Bd.status.predict.plot, device=NULL)    # export plot as .png 
-
 Bd.status.predict.plot
+
+# ggsave("figs/04_Bd_status-predict.png", plot= Bd.status.predict.plot, device=NULL) # export plot as .png 
 
 ```
 
@@ -263,6 +263,8 @@ Bd.status.predict.plot2 <- Bd.status.predict2 +
         panel.grid.minor = element_blank(), axis.line = element_line(colour = "black")) 
 
 Bd.status.predict.plot2
+
+# ggsave("figs/04_Bd_status-predict.png", plot= Bd.status.predict.plot2, device=NULL)
 ```
 
 
@@ -298,7 +300,6 @@ summary(Bd.status4)
 ```
 
 ```{r Bd - bi.glm - checks2 plot, echo=FALSE, warning=FALSE, error=FALSE, message=FALSE}
-
 par(mfrow=c(2,2), mar=c(3,3,3,1), mgp=c(2,0.8,0))
 plot(Bd.status4)
 ```
@@ -308,7 +309,6 @@ The diagnostic plots for `glm(Bd.endpoint.status ~ ExperimentNo)` aren't much be
 
 - residual vs. fitted shows patterning meaning the variance is non-consistent
 - residual vs. leverage again certain data points have strong influence  
-
 
 
 # Part 4: Bd: post-hoc tests 
@@ -325,8 +325,13 @@ summary(Tukey.Bd.status)
 ```
 <br>
 ```{r Bd - posthoc - plot , echo=FALSE, warning=FALSE, error=FALSE, message=FALSE, fig.width=8, fig.height=5}
-
 plot(Tukey.Bd.status)
+
+# export plot as .png 
+#png("figs/04_Bd_status-posthoc.png", type="cairo", units="in", width= 16, height=8, pointsize= 12, res=1000)
+#par(mar=c(2,8,2,1))   #change the size of the margins the first number referes to the bottom margin, the second to the left margin, and so on in a clockwise fashion
+#print(plot(Tukey.Bd.status))
+#dev.off()
 ```
 
 **Conclusion** the summary suggests that *Rana* are significantly different from *Bufo* and *Alytes* but the plot doesn't show this. In fact the plot suggests nothing is significant.
@@ -457,10 +462,9 @@ Rv.status.predict.plot <- Rv.status.predict +
   theme(panel.border = element_blank(), panel.grid.major = element_blank(),
         panel.grid.minor = element_blank(), axis.line = element_line(colour = "black")) 
 
-# ggsave("figs/04_Bd_status_sp.png", plot= Bd.status.predict.plot, device=NULL)    # export plot as .png 
-
-
 Rv.status.predict.plot
+
+# ggsave("figs/04_Rv_status-predict.png", plot= Rv.status.predict.plot, device=NULL)  # export plot as .png 
 ```
 
 
@@ -518,6 +522,12 @@ summary(Tukey.Rv.status)
 
 par(mar=c(2,8,2,1))   #change the size of the margins the first number referes to the bottom margin, the second to the left margin, and so on in a clockwise fashion
 plot(Tukey.Rv.status)
+
+# export plot as .png 
+#png("figs/04_Rv_status-posthoc.png", type="cairo", units="in", width= 16, height=8, pointsize= 12, res=1000)
+#par(mar=c(2,8,2,1))   #change the size of the margins the first number referes to the bottom margin, the second to the left margin, and so on in a clockwise fashion
+#print(plot(Tukey.Rv.status))
+#dev.off()
 ```
 
 **Conclusion** 
