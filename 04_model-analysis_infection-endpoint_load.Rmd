@@ -192,47 +192,60 @@ par(mfrow=c(2,2), mar=c(3,3,3,1), mgp=c(2,0.8,0))
 plot(Bd.load2.4)
 ```
 
-**Conclusion** Gamma with log-link as "the most appropriate link function is one which produces minimum residual deviance"
+**Conclusion** Gamma with log-link as "the most appropriate link function is one which produces minimum residual deviance" and the diagnostic plots are better looking than the gaussian model. 
+
+**To Do** reading on Gamma error structure and log-link function << what do they mean for interpretation?? 
 
 ### Model Comparison
 
 The four models (all using Gamma with log-link structure)
 ```{r Bd load glm}
 
-Bd.load1 <- glm(log(Bd.endpoint.GE) ~ Treatment * ExperimentNo, data=Bd.load, family="Gamma"(link='log'))
+Bd.load1 <- glm(Bd.endpoint.GE ~ Treatment * ExperimentNo, data=Bd.load, family="Gamma"(link='log'))
 
-Bd.load2 <- glm(log(Bd.endpoint.GE) ~ Treatment + ExperimentNo, data=Bd.load, family="Gamma"(link='log'))
+Bd.load2 <- glm(Bd.endpoint.GE ~ Treatment + ExperimentNo, data=Bd.load, family="Gamma"(link='log'))
 
-Bd.load3 <- glm(log(Bd.endpoint.GE) ~ Treatment, data=Bd.load, family="Gamma"(link='log'))
+Bd.load3 <- glm(Bd.endpoint.GE ~ Treatment, data=Bd.load, family="Gamma"(link='log'))
 
-Bd.load4 <- glm(log(Bd.endpoint.GE) ~ ExperimentNo, data=Bd.load, family="Gamma"(link='log'))
+Bd.load4 <- glm(Bd.endpoint.GE ~ ExperimentNo, data=Bd.load, family="Gamma"(link='log'))
+
+Bd.load.N <- glm(Bd.endpoint.GE ~ 1, data=Bd.load, family="Gamma"(link='log'))
+
 ```
-
-?? **QUESTION** should I change the `test = ` to better reflect the data type? 
 
 ```{r Bd load model comparison}
+anova(Bd.load1, Bd.load2, test="Chisq") # start by comparing the interaction terms  
 
-anova(Bd.load2, Bd.load4, test="Chisq") # compares Trt and Sp to just Sp 
+anova(Bd.load2, Bd.load3, test="Chisq") # compares Trt and Species to just Trt 
 
-anova(Bd.load2, Bd.load3, test="Chisq") # compares Trt and Sp to just Trt 
+anova(Bd.load2, Bd.load4, test="Chisq")  # compares Trt and Species to just Species  
 
-anova(Bd.load1, Bd.load2, test="Chisq") # compare more complex model to one with interaction 
+anova(Bd.load4, Bd.load.N, test="Chisq")  # compares Species model to null model 
+
+## QUESTION should I change the `test = ` to better reflect the data type?  AF response "yes, unless you find a statement against it. F stats are used for quasi models"
 
 ```
-ANOVA 1: suggests we should reject the more complex model (Treatment + ExperimentNo) in favour for just the model with ExperimentNo only  (pvalue = 0.3633)
 
-ANOVA 2: suggests we should favour the more complex model (Treatment + ExperimentNo) over the model with Treatment only  (pvalue = < .001)  as adding ExperimentNo did lead to significantly improved fit 
-ANOVA 3: shows adding a interaction term between Treatment and ExperimentNo did not significantly imporve fit (p-value = 0.5595)
+ANOVA 1: suggests we should reject the more complex model with interaction terms (Treatment * ExperimentNo) in favour for the model with just the terms  (pvalue = 0.4362)
+<br>
+
+ANOVA 2: suggests we should favour the more complex model (Treatment + ExperimentNo) over the model with Treatment only  (pvalue = < .001)  so ExperimentNo leads to significantly improved fit 
+<br>
+
+ANOVA 3: suggests we should reject the more complex model (Treatment + ExperimentNo) and choose the model with just ExperimentNo. (pvalue = 0.08907) 
+<br>
+
+ANOVA 4: suggests we should favour the more complex model (ExperimentNo.) over the null model  (pvalue = < .001)  so ExperimentNo leads to significantly improved fit 
 
 **Conclusion**: we should choose the model with just ExperimentNo (aka species) 
 
 
 ### Model Fit: 
 
-To see the fitted values from a regression object (the values of the dependent variable predicted by the model), access the ```fitted.values``` attribute from a regression object with ````$fitted.values```  Look at https://bookdown.org/ndphillips/YaRrr/linear-regression-with-lm.html
-
 
 ```{r Bd fitted values, echo=FALSE, fig.cap= "Fig. 6. Plot of relationship between the fitted values from the model and the true data values."}
+
+# To see the fitted values from a regression object (the values of the dependent variable predicted by the model), access the ```fitted.values``` attribute from a regression object with ````$fitted.values```  Look at https://bookdown.org/ndphillips/YaRrr/linear-regression-with-lm.html
 
 Bd.load$glm.fit <- Bd.load4$fitted.values  # add logisitic fitted values back to the dataframe as a new col
 
@@ -246,17 +259,17 @@ abline(b = 1, a = 0)   # values should fall around this line!
 ```
 
 
-> **N.B.** Values should fall around the line but they seem to be clumped by ExperimentNo. 
+> **To Do** Figure this one out. Values should fall around the line but they seem to be clumped by ExperimentNo. tried to do this with the null model but that just grouped everything 
 
 ### Model Plotting:   
-To plot the model you need a range of values for which to produce fitted values. Then use the ```predict()``` function to create the model for all the values. ```predict()``` gives you the predicted values based on your (fitted) linear model, the argument type="response" will give you the predicted probabilities 
-
 
 ```{r Bd - glm - predicted values, include=TRUE, warning=FALSE, error=FALSE, message=FALSE}
-Bd.load4 <- glm(log(Bd.endpoint.GE) ~ ExperimentNo, data=Bd.load, family=gaussian)
+# To plot the model you need a range of values for which to produce fitted values. Then use the ```predict()``` function to create the model for all the values. ```predict()``` gives you the predicted values based on your (fitted) linear model, the argument type="response" will give you the predicted probabilities 
+
+# Bd.load4 <- glm(Bd.endpoint.GE ~ ExperimentNo, data=Bd.load, family="Gamma"(link='log'))
 
 # create a dataframe of "new" data 
-newdat <- expand.grid(ExperimentNo=c("1", "2", "3", "4", "5"),Treatment=c("Bd", "Bd-Rv", "Rv-Bd"))
+newdat <- expand.grid(ExperimentNo=c("1", "2", "3", "4"),Treatment=c("Bd", "Bd-Rv", "Rv-Bd"))
 
 # predict the value/result of the new data using the glm
 newdat <-cbind(newdat, predict(object = Bd.load4,   # the model 
@@ -264,7 +277,7 @@ newdat <-cbind(newdat, predict(object = Bd.load4,   # the model
 newdat
 
 expl.var <- c(1:3) # chose the range for the x-axis (Experiment No.)
-exp.labs <- c("1" = "Bufo bufo I", "2" = "Bufo bufo II", "3" = "Rana temporaria", "4" = "Alytes muletensis I", "5" = "Alytes muletensis II")
+exp.labs <- c("1" = "Bufo bufo I", "2" = "Bufo bufo II", "3" = "Rana temporaria", "4" = "Alytes muletensis I")
 
 newdat1<- subset(newdat, ExperimentNo== "1")    # need to subset the data so you can plot each seperatly 
 newdat2<- subset(newdat, ExperimentNo=="2")
@@ -285,15 +298,11 @@ Bd.load.predict <- ggplot(newdat, aes(x= expl.var, y= fit, color=ExperimentNo)) 
   geom_errorbar(data = newdat3, aes(ymin=fit-se.fit, ymax=fit+se.fit), width=.03, size=1)  +      # error bars for subset newdat3
   geom_line(data = newdat4, aes(x= expl.var, y= fit), size=1) +                                   # add lines for subset newdat4
   geom_errorbar(data = newdat4, aes(ymin=fit-se.fit, ymax=fit+se.fit), width=.03, size=1) +       # error bars for subset newdat4
-  geom_line(data = newdat5, aes(x= expl.var, y= fit), size=1) +                                   # add lines for subset newdat5
-  geom_errorbar(data = newdat5, aes(ymin=fit-se.fit, ymax=fit+se.fit), width=.03, size=1) +       # error bars for subset newdat5
-    scale_x_continuous(breaks=seq(1:3),labels=c("Bd", "Bd-Rv", "Rv-Bd")) +   # sets the breaks at 1,2 and 3 which correspond to the label names
-  ggtitle("glm(Bd.endpoint.load ~ ExperimentNo,family = gaussian)") 
-      
+    scale_x_continuous(breaks=seq(1:3),labels=c("Bd", "Bd-Rv", "Rv-Bd"))   # sets the breaks at 1,2 and 3 which correspond to the label names
+
 Bd.load.predict <- Bd.load.predict + 
-  ylab("Bd load predictions\n(fit)") +            
-  xlab("Treatment Group") +
-  scale_fill_discrete(labels=exp.labs) +  # still not working!!!
+  labs(title = "glm(Bd.endpoint.load (GE) ~ ExperimentNo, \n family= Gamma(link='log'))", x = "Treatment Group", y = "Bd load predictions\n(fit)", color = "Species\n") +
+ scale_color_hue(labels = c("Bufo bufo I", "Bufo bufo II", "Rana temporaria", "Alytes muletensis I")) +
   theme_bw() +
   theme(panel.border = element_blank(), panel.grid.major = element_blank(),
         panel.grid.minor = element_blank(), axis.line = element_line(colour = "black")) 
@@ -304,10 +313,14 @@ Bd.load.predict
  
 ```
 
-
 The Bd load predictions are interesting... 
-The two *Bufo bufo* experiments have the highest predicted loads, and reflect the Bd dosed (1 = 3,675,000 zsp's; 2 = 1,443,750 zsp's). 
-The *Alytes muletensis* are also clumped, here it's either a reflection of Bd dose (4 = 472,500 zsp's; 5 = 294,759 zsp's), which was scaled to container size, or development stage. If development stage, we see the larger, more developed tadpoles having low loads than the babies. 
+
+The two *Bufo bufo* experiments have the highest predicted loads, and reflect the Bd dosed (1 = 3,675,000 zsp's; 2 = 1,443,750 zsp's). As anticipated from the Bd status data and predictions on species susceptibility the *Rana temporaria* loads are low. 
+
+**To Do**  check the model summary to guage difference between the *Bufo bufo* experiments.  
+
+Oddly, the *Alytes muletensis* load prediction is lower than I had expected based off of the Bd status predictions. Similar numbers of *Alytes* and *Bufo* are infected with Bd but the loads differ. Two possibilities here, species susceptibility differences in pathogen burden or (more likely) a reflection of Bd dose (472,500 zsp's compared to millions of zsp's). 
+
 
 A reminder, just in case ... 
 
@@ -320,21 +333,22 @@ Experiment No. | Species              | total Bd zsp's   | min. temp. (^o^C) | m
 5 | *Alytes muletensis* II | 294,759      | 15     | 16.6 
 
 
+**QUESTION** all Bd doses are consisted high but are we seeing dose-dependent Bd loads within this high dose class? 
+
+**To Do**  post-hoc tests 
 
 ### Models Checks 
 
 Here I check the two best models.
 
 #### Maximal Model: Species + Treamtent (no interaction)
-Fit the most complex model first, with the main effects for ExperimentNo. and Treatment. 
 
-Look at the estimates of the coefficients using ```summary()```
 ```{r Bd - glm - checks1, echo=FALSE, warning=FALSE, error=FALSE, message=FALSE}
-# Bd.load2 <- glm(log(Bd.endpoint.GE) ~ Treatment + ExperimentNo, data=Bd.load, family=gaussian)
+# Look at the estimates of the coefficients using ```summary()```
+
+# Bd.load2 <- glm(Bd.endpoint.GE ~ Treatment + ExperimentNo, data=Bd.load, family="Gamma"(link='log'))
 summary(Bd.load2)   # Residual deviance: 337.15  on 190 df   AIC: 680.91
 ```
-
-Residual deviance should be the same as the residual degrees of freedom but is way larger, indicating overdispersion (unexplained variation in the response). 
 
 ```{r Bd - glm - checks1 plot, echo=FALSE, warning=FALSE, error=FALSE, message=FALSE }
 par(mfrow=c(2,2), mar=c(3,3,3,1), mgp=c(2,0.8,0))
@@ -355,18 +369,26 @@ plot(Bd.load4)
 ```
 
 <br>
-The AIC (assessing parameters contributions to the model) suggests you don't gain much explanatory power by lossing a parameter (Treatment). 
+The AIC (assessing parameters contributions to the model) suggests you don't gain much explanatory power by adding a parameter (Treatment) to the ExperimentNo. only model. 
+
+<br>
 
 
-############################################
+<br>
+
+
+<br>
+
 
 # Part 4: Visualise Rv endpoint infection load data 
 
-**N.B.**  At the moment there are 3 samples missing EBF3N qPCR data so as a temporary fix I have averaged the EBF3N score for all the samples and used that to calculate a rough viral load for these 3 samples
-
 For the plots below I only plot Rv infection loads over 0 and filter out one extremely high Rv viral load (greater than 2000).
 
-```{r boxplot Rv viral load, echo=FALSE, fig.cap= "Fig.3. Boxplot of the endpoint Ranaviral load for each treatment group across the three host species. Viral load has been normalised using Leung et al.'s (2017) method. The black dots represent each sample.", fig.width=16, fig.height=8}
+**To Do**  At the moment there are 3 samples missing EBF3N qPCR data so as a temporary fix I have averaged the EBF3N score for all the samples and used that to calculate a rough viral load for these 3 samples
+
+> **N.B.** previous thoughts on filtering out samples with negative infection status vs. including and using log(n+1). AF response "usually settle for running one binomial ‘status’ (presence/absence of infection) analysis, and a separate ‘intensity’ (load among infecteds only) analysis.  Zero-inflated/Hurdle models effectively do this in a single model, but I typically think splitting into 2 separate analyses is clearer and easier to explain/interpret."
+
+```{r boxplot Rv viral load, echo=FALSE, fig.cap= "Fig.3. Boxplot of the endpoint Ranaviral load (excluding uninfected individuals) for each treatment group across the three host species. Viral load has been normalised using Leung et al.'s (2017) method. The black dots represent each sample.", fig.width=16, fig.height=8}
 
 plot.Rv.load.sp <- data.endpoint %>% 
  filter(Rv.endpoint.load > 0 & !Rv.endpoint.load > 2000) %>%  # filtering out the extremely high Rv viral load so that we can see the data better 
@@ -386,11 +408,7 @@ plot.Rv.load.sp +  theme(legend.key=element_blank()) +theme(legend.text = elemen
 
 ```
 
-
-?? **QUESTION** is it ok to do this? Or am I better often doing log(n+1)? My reasoning was that we are not interested in no infection!?
-
-
-The distribution of logged Rv viral load.
+The distribution of Rv viral load (excluding uninfected individuals)
 
 ```{r distribution Rv load, echo=FALSE, warning=FALSE, error=FALSE, message=FALSE, fig.cap= "Fig. 4a. The  distribution of Rv load from endpoint tissue samples.", fig.width=16, fig.height=6}
 data.endpoint %>%     # ridge plot to see distribution of data  
@@ -403,8 +421,7 @@ data.endpoint %>%     # ridge plot to see distribution of data
           ) + theme_ridges()
 ```
 
-...and when Rv viral load is logged because the distribution of Rv load is skewed. 
-
+...and when Rv viral load is logged because the distribution of Rv load is skewed. Again excluding uninfected individuals.
 
 ```{r log distribution Rv load, echo=FALSE, warning=FALSE, error=FALSE, message=FALSE, fig.cap= "Fig. 4b. The logged distribution of Rv load from endpoint tissue samples.", fig.width=16, fig.height=6}
 data.endpoint %>%     # ridge plot to see distribution of data  
@@ -418,11 +435,15 @@ data.endpoint %>%     # ridge plot to see distribution of data
 ```
 
 
+Just eyeballing this the Rv-Bd group has the highest infection loads compared to the other treatment groups.
+?? *QUESTION**  is the sequence/timing of the Rv exposure allowing enough time for Rv loads to build or is it the nauture of that coinfection combination?? 
+
+
 ## Part 5: Endpoint Infection Status: **Rv** 
 
 Here I create a dataframe with only individuals that am infected with Rv 
 
-?? **QUESTION** is there a threshold for ranavirus infection ??? 
+**To Do** check whether there is a threshold for ranavirus detection??? 
 
 <br>
 ```{r Rv load df, results='hide', warning=FALSE, error=FALSE, message=FALSE}
@@ -438,7 +459,6 @@ droplevels(Rv.load)
 
 Choosing a error structure family. Again, I decided to do this with a semi-maximal model to help the fitting as much as possible. 
 
-
 1. gaussian distribution with data log transformed  
 
 ```{r Rv log gaussian}
@@ -448,24 +468,12 @@ summary(Rv.load2.1)   #AIC = 76.262  #Residual deviance:  41.834  on 14  degrees
 par(mfrow=c(2,2), mar=c(3,3,3,1), mgp=c(2,0.8,0))
 plot(Rv.load2.1)
 ```
-- residuals vs fitted:   
+
+- residuals vs fitted: wedged   
 - QQ plot is not great, (not normally distributed?)
 - residual vs. leverage reflects the data, low sample numbers means a few data points are influencing the model 
 
-2. gaussian distribution with log link
-
-```{r Rv gaussian log link}
-Rv.load2.2 <- glm(Rv.endpoint.load ~ Treatment + ExperimentNo, data=Rv.load,family="gaussian"(link='log'))
-summary(Rv.load2.2)   #AIC = 293.47  #Residual deviance:  7283161  on 14  degrees of freedom  degrees of freedom
-
-par(mfrow=c(2,2), mar=c(3,3,3,1), mgp=c(2,0.8,0))
-plot(Rv.load2.2)
-```
-
-Again, this is a terrible model 
-
-
-3. Gamma distribution
+2. Gamma distribution
 
 ```{r Rv Gamma }
 # Gamma distribution
@@ -475,10 +483,12 @@ summary(Rv.load2.3)   #AIC = 257.35  #Residual deviance: 23.678  on 14  degrees 
 par(mfrow=c(2,2), mar=c(3,3,3,1), mgp=c(2,0.8,0))
 plot(Rv.load2.3)
 ```
-- residuals vs fitted: patterning  
-- QQ plot is not great, (not normally distributed?)
-- residual vs. leverage is better but still reflects the data, low sample numbers means a few data points are influencing the model 
 
+Not great 
+
+- residuals vs fitted: patterning  
+- QQ plot is not great, suggesting not normally distributed
+- residual vs. leverage is better but still reflects the data, low sample numbers means a few data points are influencing the model 
 
 
 4. Gamma distribution with log-link
@@ -491,40 +501,51 @@ par(mfrow=c(2,2), mar=c(3,3,3,1), mgp=c(2,0.8,0))
 plot(Rv.load2.4)
 ```
 
-?? **QUESTION** log(Rv load) and gaussian or Gamma? None of them look ideal 
+
+**Conclusion** Gamma with log-link has the best (QQ) plots and lowest residual deviance 
 
 
+
+**To Do** AF suggests splitting the continuous Rv load data into zero-low-high or similar categories? ref bimodal distributions in Fig 3b 
 
 ### Model Comparison
 
 The four models (all using log(Bd load) and gaussian error structure)
 ```{r Rv load glm}
-Rv.load1 <- glm(log(Rv.endpoint.load) ~ Treatment * ExperimentNo, data=Rv.load, family=gaussian)
+Rv.load1 <- glm(Rv.endpoint.load ~ Treatment * ExperimentNo, data=Rv.load, family="Gamma"(link='log'))
 
-Rv.load2 <- glm(log(Rv.endpoint.load) ~ Treatment + ExperimentNo, data=Rv.load, family=gaussian)
+Rv.load2 <- glm(Rv.endpoint.load ~ Treatment + ExperimentNo, data=Rv.load, family="Gamma"(link='log'))
 
-Rv.load3 <- glm(log(Rv.endpoint.load) ~ Treatment, data=Rv.load, family=gaussian)
+Rv.load3 <- glm(Rv.endpoint.load ~ Treatment, data=Rv.load, family="Gamma"(link='log'))
 
-Rv.load4 <- glm(log(Rv.endpoint.load) ~ ExperimentNo, data=Rv.load, family=gaussian)
+Rv.load4 <- glm(Rv.endpoint.load ~ ExperimentNo, data=Rv.load, family="Gamma"(link='log'))
+
+Rv.load.N <- glm(Rv.endpoint.load ~ 1, data=Rv.load, family="Gamma"(link='log'))
 ```
-
-?? **QUESTION** should I change the `test = ` to better reflect the data type? 
 
 ```{r Rv load model comparison}
+anova(Rv.load1, Rv.load2, test="Chisq") # start by comparing the interaction terms  
 
-anova(Rv.load2, Rv.load4, test="Chisq") # compares Trt and Sp to just Sp 
+anova(Rv.load2, Rv.load3, test="Chisq") # compares Trt and Species to just Trt 
 
-anova(Rv.load2, Rv.load3, test="Chisq") # compares Trt and Sp to just Trt 
+anova(Rv.load2, Rv.load4, test="Chisq")  # compares Trt and Species to just Species  
 
-anova(Rv.load1, Rv.load2, test="Chisq") # compare more complex model to one with interaction 
+anova(Rv.load3, Rv.load.N, test="Chisq")  # compares Species model to null model 
 
 ```
 
-ANOVA 1: suggests we should favour the more complex model (Treatment + ExperimentNo) over the model with ExperimentNo only  (pvalue = < .001)
 
-ANOVA 2: suggests we should reject the more complex model (Treatment + ExperimentNo) in favour of the model with Treatment only  (pvalue = 0.6146)  as adding ExperimentNo didn't lead to significantly improved fit 
+ANOVA 1: shows adding a interaction term between Treatment and ExperimentNo does not greatly imporve fit (p-value = 0.08616)
+<br>
 
-ANOVA 3: shows adding a interaction term between Treatment and ExperimentNo did not significantly imporve fit (p-value = 0.2214)
+ANOVA 2: suggests we should reject the more complex model (Treatment + ExperimentNo) in favour of the model with Treatment only  (pvalue = 0.2225)  
+<br>
+
+ANOVA 3: suggests we should favour the more complex model (Treatment + ExperimentNo) over the model with ExperimentNo only  (pvalue = < .001)   
+<br>
+
+ANOVA 4: suggests we should accept the more complex model (Treatment) over the null model  (pvalue = < .001)  so ExperimentNo leads to significantly improved fit 
+<br>
 
 **Conclusion**: we should choose the model with just Treatment (like Rv status)
 
@@ -545,14 +566,14 @@ abline(b = 1, a = 0)   # values should fall around this line!
 
 ```
 
-Errmmmmm...... ?? 
+**To Do** split Rv load data into categories low-high or similar? 
 
 
 ### Model Plotting:   
 
 
 ```{r Rv - glm - predicted values, include=TRUE, warning=FALSE, error=FALSE, message=FALSE}
-Rv.load3 <- glm(log(Rv.endpoint.load) ~ Treatment, data=Rv.load, family=gaussian)
+#Rv.load3 <- glm(Rv.endpoint.load ~ Treatment, data=Rv.load, family="Gamma"(link='log'))
 
 # create a dataframe of "new" data 
 newdat <- expand.grid(ExperimentNo=c("1", "2", "3", "4", "5"),Treatment=c( "Bd-Rv", "Rv-Bd"))
@@ -574,8 +595,8 @@ newdat4<- subset(Rv.newdat, ExperimentNo=="4")
 
 ```{r Rv - glm - plot, echo=FALSE, warning=FALSE, error=FALSE, message=FALSE, fig.cap= "Fig. 7. Probability of Rv infection load predicted by model"}
 
-Rv.load.predict <- ggplot(Rv.newdat, aes(x= expl.var, y= fit, color=ExperimentNo)) +       # plot model estimates, color= the data you subsetted by
-  geom_line(data = newdat1, aes(x= expl.var, y= fit), size=1) +                                   # add lines for subset newdat1
+Rv.load.predict <- ggplot(Rv.newdat, aes(x= expl.var, y= fit)) +       
+    geom_line(data = newdat1, aes(x= expl.var, y= fit), size=1) +                                   # add lines for subset newdat1
   geom_errorbar(data = newdat1, aes(ymin=fit-se.fit, ymax=fit+se.fit), width=.03, size=1)  +      # error bars for subset newdat1
   geom_line(data = newdat2, aes(x= expl.var, y= fit), size=1) +                                   # add lines for subset newdat2
   geom_errorbar(data = newdat2, aes(ymin=fit-se.fit, ymax=fit+se.fit), width=.03, size=1)  +      # error bars for subset newdat2
@@ -584,12 +605,11 @@ Rv.load.predict <- ggplot(Rv.newdat, aes(x= expl.var, y= fit, color=ExperimentNo
   geom_line(data = newdat4, aes(x= expl.var, y= fit), size=1) +                                   # add lines for subset newdat4
   geom_errorbar(data = newdat4, aes(ymin=fit-se.fit, ymax=fit+se.fit), width=.03, size=1) +       # error bars for subset newdat4
     scale_x_continuous(breaks=seq(1:2),labels=c("Bd-Rv","Rv-Bd")) +   # sets the breaks at 1,2 and 3 which correspond to the label names
-  ggtitle("glm(Rv.endpoint.load ~ ExperimentNo,family = gaussian)") 
+  ggtitle("glm(Rv.endpoint.load ~ Treatment,\n family=Gamma(link='log'))") 
       
 Rv.load.predict <- Rv.load.predict + 
   ylab("Rv load predictions\n(fit)") +            
   xlab("Treatment Group") +
-  scale_fill_discrete(labels=exp.labs) +  # still not working!!!
   theme_bw() +
   theme(panel.border = element_blank(), panel.grid.major = element_blank(),
         panel.grid.minor = element_blank(), axis.line = element_line(colour = "black")) 
@@ -602,13 +622,11 @@ Rv.load.predict
 
 
 
+# Part 4: Post-hoc tests 
 
 
+The *Alytes muletensis* are also clumped, here it's either a reflection of Bd dose (4 = 472,500 zsp's; 5 = 294,759 zsp's), which was scaled to container size, or development stage. If development stage, we see the larger, more developed tadpoles having low loads than the babies. 
 
-
-################### SCRAPS ################### SCRAPS ################### SCRAPS ################### SCRAPS ################### SCRAPS ################### SCRAPS ################### SCRAPS ###################
-
-# Part 4: other bits
 
 
 
