@@ -135,13 +135,12 @@ Experiment No. | Species              | total Bd zsp's   | min. temp. (^o^C) | m
 
 ## Part 3a: Endpoint Infection Status: **Bd** 
 
-Here I create a dataframe with only individuals that am infected with Bd, at a level over the detection threshold of 0.1GE 
-
-?? **QUESTION** not sure whether I should be including the *Alytes muletensis* babies as they only have one treatment group (Bd only). Will this throw the models off? 
+Here I create a dataframe with only individuals that am infected with Bd, at a level over the detection threshold of 0.1GE. Note that *Alytes muletensis* II have been removed as they only have one treatment group (Bd only). 
 
 <br>
 ```{r Bd load df, results='hide', warning=FALSE, error=FALSE, message=FALSE}
 Bd.load <- data.endpoint %>%
+  filter(!ExperimentNo=='5')  %>%   # removal of Alytes babies
   filter((Bd.endpoint.status=='1' & Bd.endpoint.GE > 0.1))  %>% 
   select(ID, Species, ExperimentNo, Scenario, Treatment, Bd.endpoint.status, Bd.endpoint.GE) 
 
@@ -152,80 +151,61 @@ droplevels(Bd.load)
 
 Choosing a error structure family. I decided to do this with a semi-maximal model to help the fitting as much as possible. 
 
-> **N.B.** "the most appropriate link function is the one whcih produces the minimum residual deviance"
-
-
 1. gaussian distribution with data log transformed  
 
 ```{r Bd log gaussian}
 Bd.load2.1 <- glm(log(Bd.endpoint.GE) ~ Treatment + ExperimentNo, data=Bd.load, family= "gaussian")
-summary(Bd.load2.1)   #AIC = 680.91  #Residual deviance:  337.15  on 190  degrees of freedom
+summary(Bd.load2.1)   #AIC = 609.11  #Residual deviance:  320.39  on 166  degrees of freedom
 
 par(mfrow=c(2,2), mar=c(3,3,3,1), mgp=c(2,0.8,0))
 plot(Bd.load2.1)
 ```
-- residuals vs fitted: not ideal, the scatter increases with fitted values  
-- QQ plot is not great, (not normally distributed?)
 
-2. gaussian distribution with log link
-
-```{r Bd gaussian log link}
-Bd.load2.2 <- glm(Bd.endpoint.GE ~ Treatment + ExperimentNo, data=Bd.load,family="gaussian"(link='log'))
-summary(Bd.load2.2)   #AIC = 2227.3  #Residual deviance:  864687  on 190  degrees of freedom  degrees of freedom
-
-par(mfrow=c(2,2), mar=c(3,3,3,1), mgp=c(2,0.8,0))
-plot(Bd.load2.2)
-```
-Well this one is terrible ... moving on ... 
-
-
-3. Gamma distribution
+2.  Gamma distribution
 > This error structure is suitable for continous, positive, right skewed data where variance is near-constant on the log-scale
 
 ```{r Bd Gamma }
 # Gamma distribution
 Bd.load2.3 <- glm(Bd.endpoint.GE ~ Treatment + ExperimentNo, data=Bd.load, family=Gamma())
-summary(Bd.load2.3)   #AIC = 1832.7  #Residual deviance: 239.21  on 190  degrees of freedom
+summary(Bd.load2.3)   #AIC = 1633.2  #Residual deviance: 225.26  on 166 degrees of freedom
 
 par(mfrow=c(2,2), mar=c(3,3,3,1), mgp=c(2,0.8,0))
 plot(Bd.load2.3)
 ```
+
 The diagnostic plots are fine 
+
 - residual vs. fitted do show patterning meaning the variance is non-consistent
 - QQ plot is really good 
 - scale-location the scatter of the residuals decreases with the fitted values 
-- residual vs. leverage  
-- AIC is not good 
 - residual deviance is better than log(Bd load) with gaussian 
-
+- AIC is not great 
 
 4. Gamma distribution with log-link
 > Apparent it is quite common to fit a log-link with a Gamma error structure ... so that is left-skewed? 
 
 ```{r Gamma log link}
 Bd.load2.4 <- glm(Bd.endpoint.GE ~ Treatment + ExperimentNo, data=Bd.load, family="Gamma"(link='log'))
-summary(Bd.load2.4)   #AIC = 1829.2  #Residual deviance: 235.62  on 190  degrees of freedom
+summary(Bd.load2.4)   #AIC = 1629.9  #Residual deviance: 221.67  on 166  degrees of freedom
 
 par(mfrow=c(2,2), mar=c(3,3,3,1), mgp=c(2,0.8,0))
 plot(Bd.load2.4)
 ```
 
-?? **QUESTION** log(Bd load) and gaussian or Gamma? 
-
-?? **QUESTION** can you compare AIC values of models that have difference error families? I thought it was used for assessing parameters contributions to the model. 
-
+**Conclusion** Gamma with log-link as "the most appropriate link function is one which produces minimum residual deviance"
 
 ### Model Comparison
 
-The four models (all using log(Bd load) and gaussian error structure)
+The four models (all using Gamma with log-link structure)
 ```{r Bd load glm}
-Bd.load1 <- glm(log(Bd.endpoint.GE) ~ Treatment * ExperimentNo, data=Bd.load, family=gaussian)
 
-Bd.load2 <- glm(log(Bd.endpoint.GE) ~ Treatment + ExperimentNo, data=Bd.load, family=gaussian)
+Bd.load1 <- glm(log(Bd.endpoint.GE) ~ Treatment * ExperimentNo, data=Bd.load, family="Gamma"(link='log'))
 
-Bd.load3 <- glm(log(Bd.endpoint.GE) ~ Treatment, data=Bd.load, family=gaussian)
+Bd.load2 <- glm(log(Bd.endpoint.GE) ~ Treatment + ExperimentNo, data=Bd.load, family="Gamma"(link='log'))
 
-Bd.load4 <- glm(log(Bd.endpoint.GE) ~ ExperimentNo, data=Bd.load, family=gaussian)
+Bd.load3 <- glm(log(Bd.endpoint.GE) ~ Treatment, data=Bd.load, family="Gamma"(link='log'))
+
+Bd.load4 <- glm(log(Bd.endpoint.GE) ~ ExperimentNo, data=Bd.load, family="Gamma"(link='log'))
 ```
 
 ?? **QUESTION** should I change the `test = ` to better reflect the data type? 
@@ -324,7 +304,6 @@ Bd.load.predict
  
 ```
 
-Sorry I can't get the legend to change! 
 
 The Bd load predictions are interesting... 
 The two *Bufo bufo* experiments have the highest predicted loads, and reflect the Bd dosed (1 = 3,675,000 zsp's; 2 = 1,443,750 zsp's). 
@@ -376,8 +355,7 @@ plot(Bd.load4)
 ```
 
 <br>
-The AIC suggests you don't gain much explanatory power by lossing a parameter (Treatment). 
-
+The AIC (assessing parameters contributions to the model) suggests you don't gain much explanatory power by lossing a parameter (Treatment). 
 
 
 ############################################
