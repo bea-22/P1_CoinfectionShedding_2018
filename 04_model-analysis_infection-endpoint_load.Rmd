@@ -1,7 +1,7 @@
 ---
-title: "03_model-analysis_infection-endpoint_load"
+title: "04_model-analysis_infection-endpoint_load"
 author: "Bryony Allen"
-date: "09/05/2019"
+date: "14/05/2019"
 output: 
   word_document:
     toc: true 
@@ -215,6 +215,7 @@ Bd.load4 <- glm(Bd.endpoint.GE ~ ExperimentNo, data=Bd.load, family="Gamma"(link
 Bd.load.N <- glm(Bd.endpoint.GE ~ 1, data=Bd.load, family="Gamma"(link='log'))
 
 ```
+<br>
 
 ```{r Bd load model comparison}
 anova(Bd.load1, Bd.load2, test="Chisq") # start by comparing the interaction terms  
@@ -389,9 +390,9 @@ The plots suggest:
  * 4-2 & 4-1: significant difference between *Alytes* and both *Bufo bufo* experiments (to an equal extent) <<< see above for my thoughts on this 
  * 4-3: significant (+ve) difference between *Alytes* and *Rana* 
 
+Also did a ```pairwise.t.test()``` comparing the factor levels of ExperimentNo .... not entirely sure wht 
 
 ```{r Bd - posthoc - adjusted pvalues , echo=FALSE, warning=FALSE, error=FALSE, message=FALSE, fig.width=8, fig.height=5}
-
 attach(Bd.load)
 pairwise.t.test(Bd.endpoint.GE, ExperimentNo)
 ```
@@ -467,7 +468,7 @@ Here I create a dataframe with only individuals that am infected with Rv
 
 Rv.load <- data.endpoint %>%
   filter((Rv.endpoint.load > 0.1))  %>% 
-  select(ID, Species, ExperimentNo, Scenario, Treatment, Rv.MCPendpoint.status, Rv.EBF3Nendpoint.status, Rv.endpoint.load) 
+  dplyr::select(ID, Species, ExperimentNo, Scenario, Treatment, Rv.MCPendpoint.status, Rv.EBF3Nendpoint.status, Rv.endpoint.load) 
 
 droplevels(Rv.load)
 ```
@@ -668,28 +669,17 @@ The AIC better for Treatment only model.
 
 # Part 7: Rv: post-hoc tests 
 
+Tukey's honest significant difference 
+
+```{r Rv - posthoc - , echo=FALSE, warning=FALSE, error=FALSE, message=FALSE, fig.width=8, fig.height=5}
+#Rv.load3 <- glm(Rv.endpoint.load ~ Treatment, data=Rv.load, family="Gamma"(link='log'))
+
+Tukey.Rv.load <- glht(Rv.load3, linfct=mcp(Treatment='Tukey'))
+summary(Tukey.Rv.load) 
+```
+<br>
+
+**Conclusions**
+The Tukey summary suggests there is significant difference between the two coinfection treatment groups. The plot was pointless. 
 
 
-
-
-
-######## TO DO 
-The *Alytes muletensis* are also clumped, here it's either a reflection of Bd dose (4 = 472,500 zsp's; 5 = 294,759 zsp's), which was scaled to container size, or development stage. If development stage, we see the larger, more developed tadpoles having low loads than the babies. 
-
-
-
-
-# ANOVA of linear regression terms 
-look at the terms of the model using the anova function
-ANOVA tests how much variation in the response variable is explained by each explanatory variable
-aka comparing the variation in ge score explained by treamtent (or another variable) to the total variation in ge score (the null model). 
-Look at how much smaller the residuals are for the treatment group model to the null model. Graphically, how much shorter are the red residuals than
-the blue residuals
-
-
-
-ANOVA (one-way) 
-
-y= ß1 + ß2xs + ß3xa   
-  ...where  
-          - baseline value (control) is 
