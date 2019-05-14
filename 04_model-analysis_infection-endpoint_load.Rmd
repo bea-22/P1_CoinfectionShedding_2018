@@ -2,7 +2,10 @@
 title: "03_model-analysis_infection-endpoint_load"
 author: "Bryony Allen"
 date: "09/05/2019"
-output: word_document
+output: 
+  word_document:
+    toc: true 
+    toc_depth: 2 
 ---
 
 ```{r questions, include=FALSE,}
@@ -30,11 +33,13 @@ library(ggridges)
 
 # for stats 
 library(binom)
+library(multcomp)  ### this masks dplyr::select !!!! 
+
 # library(purr)  # purr guidance > for evaluating models http://ijlyttle.github.io/isugg_purrr/presentation.html#(1) 
 # library(broom)   # broom summarizes key information about models in tidy tibble()s >> https://github.com/tidymodels/broom
 ```
 
-# Part 1: Import data 
+# Part 1: Bd: import data 
 
 > **N.B.**   At the moment this code chuck reads in a .csv file with endpoint infection data, originally compiled in excel and then cleaned in "02_tidy_data-qpcr"script. In the future you will read in the .csv file of merged qPCR outputs (created, checked and cleaned in "02_tidy_data-qpcr"script) and experiment metadata (checked and cleaned in "02_tidy_data-metadata"script). 
 
@@ -46,7 +51,7 @@ data.endpoint <- read.csv('data/02_clean-data.csv')
 glimpse(data.endpoint)   #check how the dataset has imported (aka whether it has the data type right)  
 ```
 
-# Part 2: Visualise Bd endpoint infection load data 
+# Part 2: Bd: visualise endpoint infection load data 
 ```{r graph labels, include=FALSE, warning=FALSE, error=FALSE, message=FALSE}
 # make label vectors to use in plots
 sp.labs <- c(Bb = "Bufo bufo", Rt = "Rana temporaria", Am = "Alytes muletensis")
@@ -109,7 +114,7 @@ data.endpoint %>%     # ridge plot to see distribution of data
 <br>
 
 
-# Part 3: Apply models to **Bd** Endpoint Infection Load
+# Part 3: Bd: apply models to endpoint infection load data 
 
 GLM's where    
 <br>
@@ -133,8 +138,6 @@ Experiment No. | Species              | total Bd zsp's   | min. temp. (^o^C) | m
 ... as this also accounts for Bd dose and room temperature variation between experiments. 
 
 
-## Part 3a: Endpoint Infection Status: **Bd** 
-
 Here I create a dataframe with only individuals that am infected with Bd, at a level over the detection threshold of 0.1GE. Note that *Alytes muletensis* II have been removed as they only have one treatment group (Bd only). 
 
 <br>
@@ -142,12 +145,12 @@ Here I create a dataframe with only individuals that am infected with Bd, at a l
 Bd.load <- data.endpoint %>%
   filter(!ExperimentNo=='5')  %>%   # removal of Alytes babies
   filter((Bd.endpoint.status=='1' & Bd.endpoint.GE > 0.1))  %>% 
-  select(ID, Species, ExperimentNo, Scenario, Treatment, Bd.endpoint.status, Bd.endpoint.GE) 
+  dplyr::select(ID, Species, ExperimentNo, Scenario, Treatment, Bd.endpoint.status, Bd.endpoint.GE) 
 
 droplevels(Bd.load)
 ```
 
-### Model Selection:  
+## Part 3a: Bd: model selection 
 
 Choosing a error structure family. I decided to do this with a semi-maximal model to help the fitting as much as possible. 
 
@@ -196,7 +199,7 @@ plot(Bd.load2.4)
 
 **To Do** reading on Gamma error structure and log-link function << what do they mean for interpretation?? 
 
-### Model Comparison
+## Part 3b: Bd: model comparison
 
 The four models (all using Gamma with log-link structure)
 ```{r Bd load glm}
@@ -240,8 +243,7 @@ ANOVA 4: suggests we should favour the more complex model (ExperimentNo.) over t
 **Conclusion**: we should choose the model with just ExperimentNo (aka species) 
 
 
-### Model Fit: 
-
+## Part 3c: Bd: model fit 
 
 ```{r Bd fitted values, echo=FALSE, fig.cap= "Fig. 6. Plot of relationship between the fitted values from the model and the true data values."}
 
@@ -261,7 +263,7 @@ abline(b = 1, a = 0)   # values should fall around this line!
 
 > **To Do** Figure this one out. Values should fall around the line but they seem to be clumped by ExperimentNo. tried to do this with the null model but that just grouped everything 
 
-### Model Plotting:   
+## Part 3d: Bd: model plotting   
 
 ```{r Bd - glm - predicted values, include=TRUE, warning=FALSE, error=FALSE, message=FALSE}
 # To plot the model you need a range of values for which to produce fitted values. Then use the ```predict()``` function to create the model for all the values. ```predict()``` gives you the predicted values based on your (fitted) linear model, the argument type="response" will give you the predicted probabilities 
@@ -337,29 +339,12 @@ Experiment No. | Species              | total Bd zsp's   | min. temp. (^o^C) | m
 
 **To Do**  post-hoc tests 
 
-### Models Checks 
+## Part 3e: Bd: model checks 
 
-Here I check the two best models.
-
-#### Maximal Model: Species + Treamtent (no interaction)
-
-```{r Bd - glm - checks1, echo=FALSE, warning=FALSE, error=FALSE, message=FALSE}
-# Look at the estimates of the coefficients using ```summary()```
-
-# Bd.load2 <- glm(Bd.endpoint.GE ~ Treatment + ExperimentNo, data=Bd.load, family="Gamma"(link='log'))
-summary(Bd.load2)   # Residual deviance: 337.15  on 190 df   AIC: 680.91
-```
-
-```{r Bd - glm - checks1 plot, echo=FALSE, warning=FALSE, error=FALSE, message=FALSE }
-par(mfrow=c(2,2), mar=c(3,3,3,1), mgp=c(2,0.8,0))
-plot(Bd.load2)
-```
-
-
-#### Simplified Model: Species 
-Now fit a simpler model has an with only ExperimentNo.  
+Here I check the chosen model ``` Bd.load4 <- glm(Bd.endpoint.GE ~ ExperimentNo, data=Bd.load, family="Gamma"(link='log'))``` 
+ 
 ```{r Bd - bi.glm - checks2, echo=FALSE, warning=FALSE, error=FALSE, message=FALSE}
-# Bd.load4 <- glm(log(Bd.endpoint.GE) ~ ExperimentNo, data=Bd.load, family=gaussian)
+
 summary(Bd.load4)   # Residual deviance: 340.74  on 192 df   AIC: 679
 ```
 
@@ -369,18 +354,50 @@ plot(Bd.load4)
 ```
 
 <br>
-The AIC (assessing parameters contributions to the model) suggests you don't gain much explanatory power by adding a parameter (Treatment) to the ExperimentNo. only model. 
+
+# Part 4: Bd: post-hoc tests 
+
+Tukry's honest significant difference 
+
+```{r Bd - posthoc - , echo=FALSE, warning=FALSE, error=FALSE, message=FALSE, fig.width=8, fig.height=5}
+# Bd.load4 <- glm(log(Bd.endpoint.GE) ~ ExperimentNo, data=Bd.load, family=gaussian)
+
+Tukey.Bd.load <- glht(Bd.load4, linfct=mcp(ExperimentNo='Tukey'))
+summary(Tukey.Bd.load) 
+```
+<br>
+```{r Bd - posthoc - plot , echo=FALSE, warning=FALSE, error=FALSE, message=FALSE, fig.width=8, fig.height=5}
+
+plot(Tukey.Bd.load)
+```
 
 <br>
 
+Where 
+"1" = "Bufo bufo I",
+"2" = "Bufo bufo II", 
+"3" = "Rana temporaria", 
+"4" = "Alytes muletensis"
 
-<br>
+**Conclusions**
+The Tukey summary suggests everything is significant apparent from the two *Bufo* experiments. 
+
+The plots suggest: 
+
+ * 2-1 : no significant difference between *Bufo bufo* experiments 
+ * 3-2 & 3-1 : significant difference between *Rana* and both *Bufo bufo* experiments (to an equal extent)
+ * 4-2 & 4-1: significant difference between *Alytes* and both *Bufo bufo* experiments (to an equal extent) <<< see above for my thoughts on this 
+ * 4-3: significant (+ve) difference between *Alytes* and *Rana* 
 
 
-<br>
+```{r Bd - posthoc - adjusted pvalues , echo=FALSE, warning=FALSE, error=FALSE, message=FALSE, fig.width=8, fig.height=5}
+
+attach(Bd.load)
+pairwise.t.test(Bd.endpoint.GE, ExperimentNo)
+```
 
 
-# Part 4: Visualise Rv endpoint infection load data 
+# Part 5: Rv: visualise endpoint infection load data 
 
 For the plots below I only plot Rv infection loads over 0 and filter out one extremely high Rv viral load (greater than 2000).
 
@@ -439,7 +456,7 @@ Just eyeballing this the Rv-Bd group has the highest infection loads compared to
 ?? *QUESTION**  is the sequence/timing of the Rv exposure allowing enough time for Rv loads to build or is it the nauture of that coinfection combination?? 
 
 
-## Part 5: Endpoint Infection Status: **Rv** 
+# Part 6: Rv: apply models to endpoint infection load data 
 
 Here I create a dataframe with only individuals that am infected with Rv 
 
@@ -455,7 +472,7 @@ Rv.load <- data.endpoint %>%
 droplevels(Rv.load)
 ```
 
-### Model Selection:  
+## Part 6a: Rv: model selection
 
 Choosing a error structure family. Again, I decided to do this with a semi-maximal model to help the fitting as much as possible. 
 
@@ -505,10 +522,9 @@ plot(Rv.load2.4)
 **Conclusion** Gamma with log-link has the best (QQ) plots and lowest residual deviance 
 
 
-
 **To Do** AF suggests splitting the continuous Rv load data into zero-low-high or similar categories? ref bimodal distributions in Fig 3b 
 
-### Model Comparison
+## Part 6b: Rv: model comparison
 
 The four models (all using log(Bd load) and gaussian error structure)
 ```{r Rv load glm}
@@ -550,8 +566,7 @@ ANOVA 4: suggests we should accept the more complex model (Treatment) over the n
 **Conclusion**: we should choose the model with just Treatment (like Rv status)
 
 
-### Model Fit: 
-
+## Part 6c: Rv: model fit
 
 ```{r Rv fitted values, echo=FALSE, fig.cap= "Fig. 6. Plot of relationship between the fitted values from the model and the true data values."}
 
@@ -568,9 +583,7 @@ abline(b = 1, a = 0)   # values should fall around this line!
 
 **To Do** split Rv load data into categories low-high or similar? 
 
-
-### Model Plotting:   
-
+## Part 6d: Rv: model plotting
 
 ```{r Rv - glm - predicted values, include=TRUE, warning=FALSE, error=FALSE, message=FALSE}
 #Rv.load3 <- glm(Rv.endpoint.load ~ Treatment, data=Rv.load, family="Gamma"(link='log'))
@@ -620,13 +633,48 @@ Rv.load.predict
  
 ```
 
+## Part 6e: Rv: model checks 
+
+Here I check the two best models.
+
+#### Maximal Model: Species + Treamtent (no interaction)
+
+```{r Rv - glm - checks1, echo=FALSE, warning=FALSE, error=FALSE, message=FALSE}
+# Look at the estimates of the coefficients using ```summary()```
+
+#Rv.load2 <- glm(Rv.endpoint.load ~ Treatment + ExperimentNo, data=Rv.load, family="Gamma"(link='log'))
+summary(Rv.load2)   # Residual deviance: 22.027  on 14 df   AIC: 255.8
+```
+
+```{r Rv - glm - checks1 plot, echo=FALSE, warning=FALSE, error=FALSE, message=FALSE }
+par(mfrow=c(2,2), mar=c(3,3,3,1), mgp=c(2,0.8,0))
+plot(Rv.load2)
+```
+
+#### Simplified Model: Treatment  
+Now fit a simpler model has an with only ExperimentNo.  
+```{r Rv - glm - checks2, echo=FALSE, warning=FALSE, error=FALSE, message=FALSE}
+#Rv.load3 <- glm(Rv.endpoint.load ~ Treatment, data=Rv.load, family="Gamma"(link='log'))
+summary(Rv.load3)   # Residual deviance: 24.287  on 16 df   AIC: 253.89
+```
+
+```{r Rv - glm - checks2 plot, echo=FALSE, warning=FALSE, error=FALSE, message=FALSE}
+par(mfrow=c(2,2), mar=c(3,3,3,1), mgp=c(2,0.8,0))
+plot(Rv.load3)
+```
+
+The AIC better for Treatment only model. 
 
 
-# Part 4: Post-hoc tests 
+# Part 7: Rv: post-hoc tests 
 
 
+
+
+
+
+######## TO DO 
 The *Alytes muletensis* are also clumped, here it's either a reflection of Bd dose (4 = 472,500 zsp's; 5 = 294,759 zsp's), which was scaled to container size, or development stage. If development stage, we see the larger, more developed tadpoles having low loads than the babies. 
-
 
 
 
