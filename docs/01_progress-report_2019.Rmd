@@ -172,27 +172,27 @@ Of particular interest is whether exposure to one pathogen altered the disease o
 
 Relationship between exposure to one pathogen and the outcome (infection status, infection load and mortality) 
 
-
-
 Previous studies have shown, in isolation, both pathogens **accrue** costs (metabolic/body condition...etc...) in  for both pathoge
 
 ? Does the sequence of exposure 
 
 ## 3 |  Methods 
 
-We collected, under licence, wild amphibian egg masses (*R. temporaria* and *B. bufo*) and reared them in an approved facility. For *A. muletensis*, larvae were collected from the ZSL Living Collections. Eggs were hatched in captivity to minimise chances of disease exposure and sentinel individuals were tested for pre-experiment infection. After hatching, all larvae were raised until free-swimming and of similar mass and developmental stage (Gosner 25 **-30**; Gosner, 1960) before being transferred to the experimental room. Indidvials were acclimatised to the experimental rooms and being individually hosued in Really Useful Boxes (RUBs) for 7 days prior to experimetnal procedures.
+We collected, under licence, wild amphibian egg masses (*R. temporaria* and *B. bufo*) and reared them in an approved facility. For *A. muletensis*, larvae were collected from the ZSL Living Collections. Eggs were hatched in captivity to minimise chances of disease exposure and sentinel individuals were tested for pre-experiment infection. After hatching, all larvae were raised until free-swimming and of similar mass and developmental stage (Gosner 25 **-30**; Gosner, 1960) before being transferred to the experimental room. Indidvials were acclimatised to the experimental rooms and individual housing for 7 days prior to experimetnal procedures.
 
 We ran the experiments as four sequential batches of/by species. In order, experiments comprised of two *B.bufo* (n= 2 x 100), one *R.temporaria* (n= 100), and two *A.muletensis* which varied in development stage; *Alytes* I (n=70, Gosner **30**; Gosner, 1960) and *Alytes* II (n=37, Gosner **20**; Gosner, 1960). We randomly assigned indivduals to one of five treatment groups which **cross** all single and co-infection scenarios, as outlined in Figure 1. Each treatment group consisted of 20 individuals per species, or 14 individuals for the *A.muletensis* I. 
 
 The *Alytes* II was a seperate sub-experiment looking at development stage role in Bd infection.  
 
-Tadpoles were exposed individually to controlled doses of Bd, Rv or the correlating sham media (see Fig.1.). Individuals designated to receive ranavirus were exposed to a single dose of 105µL (or 263µL for *A.muletensis* II) meaning an effective exposure of 10^4.5 TCID50/ml of FV-3 like ranavirus. The dose was deemed suitable based on previous work where similar inoculums induced infection but not rapid mortality as seen at higher dosages (Duffus et al., 2014; Pearman et al., 2004).  For Bd exposures, we used a BdGPL strain **(Farrer et al., 2011)** isolated during an epidemic at Ibón Acherito (Pyrenees, Spain) in 2013 by Prof. M. Fisher and cultured in the lab, see Supplementary Material for further details. A Bd positive dose consistent of 15,000 to 600,000 active zoospores in 210µL liquid media, or 525µL for *A.muletensis* II. The volume of media was standardised across doses in order to maintain water quality during the exposure period. The total number of Bd zoospores an individual was exposed to is shown in **the table below**. 
-We exposed all larval individually by directly pipetting the inoculums into the 0.007L housing containers filled with 210mL aged tap water, after a 100% water change. Following the 6-hour exposure period, we raised the water volume to 420mL to maintain water quality and avoid dose dilution during the exposure period.  Note that the water volumes were different for the Alytes I experiment. 
+We exposed all larval individually to controlled doses of Bd, Rv or the correlating sham media (see Fig.1.). 
 
-####### 
+####
 The differential number of exposures for the pathogens was chosen based on the nature of the pathogens. Rv was considered more pathogenic (able to infect in one dose), were as Bd infection is normally acquired by multiple exposures with infection building over time. For individuals in the co-infection groups, doses of the parasites were given sequentially reflecting knowledge of the pathogens present in the wild and their role as emerging pathogens. 
+####
 
-######  
+Tadpoles were exposed to their respective dose by directly pipetting the inoculums into 0.075L Really Useful Boxes (here on referred to as housing container(s)) filled with 210mL aged tap water, after a 100% water change. Following the 6-hour exposure period, we raised the water volume to 375mL to maintain water quality. The *A.muletensis* I tadpoles being larger were housed in 1.7L RUBs with 1L aged tap water which we reduced to 520mL for exposure periods.  
+Individuals designated to receive ranavirus were exposed to a single dose of 105µL (or 263µL for *A.muletensis* I) meaning an effective exposure of 10^4.5 TCID50/ml of FV-3 like ranavirus. The dose was deemed suitable based on previous work where similar inoculums induced infection but not rapid mortality as seen at higher dosages (Duffus et al., 2014; Pearman et al., 2004). 
+For Bd exposures, we used a BdGPL strain **(Farrer et al., 2011)** isolated during an epidemic at Ibón Acherito (Pyrenees, Spain) in 2013 by Prof. M. Fisher and cultured in the lab, see Supplementary Material for further details. A Bd positive dose consistent of 15,000 to 600,000 active zoospores in 210µL liquid media, or 525µL for *A.muletensis* II.  The volume of media was standardised across doses in order to maintain water quality during the exposure period. The total number of Bd zoospores an individual was exposed to is shown in **the table below**, zoospore concentration for each dose having been quantified/assayed prior to exposure using a haemocytometer. 
 
 Experiment            | total zoospores   
 --------------------- | -------------
@@ -203,24 +203,20 @@ Experiment            | total zoospores
 *Alytes muletensis* II | 294,759   
 
 
-All larvae were fed 200µL of ground Tetra Tabimin tablets and Spirulina dispersed in double-distilled water to the ratio 1g/100mL, bar *A.muletensis* I who recieved double fed, every other day. We conducted water parameter tests throughout the experiment on both the housing and shedding containers to test for nitrates, nitrites and ammonia levels. The temperature of the animal rooms followed natural ambient conditions (averaging 20˚C ± 2) with a 14:10 light:dark schedule.
+We conducted water parameter tests throughout the experiment on both the housing and shedding containers to test for nitrates, nitrites and ammonia levels. All larvae were fed 200µL of ground Tetra Tabimin tablets and Spirulina dispersed in double-distilled water to the ratio 1g/100mL, bar *A.muletensis* I who recieved double fed, every other day. The temperature of the animal rooms followed natural ambient conditions (averaging 20˚C ± 2) with a 14:10 light:dark schedule.
 
 ```{r schedule, echo=FALSE, message=FALSE, fig.cap= "Fig.1. Schedule of exposures and sampling, by treatment group. A dose is denoted by a green (Rv) or yellow (Bd) coloured square, and sham doses are displayed as cross-hatched squares. The blue squares indicate when 50ml “soak” water samples were collected from individuals and filtered. EMA water samples (for quantification of viable Bd zoospores) are collected directly from the housing container and shown by an asterisk.", out.width="800px", out.height="800px"}
 
 include_graphics("../output/images/exp-schedule.png")
 ``` 
 
-  
-
 
 ### 3.1 |  Within-host Dynamics (co-infection) 
 
 #### Endpoint Tissue Samples
 
-At the end of the experiment (day 9 post-exposure) tadpoles were euthanised, under licence, by buffered (pH 7.0) 5 mg/L tricaine methylsulfonate (MS-222) and then stored in 100% ethanol for subsequent molecular quantification of infection burden.
-
-The Bd infection load of tadpoles was confirmed by excision and DNA extraction of mouthparts, the site of Bd colonization and infection in tadpoles, using Prepman Ultra (Life Technologies) as per Hyatt et al. (2007). Extracts were screened by the qPCR diagnostic, targetting the ITS-1 and 5.8S regions, outlined in Boyle et al. (2004) with modifications from Garner et al. (2009)  **diluted 1:10 before qPCR to avoid inhibition**. The infection status (infected = 1, uninfected = 0) and infection load, expressed in genomic equivalents (GE) where one GE is equivalent to a single zoospore, was recorded for each individual. 
-The quantification of ranaviral DNA from tissue samples of the tadpoles stored in 100% ethanol was by DNeasy Blood and Tissue (Qiagen) extraction following the manufacturers protocol. Tissues targeted were kidney, liver and intestine, known to be sites of ranaviral infection **(tissue tropism)** [REFERENCE]. DNA samples were then analysed with a qPCR assay specific to the ranaviral major capsid protein (MCP) sequence and normalised by host cell quantity as outlined in Leung et al. (2017). 
+Infection status and load was determined for each individual from endpoint tissue samples. On Day 23 **(9 days post infection (dpi))** tadpoles were euthanised, under licence, by buffered (pH 7.0) 5 mg/L tricaine methylsulfonate (MS-222) and then stored in 100% ethanol for subsequent molecular quantification of infection burden. Infection by Bd was confirmed by excision and DNA extraction of mouthparts, the site of Bd colonization and infection in tadpoles [REFERENCE], using Prepman Ultra (Life Technologies) as per Hyatt et al. (2007). Extracts were screened by the qPCR diagnostic, targetting the ITS-1 and 5.8S regions, outlined in Boyle et al. (2004) with modifications from Garner et al. (2009). We express Bd infection load in genomic equivalents (GE) where one GE is equivalent to a single zoospore. 
+We quantified ranaviral DNA from tissue samples by DNeasy Blood and Tissue (Qiagen) extraction following the manufacturer's protocol. Tissues targeted were kidney, liver and intestine, known to be sites of ranaviral infection **(tissue tropism)** [REFERENCE]. DNA samples were then analysed with a qPCR assay specific to the ranaviral major capsid protein (MCP) sequence and normalised by host cell quantity as outlined in Leung et al. (2017). 
 
 ### 3.2 | Between-host Dynamics (shedding) 
 
