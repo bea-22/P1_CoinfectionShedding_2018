@@ -21,9 +21,11 @@ library(tidyr)
 library(ggplot2) 
 library(lattice)
 library(ggridges)
+library(cowplot)
 
 # for stats 
 library(binom)
+library(multcomp)  ## WARNING this package masks dplyr::select
 
 # for RMarkdown 
 library(knitr)
@@ -233,7 +235,7 @@ DNA extraction was performed for each filter membrane half. One half underwent e
 
 Quantification of viable zoospores shed into the housing container over the course of the shedding period (4 days) was achieved by ethidium monoazide (EMA) treatment following the protocol in (Blooi, Martel, Vercammen, & Pasmans, 2013). In brief, at 4 days post-infection, two sub-samples were taken from the housing container, one to be treated with EMA and the other untreated before DNA extraction by Prepman Ultra (as described below). EMA binds to dead zoospores penetrating their compromised membranes and blocks PCR amplification thus EMA treated samples represent the viable proportion of Bd zoospores in a sample compared to an untreated sample that records both the viable and dead fractions.  
 
-```{r EMA, echo=FALSE, message=FALSE, optipng='-o7', fig.cap= "Viability staining protocol for quantification of live vs. dead Bd zoospores.", fig.width=8, fig.height=4}
+```{r EMA, echo=FALSE, message=FALSE, optipng='-o7', fig.cap= "Viability staining protocol for quantification of live vs. dead Bd zoospores.", fig.width=4, fig.height=2}
 
 include_graphics("../output/images/EMA-process-overview.png")
 ``` 
@@ -277,10 +279,11 @@ To better understand the mechanisms behind/underlying co-infections occurrences 
 
 
 ```{r import data, include=FALSE, warning=FALSE, error=FALSE, message=FALSE}
-data.endpoint <- read.csv('../data/02_clean-data.csv') 
+data.endpoint <- read.csv('../data/02_clean-data.csv')  # all endpoint data 
     data.endpoint$ExperimentNo <-  as.factor(data.endpoint$ExperimentNo)   # makes experiment number a factor 
+    
+prop.infect.sum <- read.csv('../data/03_prop-sum_data.csv')   # output from 03_explore-analysis with proportion infected by treatment and species  
 
-glimpse(data.endpoint)   #check how the dataset has imported (aka whether it has the data type right)  
 ```
 
 
@@ -291,6 +294,108 @@ glimpse(data.endpoint)   #check how the dataset has imported (aka whether it has
 
 
 ### 4.2 | Within-Host Dynamics
+
+
+
+
+
+
+
+```{r proportion infected by species, echo=FALSE, fig.cap= "Figure 3. Proportion of individuals infected at endpoint (Day 23) as an outcome of pathogen exposure scenario and host species. The negative control groups are not included as they have no infection status. Error bars are binomial confidence intervals calculated using logit parameterization.", fig.width=12, fig.height=8}
+
+exp.labs <- c("1" = "Bufo bufo I", "2" = "Bufo bufo II", "3" = "Rana temporaria", "4" = "Alytes muletensis","5" = "Alytes muletensis II") # plot labels 
+
+plot.endpoint.prop.sp <- 
+  prop.infect.sum %>% 
+  filter(!ExperimentNo=='5')  %>% 
+    ggplot(aes(x=Treatment, y= proportion.infected, fill=InfectType ))+ 
+      geom_bar(position= "dodge", stat="identity") + 
+      scale_x_discrete(name ="Treatment Group", limits=c("Bd","Rv","Bd-Rv", "Rv-Bd")) +       #change the order of the x axis ticks
+      geom_errorbar(aes(ymin=upper, ymax=lower), width= .2, position= position_dodge(0.9)) +   #alpha to change transparancy 
+      facet_grid(.~ExperimentNo, labeller=labeller(ExperimentNo = exp.labs)) + 
+      labs(x="Treatment Group",y="Proportion Infected") + 
+      guides(fill=guide_legend(title="Pathogen")) 
+
+
+prop.plot <- plot.endpoint.prop.sp + theme(legend.position="top",legend.justification='right', legend.direction='horizontal', legend.key=element_blank(), legend.text= element_text(size=16), legend.title=element_text(size=22)) + theme(axis.text.x = element_text(size = 16, angle=30, hjust=1,vjust=1), axis.title = element_text(size=20)) +  theme(strip.text.x = element_text(size=24, face="italic")) 
+
+prop.plot
+
+```
+
+
+
+
+
+```{r endpoint load boxplots, echo=FALSE, warning=FALSE, error=FALSE, message=FALSE, fig.cap= "Figure 4.  Mean (((((non-zero)))) infection burden, at endpoint (Day 23), as a function of exposure scenario/regime and host species. a) Bd load quantified as genomic equivalents (GE) where 1 GE represents 1 Bd zoospore, for individuals over the 0.1 GE detection threshold. b) normalised ranaviral load (see Leung et al.'s (2017)). Error bars are standard errors. The negative controls are not included as they receive no pathogen exposure and therefore have no infection status.", fig.width=14, fig.height=8}
+
+plot.Bd.GE.sp <- data.endpoint %>% 
+   filter((Bd.endpoint.status=='1' & Bd.endpoint.GE > 0.1))  %>%   # filter so its just Bd infection that are over the threshold 
+    filter(!ExperimentNo=='5')  %>% 
+      ggplot(aes(interaction(x= Treatment, ExperimentNo), y= Bd.endpoint.GE, fill = ExperimentNo)) +
+        geom_boxplot() +
+        #stat_summary(fun.y="mean", geom="point", shape=23, size=3, fill="red") +    # adds a marker for mean - for normally distibuted data the median and mean will match closely 
+        geom_jitter(width = 0.05) +   # adds the data points 
+        scale_y_log10() +  # logs the axis 
+        scale_fill_grey(start=1, end=.5, labels=exp.labs) +
+        scale_x_discrete(labels=c("Bd", "Bd>Rv", "Rv>Bd","Bd", "Bd>Rv", "Rv>Bd","Bd", "Bd>Rv", "Rv>Bd", "Bd", "Bd>Rv", "Rv>Bd", "Bd")) +
+        xlab("Treatment Group") +
+        ylab("Bd load\n(GE)") +
+        guides(fill=guide_legend(title="Species")) +  theme_bw()   # remember to place theme_bw() first!!! 
+
+        
+boxplot.Bd <- plot.Bd.GE.sp + theme(legend.key=element_blank(), legend.text= element_text(size=12, face = "italic"), legend.title=element_text(size=16)) + 
+   theme(axis.text.x = element_text(angle=30, hjust=1, vjust=1, size = 10), axis.text.y = element_text(size = 10), axis.title = element_text(size=16)) 
+ 
+plot.Rv.load.sp <- data.endpoint %>% 
+ filter(Rv.endpoint.load > 0 & !Rv.endpoint.load > 2000) %>%  # filtering out the extremely high Rv viral load so that we can see the data better 
+  ggplot(aes(x = interaction(Treatment, ExperimentNo), y= Rv.endpoint.load, fill = ExperimentNo)) + 
+        geom_boxplot() +
+        #stat_summary(fun.y="mean", geom="point", shape=23, size=3, fill="red") +    
+        geom_jitter(width = 0.05) +   # adds the data points  
+        scale_y_log10() +  # logs the axis 
+        scale_fill_grey(start=1, end=.5, labels=exp.labs) +
+        scale_x_discrete(labels=c("Bd>Rv", "Rv>Bd", "Bd>Rv", "Rv","Rv>Bd", "Bd>Rv", "Rv>Bd","Bd>Rv","Rv","Rv>Bd")) +
+        xlab("Treatment Group") +
+        ylab("Rv viral load\n (log)") +
+        guides(fill=guide_legend(title="Species")) +  theme_bw()
+
+boxplot.Rv <- plot.Rv.load.sp +  theme(legend.key=element_blank(), legend.text= element_text(size=12, face = "italic"), legend.title=element_text(size=16)) + 
+   theme(axis.text.x = element_text(angle=30, hjust=1, vjust=1, size = 10), axis.text.y = element_text(size = 10), axis.title = element_text(size=16)) 
+ 
+  
+
+plot_grid(boxplot.Bd,
+          boxplot.Rv,
+          labels = c('a)','b)'),
+          label_x = 0.2,
+          ncol = 2)
+
+
+
+```
+
+
+
+
+```{r playing with plots for publication } 
+
+
+plot_grid(boxplot.Bd,
+          boxplot.Bd,
+          labels = c('b)','c)'),
+          label_x = 0.2,
+          ncol = 2) -> load.combo
+
+plot_grid(prop.plot,
+          load.combo,
+          label_x = 0.2,
+          nrow = 2)
+
+
+
+````
+
 
 
 ### 4.3 | Between-Host Dynamics
@@ -365,7 +470,7 @@ Figure 1. Mean standardised mass at metamorphosis as a function of Bd dose profi
 
 Figure 2. Timing of metamorphosis as a function of Bd dose category split by food regime.  Normal food treatments are solid lines, restricted food treatments are dotted lines and dose categories are colour coded as per figure legend.
 
-Figure 3. Proportion of toadlets infected at metamorphosis as a function of Bd dose category and food regime. The negative control dose category treatments are not included as they are zero-infected by design.
+
 
 Figure 4. Mean non-zero infection burdens (loge[genomic equivalents]) as a function of food regime and Bd dose category. Error bars are standard errors. The negative control dose category treatments are not included as they are zero-infected by design.
 
