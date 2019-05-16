@@ -247,30 +247,33 @@ All analyses were conducted in R v.3.5.1 [RStudio Team (2015). RStudio: Integrat
 
 
 
-### 3.3.1 | Survival Analysis
-Survivorship was analysed using Cox proportional hazard models, with treatment group and experiment number/species as explanatory vairables
-
-
-### 3.3.2 | Endpoint Infection Status & Load (Within-Host Dynamics) 
-
-To determine whether ….. the pathogen exposure scenario and/or the host species influenced individuals infection load, we used GLM’s 
-
-
-We analysed the probability of infection using binomial generalised linear models, with either treatment group or experiment number, used as a proxy for species, as the explanatory vairables. Model parameters were assessed using analysis of deviance (anova) with Treatment xxx for predicting ranavirus infection status and ExperimentNo. best for Bd infection status. 
-
-**** Dosage variation was accounted for in all the models by using experimental number rather than species as an explanatory variable.
-
-
-Infection load ….. explanation for each pathogen …. the number of parasites detected per individual host
 
 
 
-We used Tukey’s pairwise comparisons to evaluate differences in infection status and load, seperately for both pathogens, between variations of **the same host species** (using the glht function in the multcomp package; [ref]). 
+### 3.3.1 | Endpoint Infection Status & Load (Within-Host Dynamics) 
+
+We used generalized linear models (GLMs) to test the effect of exposure scenario (Bd only, Rv only, Bd-Rv and Rv-Bd) and host species (*B.bufo*, *R.temporaria* and *A.muletensis*) on infection status (uninfected vs. infected), using a binomial error structure, and on infection load using a Gamma error structure with log-link transformation. **Model parameters were assessed using analysis of deviance (ANOVA). << include this here**. Where the response variable was infection load it was recorded as GE score for Bd positive infections and as a normalised viral load for ranavirus. **<< comment here about why se didnt log the Bd GE score??? ** 
+
+We implemented/used Tukey’s ((honest significant difference)) post hoc test to compare // to evaluate the significant effects of the explanatory vairables highlighted by the GLMs, using the glht function in the multcomp package; [ref], 
+
+
+
+
+#######
+) in units of log10 zoospore equivalents, which was approximately normally dis- tributed after log scaling as determined by the Shapiro– Wilks normality test implemented in R (R Core Team 2015). Control groups were excluded from this model as all unexposed individuals tested negative for Bd infection throughout the experiment.
+In the case of low sample size (for larval or post-metamorphic amphibians some species/treatment combinations had only one individual because of lack of Bd-positive animals or because of high mortality during the experiment) we used
+########
+
+All statistical analysis used experiment number as a proxy for species, to account for the slight variations in Bd dose. The effects of body size and weight were not included, **such recordings for tadpoles are highly flawed** and these variables did not differ among treatments. Control groups were excluded from all models as all individuals were uninfected by design and a subset of each tested negative for both Bd and Rv infection. 
 
 
 
 
 To better understand the mechanisms behind/underlying co-infections occurrences we also tested whether being infected with one pathogen (infection status; 0,1) influenced whether individuals were infection by the other pathogen (infection status; 0,1) and the subsequent infection load, in coinfection scenarios/treatment groups. Explanation sentence??  To explore these scenarios
+
+
+### 3.3.3 | Survival Analysis
+Survivorship was analysed using Cox proportional hazard models, with treatment group and experiment number/species as explanatory vairables
 
 
 
@@ -295,9 +298,14 @@ prop.infect.sum <- read.csv('../data/03_prop-sum_data.csv')   # output from 03_e
 
 ### 4.2 | Within-Host Dynamics
 
+Present a table of means and standard deviations
+First report overall ANOVA
+Then report which pairs were significantly different at a given alpha level
+Then report which pairs were not significantly different.
 
 
 
+with Treatment xxx for predicting ranavirus infection status and ExperimentNo. best for Bd infection status. 
 
 
 
@@ -344,7 +352,7 @@ plot.Bd.GE.sp <- data.endpoint %>%
         guides(fill=guide_legend(title="Species")) +  theme_bw()   # remember to place theme_bw() first!!! 
 
         
-boxplot.Bd <- plot.Bd.GE.sp + theme(legend.key=element_blank(), legend.text= element_text(size=12, face = "italic"), legend.title=element_text(size=16)) + 
+boxplot.Bd <- plot.Bd.GE.sp + theme(legend.key=element_blank(), legend.position="top",legend.justification='right', legend.direction='horizontal', legend.text= element_text(size=8, face = "italic"), legend.title=element_text(size=14))  + 
    theme(axis.text.x = element_text(angle=30, hjust=1, vjust=1, size = 10), axis.text.y = element_text(size = 10), axis.title = element_text(size=16)) 
  
 plot.Rv.load.sp <- data.endpoint %>% 
@@ -360,8 +368,8 @@ plot.Rv.load.sp <- data.endpoint %>%
         ylab("Rv viral load\n (log)") +
         guides(fill=guide_legend(title="Species")) +  theme_bw()
 
-boxplot.Rv <- plot.Rv.load.sp +  theme(legend.key=element_blank(), legend.text= element_text(size=12, face = "italic"), legend.title=element_text(size=16)) + 
-   theme(axis.text.x = element_text(angle=30, hjust=1, vjust=1, size = 10), axis.text.y = element_text(size = 10), axis.title = element_text(size=16)) 
+boxplot.Rv <- plot.Rv.load.sp +  theme(legend.key=element_blank(), legend.position="top",legend.justification='right', legend.direction='horizontal', legend.text= element_text(size=8, face = "italic"), legend.title=element_text(size=14)) + 
+     theme(axis.text.x = element_text(angle=30, hjust=1, vjust=1, size = 10), axis.text.y = element_text(size = 10), axis.title = element_text(size=16)) 
  
   
 
@@ -377,24 +385,6 @@ plot_grid(boxplot.Bd,
 
 
 
-
-```{r playing with plots for publication } 
-
-
-plot_grid(boxplot.Bd,
-          boxplot.Bd,
-          labels = c('b)','c)'),
-          label_x = 0.2,
-          ncol = 2) -> load.combo
-
-plot_grid(prop.plot,
-          load.combo,
-          label_x = 0.2,
-          nrow = 2)
-
-
-
-````
 
 
 
