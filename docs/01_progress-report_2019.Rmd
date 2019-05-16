@@ -189,7 +189,7 @@ The *Alytes* II was a seperate sub-experiment looking at development stage role 
 We exposed all larval individually to controlled doses of Bd, Rv or the correlating sham media (see Fig.1.). 
 
 ####
-The differential number of exposures for the pathogens was chosen based on the nature of the pathogens. Rv was considered more pathogenic (able to infect in one dose), were as Bd infection is normally acquired by multiple exposures with infection building over time. For individuals in the co-infection groups, doses of the parasites were given sequentially reflecting knowledge of the pathogens present in the wild and their role as emerging pathogens. 
+The differential number of exposures for the pathogens was chosen based on the nature of the pathogens. Rv was considered more pathogenic (able to infect in one dose), were as Bd infection is normally acquired by multiple exposures with infection building over time. For individuals in the co-infection groups, doses of the parasites were given sequentially reflecting knowledge of the pathogens present in the wild and their role as emerging pathogens. Previous studies have also shown that repeatedly exposed to Bd increases the likelihood of individuals developing infections as aposed to one single, high dose [REFERENCE: Daversa, et al., (2018) Functional ecology]
 ####
 
 Tadpoles were exposed to their respective dose by directly pipetting the inoculums into 0.075L Really Useful Boxes (here on referred to as housing container(s)) filled with 210mL aged tap water, after a 100% water change. Following the 6-hour exposure period, we raised the water volume to 375mL to maintain water quality. The *A.muletensis* I tadpoles being larger were housed in 1.7L RUBs with 1L aged tap water which we reduced to 520mL for exposure periods.  
@@ -253,7 +253,7 @@ We used generalized linear models (GLMs) to test the effect of exposure scenario
 
 We implemented/used Tukey’s ((honest significant difference)) post hoc test to compare // to evaluate the significant effects of the explanatory vairables highlighted by the GLMs, using the glht function in the multcomp package; [ref], 
 
-All statistical analysis used experiment number as a proxy for species, to account for the slight variations in Bd dose. The effects of body size and weight were not included, **such recordings for tadpoles are highly flawed** and these variables did not differ among treatments. Control groups were excluded from all models as all individuals were uninfected by design and a subset of each tested negative for both Bd and Rv infection. 
+All statistical analysis used experiment number as a proxy for species, to account for the slight variations in Bd dose. The effects of body size and weight were not included, **such recordings for tadpoles are highly flawed** and these variables did not differ among treatments. Control groups were excluded from all models as all individuals were uninfected by design and did not develop detectable infections by either pathogen during the experiment. 
 
 We have excluded *A.muletensis* II from the ((above mentioned))) models looking at the ########## infection status and load, as that experiment did not have the full range of exposure scenarios. To test the difference in development stage on Bd infection status and load we compare *A.muletensis* I and less developed *A.muletensis* II using #######. 
 
@@ -264,11 +264,7 @@ We have excluded *A.muletensis* II from the ((above mentioned))) models looking 
 
 ### 3.3.3 | Survival Analysis
 
-Survivorship was analysed using Cox proportional hazard models, again with exposure scenario and host species as explanatory vairables. 
-
-
-
-Cox proportional hazards models were performed in R, statistical computing environment (version 2.9.0, Institute for Statistics and Mathemat- ics, Vienna) with the ‘‘coxph’’ function and the Survival package for survival analyses within and among species.
+Survivorship was analysed using Cox proportional hazard models, again with exposure scenario and host species as explanatory vairables, with the ‘‘coxph’’ function and the Survival package.
 
 
 ## 4 | Results  
@@ -285,16 +281,6 @@ prop.infect.sum <- read.csv('../data/03_prop-sum_data.csv')   # output from 03_e
 
 
 ### 4.2 | Within-Host Dynamics
-
-Present a table of means and standard deviations
-First report overall ANOVA
-Then report which pairs were significantly different at a given alpha level
-Then report which pairs were not significantly different.
-
-
-
-with Treatment xxx for predicting ranavirus infection status and ExperimentNo. best for Bd infection status. 
-
 
 
 ```{r proportion infected by species, echo=FALSE, fig.cap= "Figure 3. Proportion of individuals infected at endpoint (Day 23) as an outcome of pathogen exposure scenario and host species. The negative control groups are not included as they have no infection status. Error bars are binomial confidence intervals calculated using logit parameterization.", fig.width=12, fig.height=8}
@@ -371,6 +357,34 @@ plot_grid(boxplot.Bd,
 
 ```
 
+
+Load range 
+  - within predictions ranges and those reported for wild populations?? 
+
+
+### Infection status 
+ 
+Exposure scenario predicted infection status and load for ranavirus: tadpoles exposed to the series of Bd doses and then to Rv were **significantly** more likely to develop ranaviral infections (GLM; χ2 = XXX; p < .001 ####, Figure XXXXX), which were more likely to be at a high viral titre (GLM; χ2 = XXX; p < .001 ****, Figure XXXXX //// Rv only = XXXX ± XXXX, Bd - Rv = XXX ± XXX, Rv - Bd = XXXX ± XXX, GLM, F = XXXX, p < .001; XXXX). 
+
+###########################################
+strength predicted infection risk: newts in the high dose tanks were more likely to develop infections (GLM; χ2
+1 = 18.44; p < .001, Figure 2a)
+andand developed stronger infections (low dose GE = 0.44 ± 0.15, high dose = 8.82 ± 2.72, GLM, F1,51 = 24.67, p < .001; Figure 2b). Risk did not affect how quickly newts first switched to terrestrial
+habitat (no risk tdepart = 0.54 ± 0.08, low risk tdepart = 0.55 ± 0.09, high risk tdepart = 0.70 ± 0.08, GLM, F1,51 = 1.66, p = .196). Neither risk, in- fection status, nor infection load significantly affected cumulative tter- restrial (Table S2) or when breaking analysis down by Bd growth phases (Table
+ 
+###########################################
+
+
+
+
+Present a table of means and standard deviations
+First report overall ANOVA
+Then report which pairs were significantly different at a given alpha level
+Then report which pairs were not significantly different.
+
+
+
+with Treatment xxx for predicting ranavirus infection status and ExperimentNo. best for Bd infection status. 
 
 
 
