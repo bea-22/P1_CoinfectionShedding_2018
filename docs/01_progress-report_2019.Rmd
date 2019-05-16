@@ -217,6 +217,8 @@ include_graphics("../output/images/exp-schedule.png")
 
 #### Endpoint Tissue Samples
 
+compare host response between species at a single time point postinoculation;
+
 Infection status and load was determined for each individual from endpoint tissue samples. On Day 23 **(9 days post infection (dpi))** tadpoles were euthanised, under licence, by buffered (pH 7.0) 5 mg/L tricaine methylsulfonate (MS-222) and then stored in 100% ethanol for subsequent molecular quantification of infection burden. Infection by Bd was confirmed by excision and DNA extraction of mouthparts, the site of Bd colonization and infection in tadpoles [REFERENCE], using Prepman Ultra (Life Technologies) as per Hyatt et al. (2007). Extracts were screened by the qPCR diagnostic, targetting the ITS-1 and 5.8S regions, outlined in Boyle et al. (2004) with modifications from Garner et al. (2009). We express Bd infection load in genomic equivalents (GE) where one GE is equivalent to a single zoospore. 
 We quantified ranaviral DNA from tissue samples by DNeasy Blood and Tissue (Qiagen) extraction following the manufacturer's protocol. Tissues targeted were kidney, liver and intestine, known to be sites of ranaviral infection **(tissue tropism)** [REFERENCE]. DNA samples were then analysed with a qPCR assay specific to the ranaviral major capsid protein (MCP) sequence and normalised by host cell quantity as outlined in Leung et al. (2017). 
 
@@ -245,36 +247,28 @@ include_graphics("../output/images/EMA-process-overview.png")
 
 All analyses were conducted in R v.3.5.1 [RStudio Team (2015). RStudio: Integrated Development for R. RStudio, Inc., Boston, MA URL http://www.rstudio.com/] with the packages listed in the supplementary material [refs??] (Sxx) and script provided on [GitHub](https://github.com/bea-22/P1_CoinfectionShedding_2018).
 
+### 3.3.1 | Within-Host Dynamics
 
-
-
-
-
-### 3.3.1 | Endpoint Infection Status & Load (Within-Host Dynamics) 
-
-We used generalized linear models (GLMs) to test the effect of exposure scenario (Bd only, Rv only, Bd-Rv and Rv-Bd) and host species (*B.bufo*, *R.temporaria* and *A.muletensis*) on infection status (uninfected vs. infected), using a binomial error structure, and on infection load using a Gamma error structure with log-link transformation. **Model parameters were assessed using analysis of deviance (ANOVA). << include this here**. Where the response variable was infection load it was recorded as GE score for Bd positive infections and as a normalised viral load for ranavirus. **<< comment here about why se didnt log the Bd GE score??? ** 
+We used generalized linear models (GLMs) to test the effect of exposure scenario (Bd only, Rv only, Bd-Rv and Rv-Bd) and host species (*B.bufo*, *R.temporaria* and *A.muletensis*) on infection status (uninfected vs. infected), using a binomial error structure, and on infection load using a Gamma error structure with log-link transformation. **Model parameters were assessed using analysis of deviance (ANOVA). << include this here**. Where the response variable was infection load it was recorded as GE score for Bd positive infections and as a normalised viral load for ranavirus. **<< comment here about why se didnt log the Bd GE score??? ** Each of level of statistical comparison (exposure scenario, species) on the response variable (infection status or load) was carried out individual for each pathogen. 
 
 We implemented/used Tukey’s ((honest significant difference)) post hoc test to compare // to evaluate the significant effects of the explanatory vairables highlighted by the GLMs, using the glht function in the multcomp package; [ref], 
 
-
-
-
-#######
-) in units of log10 zoospore equivalents, which was approximately normally dis- tributed after log scaling as determined by the Shapiro– Wilks normality test implemented in R (R Core Team 2015). Control groups were excluded from this model as all unexposed individuals tested negative for Bd infection throughout the experiment.
-In the case of low sample size (for larval or post-metamorphic amphibians some species/treatment combinations had only one individual because of lack of Bd-positive animals or because of high mortality during the experiment) we used
-########
-
 All statistical analysis used experiment number as a proxy for species, to account for the slight variations in Bd dose. The effects of body size and weight were not included, **such recordings for tadpoles are highly flawed** and these variables did not differ among treatments. Control groups were excluded from all models as all individuals were uninfected by design and a subset of each tested negative for both Bd and Rv infection. 
 
+We have excluded *A.muletensis* II from the ((above mentioned))) models looking at the ########## infection status and load, as that experiment did not have the full range of exposure scenarios. To test the difference in development stage on Bd infection status and load we compare *A.muletensis* I and less developed *A.muletensis* II using #######. 
 
+### 3.3.2 | Between-Host Dynamics
 
-
-To better understand the mechanisms behind/underlying co-infections occurrences we also tested whether being infected with one pathogen (infection status; 0,1) influenced whether individuals were infection by the other pathogen (infection status; 0,1) and the subsequent infection load, in coinfection scenarios/treatment groups. Explanation sentence??  To explore these scenarios
+``` results pending``` 
 
 
 ### 3.3.3 | Survival Analysis
-Survivorship was analysed using Cox proportional hazard models, with treatment group and experiment number/species as explanatory vairables
 
+Survivorship was analysed using Cox proportional hazard models, again with exposure scenario and host species as explanatory vairables. 
+
+
+
+Cox proportional hazards models were performed in R, statistical computing environment (version 2.9.0, Institute for Statistics and Mathemat- ics, Vienna) with the ‘‘coxph’’ function and the Survival package for survival analyses within and among species.
 
 
 ## 4 | Results  
@@ -288,12 +282,6 @@ data.endpoint <- read.csv('../data/02_clean-data.csv')  # all endpoint data
 prop.infect.sum <- read.csv('../data/03_prop-sum_data.csv')   # output from 03_explore-analysis with proportion infected by treatment and species  
 
 ```
-
-
-
-### 4.1 | Survival Analysis
-
-``` results pending``` 
 
 
 ### 4.2 | Within-Host Dynamics
