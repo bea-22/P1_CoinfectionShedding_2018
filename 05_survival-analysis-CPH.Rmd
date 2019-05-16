@@ -1,0 +1,182 @@
+---
+title: "05_survival-analysis"
+author: "Bryony Allen"
+date: "16/05/2019"
+output: word_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+To statistically compare survival curves, we used a Cox’s proportional hazards model [42]. The Cox proportional hazards model give an overall p-value (Likeli- hood ratio test) which assesses the validity of the model, as well as p-values for each factor and an associated ‘‘hazard ratio’’. The hazard ratio represents a comparative indicator of the risk or probability of mortality associated with a given factor (a hazard ratio.1 indicates an increase in the probability of mortality). Higher hazard ratios are associated with a greater probability or risk of mortality due to association with that factor (e.g., treatment or species). One caveat with Cox proportional hazards models for survival analysis is that some mortality (greater than 1 individual) must exist to make comparisons among groups. Thus, if zero mortality is seen in a group, a comparison between that group and others is not possible. We only experienced this problem in tadpoles where, for one species, no mortality existed across all experimental treatments, and in one treatment for a single post- metamorphic species (i.e., zero mortality in the control treatment for A. boreas metamorphs).
+
+
+# code and notes taken from 
+	# https://tbrieder.org/epidata/course_e_ex04_task.pdf
+
+# used tutorial https://www.datacamp.com/community/tutorials/survival-analysis-R
+#  > most survival datasets are right-censored (aka incomplete (censored) after the last time point)
+
+
+# install packages but see following webpage on source  https://community.rstudio.com/t/meaning-of-common-message-when-install-a-package-there-are-binary-versions-available-but-the-source-versions-are-later/2431/4
+# install.packages("survival") #R asks wehther to compile from source > until update I select no this means I use an old binary
+# install.packages("survminer") #same here but needs source package as significant portions of the package has been written in C/C++ which need accessory software tools to compile (translate) their source code 
+# install.packages("dplyr")
+
+
+# call packages 
+```{r packages, include=FALSE, warning=FALSE, error=FALSE, message=FALSE}
+# Install & load in required packages 
+
+# for tidying data  
+library(dplyr)
+
+# for plotting 
+library(ggplot2) 
+library(lattice)
+library(ggridges)
+
+# for stats 
+library(survival)  #R asks wehther to compile from source > until update I select no this means I use an old binary
+library(survminer)  # not sure whether I really need this  #same here but needs source package as significant portions of the package has been written in C/C++ which need accessory software tools to compile (translate) their source code 
+
+````
+
+## Part 1: Import and manipulate data ====
+
+data(ovarian)
+head(ovarian)
+glimpse(ovarian)
+
+        # $ futime   <survival times> 59, 115, 156, 421, 431, 448, 464, 475, 477, 563, 638, 744, 769, 770, 803, 855, 1040, 1106, 1129, 1206, 1227, 268, 329, 353, 365, 377
+        # $ fustat   <censorship of data> 1, 1, 1, 0, 1, 0, 1, 1, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0
+        # $ age      <age> 72.3315, 74.4932, 66.4658, 53.3644, 50.3397, 56.4301, 56.9370, 59.8548, 64.1753, 55.1781, 56.7562, 50.1096, 59.6301, 57.0521, 39.2712, 43.1233, ...
+        # $ resid.ds <residual disease> 2, 2, 2, 2, 2, 1, 2, 2, 2, 1, 1, 1, 2, 2, 1, 1, 2, 1, 1, 2, 1, 2, 2, 1, 2, 1
+        # $ rx       <treatment group> 1, 1, 1, 2, 1, 1, 2, 2, 1, 2, 1, 2, 2, 2, 1, 1, 1, 1, 2, 2, 2, 1, 1, 2, 2, 2
+        # $ ecog.ps  <patients’ performance>
+
+Where.... 
+z1 = survival times (response variable) aka time till death
+z2 = is the survival time censored or not? 
+z3 = species ???  (predictive variable)  <- convert this into factos
+rx = treatment group assignment 
+
+presence of disease ??? 
+#totalobstime <- the total observation time from treatment start until the evnt occurs or observation time is censored 
+# defining variables // check the labels
+#survivaldataset¢rx <- factor(survivaldataset$rx, levels = c("1", "2".....), labels = c("A", "B".... ))
+
+
+```{r import data, include=FALSE, warning=FALSE, error=FALSE, message=FALSE}
+
+survdata <- read.csv('data/05_survival-data.csv')  # import data  
+
+
+head(survdata)
+str(survdata)
+unique(survdata$Treatment)
+
+survdata$exp.species<-paste(survdata$Species, survdata$ExperimentNo, sep="-")  # create a subgroup called "exp.species" (defines each experiment for each species)
+
+
+# create a column defining censorship 
+survdata$censored <-ifelse(data$endpoint.code=="EU", "Apodemus",
+                    ifelse(data$Species=="AF", "Apodemus",     
+                           ifelse(data$Species=="MG", "Myodes",NA)))
+unique(data$genus)
+
+# calculate the time survived since first exposure 
+data$M1date <- as.Date(strptime(data$M1date, "%m/%d/%Y"))
+data$M2date <- as.Date(strptime(data$M2date, "%m/%d/%Y"))
+data$Days <- data$M2date - data$M1date
+# calculate the time survived since last exposure (dpi)
+
+
+
+# create a survival object (aka a compiled version of z1 and z2 columns) that can be interpreted by the survfit function
+
+surv_object <- Surv(time = survivaldataset$z1, event= survivaldataset$z2)
+surv_object   # any survival time with a "+" behind it indicate censored data points
+
+
+
+## Part 2: Kaplan-Meier ====
+
+# fit Kaplan-Meier curves.... by passing the surv_object to the survfit function
+	# stratify the curve based on the treatment regimen (rx) 
+
+fit1 <-  survfit(surv_object ~ rx, data = survivaldataset)
+summary(fit1) 
+	# this shows survival times, the proportion of surviving individuals at every time point, namely your p.1, p.2 and the treatment group
+
+# plot the survival curves ... by passing surv_object to the ggsurvplot function
+ggsurvplot(fit1, data = survivaldataset, pval = TRUE) 
+	# pval = TRUE plots the p-value of the log rank test as well
+	
+# by convention, vertical lines indicate censored data, their corresponding x values the time at which censoring occurred 
+# the p-value is the log-ranked test 
+
+	## EXTRA could look at whether the end infectious status was 			predictive > for this you need to categorise data into "no" or "yes" 
+		## fit2 <- survfit(surv_object ~ infection.st, data = survivaldataset)
+		## ggsurvplot(fit2, data = survivaldataset, pval = TRUE) 
+
+
+
+## Part 3: Cox-Proportional Hazard Model ====
+		# CPH allows you to include covariates .... 
+
+# fit a Cox-Proportional Hazard Model 
+fit.coxph <- coxph(surv_object ~ treatment.gr + species + infection.st, data = survivaldataset)
+
+#### OR #### 
+fit.coxph <- coxph(Surv(totalobstime, outxx) ~ factor(xx1) + factor(xx2) + age, data = cphdata)
+
+# check model output 
+		# where exp(coef) is the hazard ratio 
+summary(fit.coxph)
+
+# test diagnostic to evaluate whether the assumption of proportionality is met 
+cox.zph(xxxx)
+	# if the GLOBAL chi-squared test is highly significant (I think if its a big no.) it means the assumption of proportionality is violated 
+		# check which of the variables is contributing to this 
+		# this term can then be removed and then the model must be stratified by that factor (see below)
+		
+# get the numeric output quantification of survival probability
+print(p)
+# $y shows the survival probabilities among individuals in each treatment group, adjusted for factors such as age and sex 
+
+# get a detailed break-down 
+xxxx2 <- survfit(xxxx2)
+summary(xxxx2, times = seq(0, 10, 1)) #gives the first 10 days, daily for each treatment 
+	
+
+## Part 4: Visualisation  ====
+
+#### Standard Plot #### 
+# help(plot.survfit)
+plot1 <- plot(survfit(xxxx2), ylim=c(.45,1), xlab = "Days Post Infection (dpi)", mark.time=F, ylab= "Probability of xxxxx", col=c(1,2,4), main="Cox Proportional Hazard model by infection regime")
+
+
+#### Forest Plot #### 
+
+# visualised using the ggforest package which makes a forest plot ... shows hazard ratios (HR) which are derived from the model for all covariates (making a forest plot)
+		
+ggforest(fit.coxph, data = survivaldataset)
+
+ 
+		
+# stratification of the CPH model 
+xxxx2 <- coxph(Surv(totalobstime, outxx) ~ strata(xx1) + factor(xx2) + age, data = cphdata)
+summary(xxxx2)  #N.B. this results in the hazard for the two other factors being shown but not the first factor as it was not a constant hazard 
+
+# test the assumption of protpotionality 
+cox.zph(xxxx2)
+# plot the test results 
+plot(cox.zph(xxxx2))
+	# you are checking how curved the graph is ... a flat graph = assumption of proportionality is not (much) violated 
+	# see https://stats.stackexchange.com/questions/15114/how-to-understand-the-plotting-of-the-cox-zph-function-in-r
+
+		
+		
