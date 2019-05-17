@@ -150,14 +150,14 @@ Here I check the chosen model ``` Bd.load4 <- glm(Bd.endpoint.GE ~ ExperimentNo,
 ```{r Bd - glm - summary, echo=FALSE, warning=FALSE, error=FALSE, message=FALSE}
 Bd.load.glm <- glm(Bd.endpoint.GE ~ ExperimentNo, data=Bd.load, family="Gamma"(link='log'))
 
-summary(Bd.load4)   # Residual deviance: 340.74  on 192 df   AIC: 679
+summary(Bd.load.glm)   # Residual deviance: 340.74  on 192 df   AIC: 679
 
 Bd.load.coef <-summary.glm(Bd.load.glm)$coefficients
 ```
 
 ```{r Bd - glm - diganostic plot, echo=FALSE, warning=FALSE, error=FALSE, message=FALSE}
 par(mfrow=c(2,2), mar=c(3,3,3,1), mgp=c(2,0.8,0))
-plot(Bd.load4)
+plot(Bd.load.glm)
 ```
 
 ## Part 3b: Bd: model fit 
@@ -256,6 +256,7 @@ Experiment No. | Species              | total Bd zsp's   | min. temp. (^o^C) | m
 **QUESTION** all Bd doses are consisted high but are we seeing dose-dependent Bd loads within this high dose class? 
 
 <br>
+
 # Part 4: Bd: post-hoc tests 
 
 Tukey's honest significant difference 
@@ -381,7 +382,7 @@ droplevels(Rv.load)
 Here I check the model with the best fit  ```glm(Rv.endpoint.load ~ Treatment, data=Rv.load, family="Gamma"(link='log'))```
 Gamma with log-link has the best (QQ) plots and lowest residual deviance 
 
-```{r Rv - glm - checks2, echo=FALSE, warning=FALSE, error=FALSE, message=FALSE}
+```{r Rv - glm - summary, echo=FALSE, warning=FALSE, error=FALSE, message=FALSE}
 
 Rv.load.glm <- glm(Rv.endpoint.load ~ Treatment, data=Rv.load, family="Gamma"(link='log'))
 summary(Rv.load.glm)   # Residual deviance: 24.287  on 16 df   AIC: 253.89
@@ -389,24 +390,14 @@ summary(Rv.load.glm)   # Residual deviance: 24.287  on 16 df   AIC: 253.89
 Rv.load.coef <-summary.glm(Rv.load.glm)$coefficients
 ```
 
-```{r Rv - glm - checks2 plot, echo=FALSE, warning=FALSE, error=FALSE, message=FALSE}
+```{r Rv - glm - diagnostic plot, echo=FALSE, warning=FALSE, error=FALSE, message=FALSE}
 par(mfrow=c(2,2), mar=c(3,3,3,1), mgp=c(2,0.8,0))
 plot(Rv.load.glm)
 ```
 
-## Part 6c: Rv: model fit
-
 ```{r Rv fitted values, echo=FALSE, fig.cap= "Fig. 6. Plot of relationship between the fitted values from the model and the true data values."}
 
-Rv.load$glm.fit <- Rv.load3$fitted.values  # add logisitic fitted values back to the dataframe as a new col
-
-plot(x = Rv.load$Rv.endpoint.load, y = Rv.load$glm.fit,  # 
-     xlab = "True Values",
-     ylab = "Model Fitted Values",
-     main = "Regression fits of Rv load")
-
-abline(b = 1, a = 0)   # values should fall around this line!
-
+Rv.load$glm.fit <- Rv.load.glm$fitted.values  # add logisitic fitted values back to the dataframe as a new col
 ```
 
 **To Do** split Rv load data into categories low-high or similar? 
@@ -414,13 +405,11 @@ abline(b = 1, a = 0)   # values should fall around this line!
 ## Part 6d: Rv: model plotting
 
 ```{r Rv - glm - predicted values, include=TRUE, warning=FALSE, error=FALSE, message=FALSE}
-#Rv.load3 <- glm(Rv.endpoint.load ~ Treatment, data=Rv.load, family="Gamma"(link='log'))
-
 # create a dataframe of "new" data 
 newdat <- expand.grid(ExperimentNo=c("1", "2", "3", "4", "5"),Treatment=c( "Bd-Rv", "Rv-Bd"))
 
 # predict the value/result of the new data using the glm
-Rv.newdat <-cbind(newdat, predict(object = Rv.load3,   # the model 
+Rv.newdat <-cbind(newdat, predict(object = Rv.load.glm,   # the model 
                                newdata=newdat, se=TRUE, type="response", print.matrix=T))  # dataframe of new data 
 Rv.newdat
 
