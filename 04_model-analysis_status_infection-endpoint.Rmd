@@ -1,0 +1,541 @@
+---
+title: "04_model-analysis_infection-endpoint_status"
+author: "Bryony Allen"
+date: "09/05/2019"
+output: word_document
+---
+
+```{r packages, include=FALSE, warning=FALSE, error=FALSE, message=FALSE}
+# Install & load in required packages 
+
+# for tidying data  
+library(dplyr)
+# library(tidyr)
+# library(tibble)
+
+# for plotting 
+library(ggplot2) 
+library(lattice)
+
+# for stats 
+library(binom)
+library(multcomp)  ## WARNING this package masks dplyr::select
+
+# library(purr)  # purr guidance > for evaluating models http://ijlyttle.github.io/isugg_purrr/presentation.html#(1) 
+# library(broom)   # broom summarizes key information about models in tidy tibble()s >> https://github.com/tidymodels/broom
+```
+
+# Part 1: import data 
+
+> **N.B.**   At the moment this code chuck reads in a .csv file with endpoint infection data, originally compiled in excel and then cleaned in "02_tidy_data-qpcr"script. In the future you will read in the .csv file of merged qPCR outputs (created, checked and cleaned in "02_tidy_data-qpcr"script) and experiment metadata (checked and cleaned in "02_tidy_data-metadata"script). 
+
+<br>
+```{r import data, echo=FALSE, warning=FALSE, error=FALSE, message=FALSE}
+data.endpoint <- read.csv('data/02_clean-data.csv') 
+
+glimpse(data.endpoint)   #check how the dataset has imported (aka whether it has the data type right)  
+```
+
+# Part 2: visualise data 
+
+```{r import proportion data , include=FALSE, warning=FALSE, error=FALSE, message=FALSE}
+prop.infect.sum <- read.csv('data/03_prop-sum_data.csv') 
+```
+
+```{r graph labels, include=FALSE, warning=FALSE, error=FALSE, message=FALSE}
+# make label vectors to use in plots
+sp.labs <- c(Bb = "Bufo bufo", Rt = "Rana temporaria", Am = "Alytes muletensis")
+exp.labs <- c("1" = "Bufo bufo I", "2" = "Bufo bufo II", "3" = "Rana temporaria", "4" = "Alytes muletensis","5" = "Alytes muletensis II")
+exp.short.labs <- c("1" = "Bb1", "2" = "Bb2", "3" = "Rt", "4" = "Am")
+infect.labs <- c(Bd = "Bd infection", Rv = "Rv infection")
+expos.labs <- c("1" = "Bd", "2" = "Rv", "3" = "Bd-Rv", "4"="Rv-Bd")
+
+```
+
+```{r proportion infected by species, echo=FALSE, fig.cap= "Fig.1. Proportion of individuals infected, by pathogen, within a treatment group for the three host species. Please note that Alytes II has been excluded.", fig.width=16, fig.height=10}
+plot.endpoint.prop.sp <- 
+  prop.infect.sum %>% 
+  filter(!ExperimentNo=='5')  %>% 
+    ggplot(aes(x=Treatment, y= proportion.infected, fill=InfectType ))+ 
+      geom_bar(position= "dodge", stat="identity") + 
+      scale_x_discrete(name ="Treatment Group", limits=c("Bd","Rv","Bd-Rv", "Rv-Bd")) +       #change the order of the x axis ticks
+      geom_errorbar(aes(ymin=upper, ymax=lower), width= .2, position= position_dodge(0.9)) +   #alpha to change transparancy 
+      facet_grid(.~ExperimentNo, labeller=labeller(ExperimentNo = exp.labs)) + 
+      theme(strip.text.x = element_text(size=12, face="italic")) +
+      labs(x="Treatment Group",y="Proportion Infected") + 
+      guides(fill=guide_legend(title="Pathogen")) 
+
+
+plot.endpoint.prop.sp + theme(legend.position="top",legend.justification='right', legend.direction='horizontal') + theme(legend.key=element_blank()) + theme(axis.text.x = element_text(angle=30, hjust=1,vjust=1)) + theme(axis.title = element_text(size=14))
+
+```
+
+> **N.B.** *Bufo bufo* II have 2 individuals with Rv infection status in the Rv only group. These two records are sketchy as the qPCR results were inconclusive first time and then low the second time. Interestingly, the *Alytes muletensis* have the same pattern of a few individuals infected with ranavirus in the Rv only group with an equivalent number in the Bd-Rv treatment group.   ?? susceptibility pattern or timing of Rv dose pattern ???  
+
+
+# Part 3: Bd: apply models to endpoint infection status  
+
+Binomial GLM's where    
+<br>
+    response variable = Endpoint status [binary; 0,1]   
+  <br>
+    explanatory variable(s) = Treatment  [categorical]   &   ExperimentNo. [categorical]
+
+<br>
+  
+  
+**N.B.**  I use ExperimentNo as a proxy for species where
+
+Experiment No. | Species              | total Bd zsp's   | min. temp. (^o^C) | max. temp. (^o^C)
+---------- |------------------------- | -------------| -------------|------------- 
+1 | *Bufo bufo* I          | 3,675,000    | 16.6        | 23.5     
+2 | *Bufo bufo* II         | 1,443,750   | 16.7        | 27.6    
+3 | *Rana temporaria*     | 2,336,250     | 16.7         | 27.6    
+4 | *Alytes muletensis* I  | 472,500      | 15     | 16.6 
+5 | *Alytes muletensis* II | 294,759      | 15     | 16.6 
+
+... as this also accounts for Bd dose and room temperature variation between experiments. 
+
+
+## Part 3a: Endpoint Infection Status: **Bd** 
+
+Here I create a dataframe with the Rv-only treatment group removed (as they have never been exposed to Bd) and without *Alytes muletensis* babies as they only have one treatment group which I analyse seperately later.   
+
+<br>
+```{r Bd status df, results='hide', warning=FALSE, error=FALSE, message=FALSE}
+Bd.status <- data.endpoint %>%
+  filter(!Treatment=="Rv") %>%   # removal of Rv only treatment group 
+  filter(!ExperimentNo=='5')  %>%   # removal of Alytes babies
+  mutate(ExperimentNo = as.factor(ExperimentNo)) %>%
+  dplyr::select(ID, Species, ExperimentNo, Treatment, Bd.endpoint.status, Bd.endpoint.GE) 
+
+unique(data.endpoint$Treatment)
+droplevels(Bd.status)
+```
+
+## Part 3a: Bd: model comparison
+
+The four models: 
+```{r Bd glm}
+Bd.status1 <- glm(Bd.endpoint.status ~ Treatment * ExperimentNo, data=Bd.status, family=binomial)
+
+Bd.status2 <- glm(Bd.endpoint.status ~ Treatment + ExperimentNo, data=Bd.status, family=binomial)
+
+Bd.status3 <- glm(Bd.endpoint.status ~ Treatment, data=Bd.status, family=binomial)
+
+Bd.status4 <- glm(Bd.endpoint.status ~ ExperimentNo, data=Bd.status, family=binomial)
+
+Bd.status.N <- glm(Bd.endpoint.status ~ 1, data=Bd.status, family=binomial)
+
+```
+
+Models compared using analysis of deviance with ```test='Chi'``` selected because of the binomial error family. This tests whether... "the more complex model is significantly better at capturing the data than the simpler model. If the resulting p-value is sufficiently low (usually less than 0.05), we conclude that the more complex model is significantly better than the simpler model, and thus favor the more complex model. If the p-value is not sufficiently low (usually greater than 0.05), we should favor the simpler model."
+
+<br>
+
+```{r Bd glm anova}
+anova(Bd.status1, Bd.status2, test="Chisq") # start by comparing the interaction terms  
+
+anova(Bd.status2, Bd.status3, test="Chisq") # compares Trt and Species to just Trt 
+
+anova(Bd.status2, Bd.status4, test="Chisq")  # compares Trt and Species to just Species  
+
+anova(Bd.status4, Bd.status.N, test="Chisq")  # compares Species model to null model 
+```
+
+ANOVA 1: suggests we should reject the more complex model with interaction terms (Treatment * ExperimentNo) in favour for the model with just the terms  (pvalue = 0.5752)
+<br>
+
+ANOVA 2: suggests we should favour the more complex model (Treatment + ExperimentNo) over the model with Treatment only  (pvalue = < .001)  so ExperimentNo leads to significantly improved fit 
+<br>
+
+ANOVA 3: suggests we should reject the more complex model (Treatment + ExperimentNo) and choose the model with just ExperimentNo. (pvalue = 0.4873) 
+<br>
+
+ANOVA 4: suggests we should favour the more complex model (ExperimentNo.) over the null model  (pvalue = < .001)  so ExperimentNo leads to significantly improved fit 
+
+
+**Conclusion**: we should choose the model with just ExperimentNo (aka species) 
+
+
+## Part 3b: Bd: model fit 
+
+```{r Bd fitted values, echo=FALSE, warning=FALSE, error=FALSE, message=FALSE}
+# To see the fitted values from a regression object (the values of the dependent variable predicted by the model), access the ```fitted.values``` attribute from a regression object with ````$fitted.values```.
+
+names(Bd.status4)   # look at the components of the glm object
+
+Bd.status$bi.glm <- Bd.status4$fitted.values  # add logisitic fitted values back to the dataframe as a new col
+
+head(Bd.status) 
+```
+
+## Part 3c: Bd: model plotting   
+
+> *Note* To plot the model you need a range of values for which to produce fitted values. Then use the ```predict()``` function to create the model for all the values. ```predict()``` gives you the predicted values based on your (fitted) linear model, the argument type="response" will give you the predicted probabilities 
+
+```{r Bd - bi.glm - predicted values, include=TRUE, warning=FALSE, error=FALSE, message=FALSE}
+Bd.status4 <- glm(Bd.endpoint.status ~ ExperimentNo, data=Bd.status, family=binomial)
+
+# create a dataframe of "new" data 
+newdat <- expand.grid(ExperimentNo=c("1", "2", "3", "4"),Treatment=c("Bd", "Bd-Rv", "Rv-Bd"))
+
+# predict the value/result of the new data using the glm
+newdat <-cbind(newdat, predict(object = Bd.status4,   # the model 
+                               newdata=newdat, se=TRUE, type="response", print.matrix=T))  # dataframe of new data 
+newdat
+
+expl.var <- c(1:3) # chose the range for the x-axis (Treatment)
+exp.labs <- c("1" = "Bufo bufo I", "2" = "Bufo bufo II", "3" = "Rana temporaria", "4" = "Alytes muletensis")
+
+# subset the data so you can plot each seperatly 
+newdat1<- subset(newdat, ExperimentNo== "1")    
+newdat2<- subset(newdat, ExperimentNo=="2")
+newdat3<- subset(newdat, ExperimentNo=="3")
+newdat4<- subset(newdat, ExperimentNo=="4")
+
+```
+
+
+```{r Bd - bi.glm - plot, echo=FALSE, warning=FALSE, error=FALSE, message=FALSE, fig.cap= "Fig. 2. Probability of Bd infection status (GE) predicted by model"}
+Bd.status.predict <- ggplot(newdat, aes(x= expl.var, y= fit, color=ExperimentNo)) +       # plot model estimates, color= the data you subsetted by
+  geom_line(data = newdat1, aes(x= expl.var, y= fit), size=1) +                                   # add lines for subset newdat1
+  geom_errorbar(data = newdat1, aes(ymin=fit-se.fit, ymax=fit+se.fit), width=.03, size=1)  +      # error bars for subset newdat1
+  geom_line(data = newdat2, aes(x= expl.var, y= fit), size=1) +                                   # add lines for subset newdat2
+  geom_errorbar(data = newdat2, aes(ymin=fit-se.fit, ymax=fit+se.fit), width=.03, size=1)  +      # error bars for subset newdat2
+  geom_line(data = newdat3, aes(x= expl.var, y= fit), size=1) +                                   # add lines for subset newdat3
+  geom_errorbar(data = newdat3, aes(ymin=fit-se.fit, ymax=fit+se.fit), width=.03, size=1)  +      # error bars for subset newdat3
+  geom_line(data = newdat4, aes(x= expl.var, y= fit), size=1) +                                   # add lines for subset newdat4
+  geom_errorbar(data = newdat4, aes(ymin=fit-se.fit, ymax=fit+se.fit), width=.03, size=1) +
+  scale_x_continuous(breaks=seq(1:3),labels=c("Bd", "Bd-Rv", "Rv-Bd"))    # sets the breaks at 1,2 and 3 which correspond to the label names
+      
+Bd.status.predict.plot <- Bd.status.predict + 
+    labs(title = "glm(Bd.endpoint.status ~ ExperimentNo,\n family = binomial)", x = "Treatment Group", y = "Bd status predictions\n(fit)", color = "Species\n") +
+ scale_color_hue(labels = c("Bufo bufo I", "Bufo bufo II", "Rana temporaria", "Alytes muletensis I")) +
+  theme_bw() +
+  theme(panel.border = element_blank(), panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(), axis.line = element_line(colour = "black")) 
+
+Bd.status.predict.plot
+
+# ggsave("figs/04_Bd_status-predict.png", plot= Bd.status.predict.plot, device=NULL) # export plot as .png 
+
+```
+
+**To Do** play with plots - check plot with Experiment No. as explanatory variable  
+
+This is the model predictions for Bd status with ExperimentNo. and Treatment 
+```{r plot - bi.glm - species and treatment, echo=FALSE, warning=FALSE, error=FALSE, message=FALSE}
+Bd.status2 <- glm(Bd.endpoint.status ~ Treatment + ExperimentNo, data=Bd.status, family=binomial)
+
+# create a dataframe of "new" data 
+newdat <- expand.grid(ExperimentNo=c("1", "2", "3", "4"),Treatment=c("Bd", "Bd-Rv", "Rv-Bd"))
+
+# predict the value/result of the new data using the glm
+newdat <-cbind(newdat, predict(object = Bd.status2,   # the model 
+                               newdata=newdat, se=TRUE, type="response", print.matrix=T))  # dataframe of new data 
+newdat
+
+expl.var <- c(1:3) # chose the range for the x-axis (Treatment)
+exp.labs <- c("1" = "Bufo bufo I", "2" = "Bufo bufo II", "3" = "Rana temporaria", "4" = "Alytes muletensis")  #TO DO sort out your labels!!!! should be treatment 
+
+newdat1<- subset(newdat, ExperimentNo== "1")    # need to subset the data so you can plot each seperatly 
+newdat2<- subset(newdat, ExperimentNo=="2")
+newdat3<- subset(newdat, ExperimentNo=="3")
+newdat4<- subset(newdat, ExperimentNo=="4")
+
+Bd.status.predict2 <- ggplot(newdat, aes(x= expl.var, y= fit, color=ExperimentNo)) +       # plot model estimates, color= the data you subsetted by
+  geom_line(data = newdat1, aes(x= expl.var, y= fit), size=1) +                                   # add lines for subset newdat1
+  geom_errorbar(data = newdat1, aes(ymin=fit-se.fit, ymax=fit+se.fit), width=.03, size=1)  +      # error bars for subset newdat1
+  geom_line(data = newdat2, aes(x= expl.var, y= fit), size=1) +                                   # add lines for subset newdat2
+  geom_errorbar(data = newdat2, aes(ymin=fit-se.fit, ymax=fit+se.fit), width=.03, size=1)  +      # error bars for subset newdat2
+  geom_line(data = newdat3, aes(x= expl.var, y= fit), size=1) +                                   # add lines for subset newdat1
+  geom_errorbar(data = newdat3, aes(ymin=fit-se.fit, ymax=fit+se.fit), width=.03, size=1)  +      # error bars for subset newdat1
+  geom_line(data = newdat4, aes(x= expl.var, y= fit), size=1) +                                   # add lines for subset newdat1
+  geom_errorbar(data = newdat4, aes(ymin=fit-se.fit, ymax=fit+se.fit), width=.03, size=1) +       # error bars for subset newdat1
+    scale_x_continuous(breaks=seq(1:3),labels=c("Bd", "Bd-Rv", "Rv-Bd"))    # sets the breaks at 1,2 and 3 which correspond to the label names
+      
+Bd.status.predict.plot2 <- Bd.status.predict2 + 
+    labs(title = "glm(Bd.endpoint.status ~ Treatment + ExperimentNo,\n family = binomial)", x = "Treatment Group", y = "Bd status predictions\n(fit)", color = "Species\n") +
+ scale_color_hue(labels = c("Bufo bufo I", "Bufo bufo II", "Rana temporaria", "Alytes muletensis I")) +
+  theme_bw() +
+  theme(panel.border = element_blank(), panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(), axis.line = element_line(colour = "black")) 
+
+Bd.status.predict.plot2
+
+# ggsave("figs/04_Bd_status-predict.png", plot= Bd.status.predict.plot2, device=NULL)
+```
+
+
+## Part 3d: Bd: model checks 
+
+Here I check the two best models, looking at the estimates of the coefficients using ```summary(model)``` and the diagnostic plots using ```plot(model)```
+
+
+### Maximal Model: Species + Treamtent (no interaction)
+
+```{r Bd - bi.glm - checks1, echo=FALSE, warning=FALSE, error=FALSE, message=FALSE}
+# Bd.status2 <- glm(Bd.endpoint.status ~ Treatment + ExperimentNo, data=Bd.status, family=binomial)
+summary(Bd.status2)   # Residual deviance: 106.76  on 240 df   AIC: 120.76
+```
+
+```{r Bd - bi.glm - checks1 plot, echo=FALSE, warning=FALSE, error=FALSE, message=FALSE }
+par(mfrow=c(2,2), mar=c(3,3,3,1), mgp=c(2,0.8,0))
+plot(Bd.status2)
+```
+
+<br>
+
+The diagnostic plots for `glm(Bd.endpoint.status ~ Treatment + ExperimentNo)` aren't ideal 
+
+- residual vs. fitted shows patterning meaning the variance is non-consistent
+- residual vs. leverage also shows patterning suggesting certain data points have strong influence  
+
+### Simplified Model: Species 
+
+```{r Bd - bi.glm - checks2, echo=FALSE, warning=FALSE, error=FALSE, message=FALSE}
+# Bd.status4 <- glm(Bd.endpoint.status ~ ExperimentNo, data=Bd.status, family=binomial)
+summary(Bd.status4)
+```
+
+```{r Bd - bi.glm - checks2 plot, echo=FALSE, warning=FALSE, error=FALSE, message=FALSE}
+par(mfrow=c(2,2), mar=c(3,3,3,1), mgp=c(2,0.8,0))
+plot(Bd.status4)
+```
+
+<br>
+The diagnostic plots for `glm(Bd.endpoint.status ~ ExperimentNo)` aren't much better 
+
+- residual vs. fitted shows patterning meaning the variance is non-consistent
+- residual vs. leverage again certain data points have strong influence  
+
+
+# Part 4: Bd: post-hoc tests 
+
+Tukey's honest significant difference 
+How to interpret the plots "Comparisons having intervals that do not overlap the vertical dashed line are significanty different. 
+The vertical dashed line indicates no difference between the mean values for the factor-level comparisons indicated on the y-axis." ~ R BOOK  
+
+```{r Bd - posthoc - , echo=FALSE, warning=FALSE, error=FALSE, message=FALSE, fig.width=8, fig.height=5}
+# Bd.status4 <- glm(Bd.endpoint.status ~ ExperimentNo, data=Bd.status, family=binomial)
+
+Tukey.Bd.status <- glht(Bd.status4, linfct=mcp(ExperimentNo='Tukey'))
+summary(Tukey.Bd.status) 
+```
+<br>
+```{r Bd - posthoc - plot , echo=FALSE, warning=FALSE, error=FALSE, message=FALSE, fig.width=8, fig.height=5}
+plot(Tukey.Bd.status)
+
+# export plot as .png 
+#png("figs/04_Bd_status-posthoc.png", type="cairo", units="in", width= 16, height=8, pointsize= 12, res=1000)
+#par(mar=c(2,8,2,1))   #change the size of the margins the first number referes to the bottom margin, the second to the left margin, and so on in a clockwise fashion
+#print(plot(Tukey.Bd.status))
+#dev.off()
+```
+
+**Conclusion** the summary suggests that *Rana* are significantly different from *Bufo* and *Alytes* but the plot doesn't show this. In fact the plot suggests nothing is significant.
+
+<br>
+
+
+# Part 5: Rv: : apply models to endpoint infection status  
+
+Here I create a dataframe with the Bd-only treatment group removed (as they have never been exposed to Rv) and without *Alytes muletensis* babies as they don't have Rv tratment groups.   
+
+```{r Rv status df, results='hide', warning=FALSE, error=FALSE, message=FALSE}
+Rv.status <- data.endpoint %>%
+  filter(!Treatment=="Bd") %>%
+  filter(!ExperimentNo=='5')  %>% 
+  mutate(ExperimentNo = as.factor(ExperimentNo)) %>% 
+  dplyr::select(ID, Species, ExperimentNo, Scenario, Treatment, Rv.MCPendpoint.status, Rv.endpoint.load) 
+droplevels(Rv.status)
+
+```
+
+<br>
+
+## Part 5a: Rv: model selection
+
+The four models: 
+```{r Rv glm}
+Rv.status1 <- glm(Rv.MCPendpoint.status ~ Treatment * ExperimentNo, data=Rv.status, family=binomial)
+
+Rv.status2 <- glm(Rv.MCPendpoint.status ~ Treatment + ExperimentNo, data=Rv.status, family=binomial)
+
+Rv.status3 <- glm(Rv.MCPendpoint.status ~ Treatment, data=Rv.status, family=binomial)
+
+Rv.status4 <- glm(Rv.MCPendpoint.status ~ ExperimentNo, data=Rv.status, family=binomial)
+
+Rv.status.N <- glm(Rv.MCPendpoint.status ~ 1, data=Rv.status, family=binomial)
+
+```
+
+## Part 5b: Rv: model comparison
+Again models compared using analysis of deviance with ```test='Chi'``` selected because of the binomial error family. This tests whether... "the more complex model is significantly better at capturing the data than the simpler model. If the resulting p-value is sufficiently low (usually less than 0.05), we conclude that the more complex model is significantly better than the simpler model, and thus favor the more complex model. If the p-value is not sufficiently low (usually greater than 0.05), we should favor the simpler model."
+
+<br>
+```{r Rv glm anova}
+anova(Rv.status1, Rv.status2, test="Chisq") # start by comparing the interaction terms  
+
+anova(Rv.status2, Rv.status3, test="Chisq") # compares Trt and Species to just Trt 
+
+anova(Rv.status2, Rv.status4, test="Chisq")  # compares Trt and Species to just Species  
+
+anova(Rv.status3, Rv.status.N, test="Chisq")  # compares Trt model to null model 
+
+anova(Rv.status4, Rv.status.N, test="Chisq")  # compares Species model to null model 
+
+``` 
+
+ANOVA 1: suggests we should reject the more complex model with interaction terms (Treatment * ExperimentNo) in favour for the model with just the terms  (pvalue = 0.4642)
+<br>
+
+ANOVA 2: suggests we should reject the more complex model (Treatment + ExperimentNo) and choose the model with just Treatment  (pvalue = 0.07962)  
+
+<br>
+
+ANOVA 3: suggests we should favour the more complex model (Treatment + ExperimentNo) over the model with ExperimentNo. (pvalue = < .001) 
+
+<br>
+
+ANOVA 4:  suggests we should favour the more complex model (Treatment) over the null model  (pvalue = < .001)  so Treatment leads to significantly improved fit 
+
+<br>
+
+ANOVA 5: suggests we should reject the more complex model (ExperimentNo) and choose the null model
+
+
+**Conclusion**: we should choose the model with just Treatment
+
+
+## Part 5c: Rv: model fit
+
+```{r Rv fitted values, echo=FALSE, warning=FALSE, error=FALSE, message=FALSE}
+# To see the fitted values from a regression object (the values of the dependent variable predicted by the model), access the ```fitted.values``` attribute from a regression object with ````$fitted.values```.
+
+Rv.status$bi.glm <- Rv.status3$fitted.values  # add logisitic fitted values back to the dataframe as a new col
+
+head(Rv.status)   
+```
+
+?? **QUESTION** It looks like the model is struggling to predict the probability of Rv infection status accurately ((**edit** *... in the Rv only treatment group. I agree that the predictions for both the coinfection groups match the raw data*)) 
+
+## Part 5d: Rv: model plotting
+
+```{r Rv - bi.glm - predictors, echo=FALSE, warning=FALSE, error=FALSE, message=FALSE}
+Rv.status3 <- glm(Rv.MCPendpoint.status ~ Treatment, data=Rv.status, family=binomial)
+
+# create a dataframe of "new" data 
+Rv.newdat <- expand.grid(ExperimentNo=c("1", "2", "3", "4"),Treatment=c("Bd-Rv", "Rv", "Rv-Bd"))
+
+# predict the value/result of the new data using the glm
+Rv.newdat <-cbind(Rv.newdat, predict(object = Rv.status3,   # the model 
+                      newdata=Rv.newdat, se=TRUE, type="response", print.matrix=T))  # dataframe of new data 
+Rv.newdat
+
+expl.var <- c(1:3) # chose the range for the x-axis (Treatment)
+exp.labs <- c("1" = "Bufo bufo I", "2" = "Bufo bufo II", "3" = "Rana temporaria", "4" = "Alytes muletensis")
+
+newdat1<- subset(Rv.newdat, ExperimentNo== "1")    # need to subset the data so you can plot each seperatly 
+newdat2<- subset(Rv.newdat, ExperimentNo=="2")
+newdat3<- subset(Rv.newdat, ExperimentNo=="3")
+newdat4<- subset(Rv.newdat, ExperimentNo=="4")
+```
+
+```{r Rv - bi.glm - plot, echo=FALSE, warning=FALSE, error=FALSE, message=FALSE, fig.cap= "Fig. 3. Probability of Rv infection status (GE) predicted by model"}
+Rv.status.predict <- ggplot(Rv.newdat, aes(x= expl.var, y= fit)) +       # plot model estimates, color= the data you subsetted by
+  geom_line(data = newdat1, aes(x= expl.var, y= fit), size=1) +                                   # add lines for subset newdat1
+  geom_errorbar(data = newdat1, aes(ymin=fit-se.fit, ymax=fit+se.fit), width=.03, size=1)  +      # error bars for subset newdat1
+  geom_line(data = newdat2, aes(x= expl.var, y= fit), size=1) +                                   # add lines for subset newdat2
+  geom_errorbar(data = newdat2, aes(ymin=fit-se.fit, ymax=fit+se.fit), width=.03, size=1)  +      # error bars for subset newdat2
+  geom_line(data = newdat3, aes(x= expl.var, y= fit), size=1) +                                   # add lines for subset newdat1
+  geom_errorbar(data = newdat3, aes(ymin=fit-se.fit, ymax=fit+se.fit), width=.03, size=1)  +      # error bars for subset newdat1
+  geom_line(data = newdat4, aes(x= expl.var, y= fit), size=1) +                                   # add lines for subset newdat1
+  geom_errorbar(data = newdat4, aes(ymin=fit-se.fit, ymax=fit+se.fit), width=.03, size=1) +   scale_x_continuous(breaks=seq(1:3),labels=c("Bd-Rv", "Rv", "Rv-Bd"))    # sets the breaks at 1,2 and 3 which correspond to the label names
+
+Rv.status.predict.plot <- Rv.status.predict + 
+  ylab("Rv status predictions\n(fit)") +            # TO DO: would be good to have the axis marking 0 & 1 
+  xlab("Treatment Group") +
+  ggtitle("glm(Rv.MCPendpoint.status ~ Treatment, family = binomial)") +
+  theme_bw() +
+  theme(panel.border = element_blank(), panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(), axis.line = element_line(colour = "black")) 
+
+Rv.status.predict.plot
+
+# ggsave("figs/04_Rv_status-predict.png", plot= Rv.status.predict.plot, device=NULL)  # export plot as .png 
+```
+
+
+## Part 5e: Rv: model checks 
+
+Here I check the two best models, looking at the estimates of the coefficients using ```summary(model)``` and the diagnostic plots using ```plot(model)```
+
+### Maximal Model: Species + Treamtent (no interaction)
+
+```{r Rv - bi.glm - checks1, echo=FALSE, warning=FALSE, error=FALSE, message=FALSE}
+# Rv.status2 <- glm(Rv.MCPendpoint.status ~ Treatment + ExperimentNo, data=Rv.status, family=binomial)
+summary(Rv.status2)  # Residual deviance: 106.76  on 240 df   AIC: 120.76
+```
+
+```{r Rv - bi.glm - checks1 plot, echo=FALSE, warning=FALSE, error=FALSE, message=FALSE }
+par(mfrow=c(2,2), mar=c(3,3,3,1), mgp=c(2,0.8,0))
+plot(Rv.status2)
+```
+<br>
+
+The diagnostic plots for `glm(Rv.MCPendpoint.status ~ Treatment + ExperimentNo)` again aren't ideal 
+
+- QQ plot is iffy 
+- residual vs. fitted shows patterning meaning the variance is non-consistent
+- residual vs. leverage also shows patterning suggesting certain data points have strong influence  
+
+### Simplified Model: Treatment 
+
+```{r Rv - bi.glm checks2, echo=FALSE, warning=FALSE, error=FALSE, message=FALSE}
+# Rv.status3 <- glm(Rv.MCPendpoint.status ~ Treatment, data=Rv.status, family=binomial)
+summary(Rv.status3)
+```
+
+```{r Rv - bi.glm - checks2 plot, echo=FALSE, warning=FALSE, error=FALSE, message=FALSE}
+par(mfrow=c(2,2), mar=c(3,3,3,1), mgp=c(2,0.8,0))
+plot(Rv.status3)
+```
+
+
+<br>
+The diagnostic plots for `glm(Rv.MCPendpoint.status ~ Treatment)` aren't much better 
+
+# Part 6: Rv: post-hoc tests 
+
+Tukey's honest significant difference 
+
+```{r Rv - posthoc - , echo=FALSE, warning=FALSE, error=FALSE, message=FALSE, fig.width=8, fig.height=5}
+# Rv.status3 <- glm(Rv.MCPendpoint.status ~ Treatment, data=Rv.status, family=binomial)
+
+Tukey.Rv.status <- glht(Rv.status3, linfct=mcp(Treatment='Tukey'))
+summary(Tukey.Rv.status) 
+```
+<br>
+```{r Rv - posthoc - plot , echo=FALSE, warning=FALSE, error=FALSE, message=FALSE, fig.width=8, fig.height=5}
+
+par(mar=c(2,8,2,1))   #change the size of the margins the first number referes to the bottom margin, the second to the left margin, and so on in a clockwise fashion
+plot(Tukey.Rv.status)
+
+# export plot as .png 
+#png("figs/04_Rv_status-posthoc.png", type="cairo", units="in", width= 16, height=8, pointsize= 12, res=1000)
+#par(mar=c(2,8,2,1))   #change the size of the margins the first number referes to the bottom margin, the second to the left margin, and so on in a clockwise fashion
+#print(plot(Tukey.Rv.status))
+#dev.off()
+```
+
+**Conclusion** 
+
+- Rv vs. Bd-Rv is not significant 
+- Rv-Bd vs. Bd-Rv there is significant difference between the coinfection groups 
+- Rv-Bd vs. Rv is significant 
+
+?? **QUESTION** is this highlighting the timing/sequence of dose again ?? 
+
+<br>
