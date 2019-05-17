@@ -364,7 +364,12 @@ Load range
 
 ### Infection status 
  
-Exposure scenario predicted infection status and load for ranavirus: tadpoles exposed to the series of Bd doses and then to Rv were **significantly** more likely to develop ranaviral infections (GLM; χ2 = XXX; p < .001 ####, Figure XXXXX), which were more likely to be at a high viral titre (GLM; χ2 = XXX; p < .001 ****, Figure XXXXX //// Rv only = XXXX ± XXXX, Bd - Rv = XXX ± XXX, Rv - Bd = XXXX ± XXX, GLM, F = XXXX, p < .001; XXXX). 
+Exposure scenario predicted infection status and load for ranavirus: (co-infected) tadpoles exposed to both pathogens were **significantly** more likely to develop ranaviral infections (**binomial** GLM; Bd-Rv Z = -5.667; p < 0.001, ((Rv-Bd Z = 2.924; p < 0.01))); Figure XXXXX), which were more likely to be at a high viral titre (GLM; χ2 = XXX; p < .001 ****, Figure XXXXX ////. Across species the endpoint viral load of individuals differed between the two co-infection scenarios (Tukey's XXXXXXX)   
+
+Host species did not affect ranavirus infection status or load, nor did we detect an interaction between host species and treatment group/eposure scenario.
+
+
+Rv only = XXXX ± XXXX, Bd - Rv = XXX ± XXX, Rv - Bd = XXXX ± XXX, GLM, F = XXXX, p < .001; XXXX). 
 
 ###########################################
 strength predicted infection risk: newts in the high dose tanks were more likely to develop infections (GLM; χ2
@@ -373,7 +378,7 @@ andand developed stronger infections (low dose GE = 0.44 ± 0.15, high dose = 8.
 habitat (no risk tdepart = 0.54 ± 0.08, low risk tdepart = 0.55 ± 0.09, high risk tdepart = 0.70 ± 0.08, GLM, F1,51 = 1.66, p = .196). Neither risk, in- fection status, nor infection load significantly affected cumulative tter- restrial (Table S2) or when breaking analysis down by Bd growth phases (Table
  
 ###########################################
-
+(GLM with binomial distribution, behaviour Z = 7!65, P < 0!00001; immunity Z = 5!32, P < 0!00001; behaviour*immunity Z = #5!09, P < 0!00001). Depression
 
 
 
