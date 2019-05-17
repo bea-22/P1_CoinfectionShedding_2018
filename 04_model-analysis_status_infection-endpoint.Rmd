@@ -20,6 +20,7 @@ library(lattice)
 # for stats 
 library(binom)
 library(multcomp)  ## WARNING this package masks dplyr::select
+library(arm)
 
 # library(purr)  # purr guidance > for evaluating models http://ijlyttle.github.io/isugg_purrr/presentation.html#(1) 
 # library(broom)   # broom summarizes key information about models in tidy tibble()s >> https://github.com/tidymodels/broom
@@ -113,59 +114,25 @@ unique(data.endpoint$Treatment)
 droplevels(Bd.status)
 ```
 
-## Part 3a: Bd: model comparison
+## Part 3d: Bd: model checks 
 
-The four models: 
-```{r Bd glm}
-Bd.status1 <- glm(Bd.endpoint.status ~ Treatment * ExperimentNo, data=Bd.status, family=binomial)
+Here I check the model with the best fit
+```bayesglm(Bd.endpoint.status ~ ExperimentNo, data=Bd.status, family=binomial)```
 
-Bd.status2 <- glm(Bd.endpoint.status ~ Treatment + ExperimentNo, data=Bd.status, family=binomial)
 
-Bd.status3 <- glm(Bd.endpoint.status ~ Treatment, data=Bd.status, family=binomial)
-
-Bd.status4 <- glm(Bd.endpoint.status ~ ExperimentNo, data=Bd.status, family=binomial)
-
-Bd.status.N <- glm(Bd.endpoint.status ~ 1, data=Bd.status, family=binomial)
-
+```{r Bd - bayes.glm - checks2, echo=FALSE, warning=FALSE, error=FALSE, message=FALSE}
+ Bd.status.bayes <- bayesglm(Bd.endpoint.status ~ ExperimentNo, data=Bd.status, family=binomial)
+summary(Bd.status.bayes)
 ```
-
-Models compared using analysis of deviance with ```test='Chi'``` selected because of the binomial error family. This tests whether... "the more complex model is significantly better at capturing the data than the simpler model. If the resulting p-value is sufficiently low (usually less than 0.05), we conclude that the more complex model is significantly better than the simpler model, and thus favor the more complex model. If the p-value is not sufficiently low (usually greater than 0.05), we should favor the simpler model."
-
-<br>
-
-```{r Bd glm anova}
-anova(Bd.status1, Bd.status2, test="Chisq") # start by comparing the interaction terms  
-
-anova(Bd.status2, Bd.status3, test="Chisq") # compares Trt and Species to just Trt 
-
-anova(Bd.status2, Bd.status4, test="Chisq")  # compares Trt and Species to just Species  
-
-anova(Bd.status4, Bd.status.N, test="Chisq")  # compares Species model to null model 
-```
-
-ANOVA 1: suggests we should reject the more complex model with interaction terms (Treatment * ExperimentNo) in favour for the model with just the terms  (pvalue = 0.5752)
-<br>
-
-ANOVA 2: suggests we should favour the more complex model (Treatment + ExperimentNo) over the model with Treatment only  (pvalue = < .001)  so ExperimentNo leads to significantly improved fit 
-<br>
-
-ANOVA 3: suggests we should reject the more complex model (Treatment + ExperimentNo) and choose the model with just ExperimentNo. (pvalue = 0.4873) 
-<br>
-
-ANOVA 4: suggests we should favour the more complex model (ExperimentNo.) over the null model  (pvalue = < .001)  so ExperimentNo leads to significantly improved fit 
-
-
-**Conclusion**: we should choose the model with just ExperimentNo (aka species) 
-
 
 ## Part 3b: Bd: model fit 
 
 ```{r Bd fitted values, echo=FALSE, warning=FALSE, error=FALSE, message=FALSE}
 # To see the fitted values from a regression object (the values of the dependent variable predicted by the model), access the ```fitted.values``` attribute from a regression object with ````$fitted.values```.
 
-names(Bd.status4)   # look at the components of the glm object
+names(Bd.status.bayes)   # look at the components of the glm object
 
-Bd.status$bi.glm <- Bd.status4$fitted.values  # add logisitic fitted values back to the dataframe as a new col
+Bd.status$bi.glm <- Bd.status.bayes$fitted.values  # add logisitic fitted values back to the dataframe as a new col
 
 head(Bd.status) 
 ```
@@ -175,13 +142,12 @@ head(Bd.status)
 > *Note* To plot the model you need a range of values for which to produce fitted values. Then use the ```predict()``` function to create the model for all the values. ```predict()``` gives you the predicted values based on your (fitted) linear model, the argument type="response" will give you the predicted probabilities 
 
 ```{r Bd - bi.glm - predicted values, include=TRUE, warning=FALSE, error=FALSE, message=FALSE}
-Bd.status4 <- glm(Bd.endpoint.status ~ ExperimentNo, data=Bd.status, family=binomial)
 
 # create a dataframe of "new" data 
 newdat <- expand.grid(ExperimentNo=c("1", "2", "3", "4"),Treatment=c("Bd", "Bd-Rv", "Rv-Bd"))
 
 # predict the value/result of the new data using the glm
-newdat <-cbind(newdat, predict(object = Bd.status4,   # the model 
+newdat <-cbind(newdat, predict(object = Bd.status.bayes,   # the model 
                                newdata=newdat, se=TRUE, type="response", print.matrix=T))  # dataframe of new data 
 newdat
 
@@ -224,92 +190,6 @@ Bd.status.predict.plot
 
 **To Do** play with plots - check plot with Experiment No. as explanatory variable  
 
-This is the model predictions for Bd status with ExperimentNo. and Treatment 
-```{r plot - bi.glm - species and treatment, echo=FALSE, warning=FALSE, error=FALSE, message=FALSE}
-Bd.status2 <- glm(Bd.endpoint.status ~ Treatment + ExperimentNo, data=Bd.status, family=binomial)
-
-# create a dataframe of "new" data 
-newdat <- expand.grid(ExperimentNo=c("1", "2", "3", "4"),Treatment=c("Bd", "Bd-Rv", "Rv-Bd"))
-
-# predict the value/result of the new data using the glm
-newdat <-cbind(newdat, predict(object = Bd.status2,   # the model 
-                               newdata=newdat, se=TRUE, type="response", print.matrix=T))  # dataframe of new data 
-newdat
-
-expl.var <- c(1:3) # chose the range for the x-axis (Treatment)
-exp.labs <- c("1" = "Bufo bufo I", "2" = "Bufo bufo II", "3" = "Rana temporaria", "4" = "Alytes muletensis")  #TO DO sort out your labels!!!! should be treatment 
-
-newdat1<- subset(newdat, ExperimentNo== "1")    # need to subset the data so you can plot each seperatly 
-newdat2<- subset(newdat, ExperimentNo=="2")
-newdat3<- subset(newdat, ExperimentNo=="3")
-newdat4<- subset(newdat, ExperimentNo=="4")
-
-Bd.status.predict2 <- ggplot(newdat, aes(x= expl.var, y= fit, color=ExperimentNo)) +       # plot model estimates, color= the data you subsetted by
-  geom_line(data = newdat1, aes(x= expl.var, y= fit), size=1) +                                   # add lines for subset newdat1
-  geom_errorbar(data = newdat1, aes(ymin=fit-se.fit, ymax=fit+se.fit), width=.03, size=1)  +      # error bars for subset newdat1
-  geom_line(data = newdat2, aes(x= expl.var, y= fit), size=1) +                                   # add lines for subset newdat2
-  geom_errorbar(data = newdat2, aes(ymin=fit-se.fit, ymax=fit+se.fit), width=.03, size=1)  +      # error bars for subset newdat2
-  geom_line(data = newdat3, aes(x= expl.var, y= fit), size=1) +                                   # add lines for subset newdat1
-  geom_errorbar(data = newdat3, aes(ymin=fit-se.fit, ymax=fit+se.fit), width=.03, size=1)  +      # error bars for subset newdat1
-  geom_line(data = newdat4, aes(x= expl.var, y= fit), size=1) +                                   # add lines for subset newdat1
-  geom_errorbar(data = newdat4, aes(ymin=fit-se.fit, ymax=fit+se.fit), width=.03, size=1) +       # error bars for subset newdat1
-    scale_x_continuous(breaks=seq(1:3),labels=c("Bd", "Bd-Rv", "Rv-Bd"))    # sets the breaks at 1,2 and 3 which correspond to the label names
-      
-Bd.status.predict.plot2 <- Bd.status.predict2 + 
-    labs(title = "glm(Bd.endpoint.status ~ Treatment + ExperimentNo,\n family = binomial)", x = "Treatment Group", y = "Bd status predictions\n(fit)", color = "Species\n") +
- scale_color_hue(labels = c("Bufo bufo I", "Bufo bufo II", "Rana temporaria", "Alytes muletensis I")) +
-  theme_bw() +
-  theme(panel.border = element_blank(), panel.grid.major = element_blank(),
-        panel.grid.minor = element_blank(), axis.line = element_line(colour = "black")) 
-
-Bd.status.predict.plot2
-
-# ggsave("figs/04_Bd_status-predict.png", plot= Bd.status.predict.plot2, device=NULL)
-```
-
-
-## Part 3d: Bd: model checks 
-
-Here I check the two best models, looking at the estimates of the coefficients using ```summary(model)``` and the diagnostic plots using ```plot(model)```
-
-
-### Maximal Model: Species + Treamtent (no interaction)
-
-```{r Bd - bi.glm - checks1, echo=FALSE, warning=FALSE, error=FALSE, message=FALSE}
-# Bd.status2 <- glm(Bd.endpoint.status ~ Treatment + ExperimentNo, data=Bd.status, family=binomial)
-summary(Bd.status2)   # Residual deviance: 106.76  on 240 df   AIC: 120.76
-```
-
-```{r Bd - bi.glm - checks1 plot, echo=FALSE, warning=FALSE, error=FALSE, message=FALSE }
-par(mfrow=c(2,2), mar=c(3,3,3,1), mgp=c(2,0.8,0))
-plot(Bd.status2)
-```
-
-<br>
-
-The diagnostic plots for `glm(Bd.endpoint.status ~ Treatment + ExperimentNo)` aren't ideal 
-
-- residual vs. fitted shows patterning meaning the variance is non-consistent
-- residual vs. leverage also shows patterning suggesting certain data points have strong influence  
-
-### Simplified Model: Species 
-
-```{r Bd - bi.glm - checks2, echo=FALSE, warning=FALSE, error=FALSE, message=FALSE}
-# Bd.status4 <- glm(Bd.endpoint.status ~ ExperimentNo, data=Bd.status, family=binomial)
-summary(Bd.status4)
-```
-
-```{r Bd - bi.glm - checks2 plot, echo=FALSE, warning=FALSE, error=FALSE, message=FALSE}
-par(mfrow=c(2,2), mar=c(3,3,3,1), mgp=c(2,0.8,0))
-plot(Bd.status4)
-```
-
-<br>
-The diagnostic plots for `glm(Bd.endpoint.status ~ ExperimentNo)` aren't much better 
-
-- residual vs. fitted shows patterning meaning the variance is non-consistent
-- residual vs. leverage again certain data points have strong influence  
-
 
 # Part 4: Bd: post-hoc tests 
 
@@ -320,7 +200,7 @@ The vertical dashed line indicates no difference between the mean values for the
 ```{r Bd - posthoc - , echo=FALSE, warning=FALSE, error=FALSE, message=FALSE, fig.width=8, fig.height=5}
 # Bd.status4 <- glm(Bd.endpoint.status ~ ExperimentNo, data=Bd.status, family=binomial)
 
-Tukey.Bd.status <- glht(Bd.status4, linfct=mcp(ExperimentNo='Tukey'))
+Tukey.Bd.status <- glht(Bd.status.bayes, linfct=mcp(ExperimentNo='Tukey'))
 summary(Tukey.Bd.status) 
 ```
 <br>
