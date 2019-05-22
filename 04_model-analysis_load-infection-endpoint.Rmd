@@ -61,7 +61,7 @@ plot.Bd.GE.sp <- data.endpoint %>%
       ggplot(aes(interaction(x= Treatment, ExperimentNo), y= Bd.endpoint.GE, fill = ExperimentNo)) +
         geom_boxplot() +
         stat_summary(fun.y="mean", geom="point", shape=23, size=3, fill="red") +    # adds a marker for mean - for normally distibuted data the median and mean will match closely 
-        geom_jitter(width = 0.05) +   # adds the data points 
+        geom_jitter(width = 0.05) +   # adds the data points  (use colour to change this )
         scale_y_log10() +  # logs the axis 
         scale_x_discrete(labels=c("Bd", "Bd>Rv", "Rv>Bd","Bd", "Bd>Rv", "Rv>Bd","Bd", "Bd>Rv", "Rv>Bd", "Bd", "Bd>Rv", "Rv>Bd", "Bd")) +
         xlab("Treatment Group") +
@@ -105,6 +105,20 @@ data.endpoint %>%     # ridge plot to see distribution of data
 
 
 <br>
+
+```{r Bd summary}
+
+Bd.infect.sum <- data.endpoint %>%
+  filter((Bd.endpoint.status=='1' & Bd.endpoint.GE > 0.1))  %>% 
+  group_by(ExperimentNo, Treatment) %>%  
+    summarize(avg=mean(Bd.endpoint.GE), n=n(), sd=sd(Bd.endpoint.GE), se=sd/sqrt(n))
+
+
+Rv.infect.sum <- data.endpoint %>%
+  group_by(ExperimentNo, Treatment) %>%  
+    summarize(avg=mean(var2), n=n(), sd=sd(var2), se=sd/sqrt(n))
+```
+
 
 
 # Part 3: Bd: apply models to endpoint infection load data 
@@ -298,13 +312,31 @@ The plots suggest:
  * 4-3: significant (+ve) difference between *Alytes* and *Rana* 
 
 
+# Part 4: Bd: raw numbers 
+
+```{r Bd numbers}
+
+ <- data.endpoint %>%
+
+  group_by(cit) %>%
+summarize(avg=mean(XXXX), n=n(), sd=sd(var2), se=sd/sqrt(n))
+
+
+var1<-sample(c('red', 'green'), size=10, replace=T)
+var2<-rnorm(10, mean=5, sd=1)
+df<-data.frame(var1, var2)
+df %>% 
+group_by(var1) %>% 
+summarize(avg=mean(var2), n=n(), sd=sd(var2), se=sd/sqrt(n))
+
+```
 
 
 
 
 # Part 5: Rv: visualise endpoint infection load data 
 
-For the plots below I only plot Rv infection loads over 0 and filter out one extremely high Rv viral load (greater than 2000).
+For the plots below I only plot Rv infection loads over 0.1 and filter out one extremely high Rv viral load (greater than 2000). At the moment I am using the threshold of 0.1 as there are a few infections with 0.000xxx that are skewing the data and unreliable 
 
 **To Do**  At the moment there are 3 samples missing EBF3N qPCR data so as a temporary fix I have averaged the EBF3N score for all the samples and used that to calculate a rough viral load for these 3 samples
 
@@ -313,7 +345,7 @@ For the plots below I only plot Rv infection loads over 0 and filter out one ext
 ```{r boxplot Rv viral load, echo=FALSE, fig.cap= "Fig.3. Boxplot of the endpoint Ranaviral load (excluding uninfected individuals) for each treatment group across the three host species. Viral load has been normalised using Leung et al.'s (2017) method. The black dots represent each sample.", fig.width=16, fig.height=8}
 
 plot.Rv.load.sp <- data.endpoint %>% 
- filter(Rv.endpoint.load > 0 & !Rv.endpoint.load > 2000) %>%  # filtering out the extremely high Rv viral load so that we can see the data better 
+ filter(Rv.endpoint.load > 0.1 & !Rv.endpoint.load > 2000) %>%  # filtering out the extremely high Rv viral load so that we can see the data better 
   ggplot(aes(x = interaction(Treatment, ExperimentNo), y= Rv.endpoint.load, fill = ExperimentNo)) + 
         geom_boxplot() +
         #stat_summary(fun.y="mean", geom="point", shape=23, size=3, fill="red") +    
@@ -334,7 +366,7 @@ The distribution of Rv viral load (excluding uninfected individuals)
 
 ```{r distribution Rv load, echo=FALSE, warning=FALSE, error=FALSE, message=FALSE, fig.cap= "Fig. 4a. The  distribution of Rv load from endpoint tissue samples.", fig.width=16, fig.height=6}
 data.endpoint %>%     # ridge plot to see distribution of data  
-    filter(Rv.endpoint.load > 0 & !Rv.endpoint.load > 2000)  %>%  ggplot(aes(Rv.endpoint.load, Treatment)) +
+    filter(Rv.endpoint.load > 0.1 & !Rv.endpoint.load > 2000)  %>%  ggplot(aes(Rv.endpoint.load, Treatment)) +
       geom_density_ridges(
                       jittered_points = TRUE, quantile_lines = TRUE, scale = 0.9, alpha = 0.7,
                       vline_size = 1, vline_color = "red",
@@ -347,7 +379,7 @@ data.endpoint %>%     # ridge plot to see distribution of data
 
 ```{r log distribution Rv load, echo=FALSE, warning=FALSE, error=FALSE, message=FALSE, fig.cap= "Fig. 4b. The logged distribution of Rv load from endpoint tissue samples.", fig.width=16, fig.height=6}
 data.endpoint %>%     # ridge plot to see distribution of data  
-    filter(Rv.endpoint.load > 0 & !Rv.endpoint.load > 2000)  %>%  ggplot(aes(log(Rv.endpoint.load), Treatment)) +
+    filter(Rv.endpoint.load > 0.1 & !Rv.endpoint.load > 2000)  %>%  ggplot(aes(log(Rv.endpoint.load), Treatment)) +
       geom_density_ridges(
                       jittered_points = TRUE, quantile_lines = TRUE, scale = 0.9, alpha = 0.7,
                       vline_size = 1, vline_color = "red",
