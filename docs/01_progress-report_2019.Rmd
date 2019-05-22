@@ -26,6 +26,7 @@ library(cowplot)
 # for stats 
 library(binom)
 library(multcomp)  ## WARNING this package masks dplyr::select
+library(arm)
 
 # for RMarkdown 
 library(knitr)
@@ -35,6 +36,7 @@ library(bookdown)
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
+
 
 <br> 
 
@@ -48,45 +50,45 @@ PhD overview
 
 Many important pathogens circulate within multi-host communities (Holt et al., 2003; Webster, Borlase, & Rudge, 2017; Woolhouse, Taylor, & Haydon, 2001). Within these communities, individuals can differ in their susceptibility, infectiousness and response to infection, which influences disease transmission. Understanding the heterogeneity of species-specific responses to infection is crucial when predicting disease emergence and for implementing effective disease mitigation strategies. 
 Chytridiomycosis and Ranavirus are two emerging infectious diseases that infect a wide range of amphibian species globally. The observed mass mortality events in amphibian populations (Berger et al., 1998; Fox et al., 2006; Green, Converse, & Schrader, 2002), multiple species declines (Daszak et al., 1999b; Price et al., 2014; Stuart et al., 2004; Teacher, Cunningham, & Garner, 2010) and local extinctions (Lips et al., 2006) have all been attributed to the multi-host nature, global distribution and virulence of these pathogens. While both pathogens are host generalist, significant heterogeneity exists in host susceptibility, infectiousness and burden of each disease, at a species and individual level. Thus conforming to a wider body of literature showing host species unevenly contribute to disease transmission in multi-host communities (Begon et al., 1999; Duffus, Nichols, & Garner, 2014; Fenton et al., 2015; Fernández-Beaskoetxea, Bosch, & Bielby, 2016; Woolhouse et al., 1997). As a result, pathogen persistence at a community level is largely dictated by the composition of host species (Holt et al., 2003; Keesing, Holt, & Ostfeld, 2006). Host species have been recorded to perform different functional roles: reservoirs, who act as a source of infection enabling a pathogen to be maintained within a community (Fenton & Pedersen, 2005; Haydon et al., 2002); amplifiers, hosts which increase transmission often through increasing the number of pathogenic particles available and dilution hosts, which buffer against disease transmission in the population by absorbing infectious stages with no onward transmission (Johnson & Thieltges, 2010; Keesing et al., 2006; Logiudice et al., 2003; Searle et al., 2011). 
-Broadly, amphibian species infected with the fungus Batrachochytrium dendrobatidis (Bd), the pathogen causing Chytridiomycosis, have been found to follow the categories of host type outlined above (DiRenzo, Langhammer, Zamudio, & Lips, 2014a; Fernández-Beaskoetxea et al., 2016; Reeder, Pessier, Vredenburg, & Litvintseva, 2012; Searle et al., 2011). For example, Reeder et al. (2012) described a reservoir species that has Bd loads substantially higher than the load found to be lethal in a sympatric and declining species. Infection occurs by Bd zoospores establishing in the keratinized epidermis of metamorphosed amphibians or the mouthparts of larvae (Berger et al., 1998; Fellers, Green, & Longcore, 2001; Longcore, Pessier, & Nichols, 1999; Marantelli, Berger, Speare, & Keegan, 2004). Once developed the sporangia encyst releasing flagellated zoospore into the aquatic environment (Berger, Marantelli, Skerratt, & Speare, 2005; Longcore et al., 1999). These Bd zoospores shed from an infected host are fundamental to pathogen transmission, with amplifier hosts releasing dramatically higher numbers of zoospores (DiRenzo et al., 2014a). 
+Broadly, amphibian species infected with the fungus Batrachochytrium dendrobatidis (*Bd*), the pathogen causing Chytridiomycosis, have been found to follow the categories of host type outlined above (DiRenzo, Langhammer, Zamudio, & Lips, 2014a; Fernández-Beaskoetxea et al., 2016; Reeder, Pessier, Vredenburg, & Litvintseva, 2012; Searle et al., 2011). For example, Reeder et al. (2012) described a reservoir species that has *Bd* loads substantially higher than the load found to be lethal in a sympatric and declining species. Infection occurs by *Bd* zoospores establishing in the keratinized epidermis of metamorphosed amphibians or the mouthparts of larvae (Berger et al., 1998; Fellers, Green, & Longcore, 2001; Longcore, Pessier, & Nichols, 1999; Marantelli, Berger, Speare, & Keegan, 2004). Once developed the sporangia encyst releasing flagellated zoospore into the aquatic environment (Berger, Marantelli, Skerratt, & Speare, 2005; Longcore et al., 1999). These *Bd* zoospores shed from an infected host are fundamental to pathogen transmission, with amplifier hosts releasing dramatically higher numbers of zoospores (DiRenzo et al., 2014a). 
 Amphibian species are seen as a major reservoir for ranaviruses, large viral pathogens, which infect a broad range of ectothermic vertebrates (Granoff et al., 1965; Mao et al 1999; Gray et al., 2009; Schock et al 2008). Although, this variation in amphibian species response to the disease (Gray & Chinchar, 2015; Schock, Bollinger, Gregory Chinchar, Jancovich, & Collins, 2008) and the frequency at which secondary infections occur alongside ranavirus infections (Miller et al., 2008; Cunningham et al., 1996) make clinical signs of ranaviral disease challenging to discern, meaning diagnosis often depends on post-mortem confirmation. 
 Predicting how these heterogeneities in disease contribution across different host species relates to the establishment and persistence of a pathogen in a host community, revolves around understanding the transmission process between the infectious stage of a pathogen and a susceptible individual (Begon et al., 2002; McCallum, Barlow, & Hone, 2001; McCallum et al., 2017), and how variations in the contact between susceptible and infected hosts can alter the functional form of transmission (Fenton et al., 2002; McCallum et al., 2017). Classically, in disease modelling, transmission is assumed to be density-dependent and occur through homogenous mixing, with no spatial or social structural constraints (Begon et al., 2002; McCallum et al., 2001). Such assumptions are often unrealistic and do not adequately capture the form of transmission seen in many wildlife diseases (Fenton et al., 2002; Orlofske et al., 2017; Smith et al., 2009). In reality, disease is transmitted at a more local scale, with a subset of a population more inter-connected, meaning transmission events are more likely to occur between a limited set of contacts (Keeling, 1999; Lloyd-Smith, Schreiber, Kopp, & Getz, 2005). 
 
 <br> 
 
 ## Between-host Dynamics (Shedding) 
-The preferred model for Bd transmission, presently, is that of a ‘zoospore pool’ where amphibians are uniformly exposed to free-swimming zoospores in the aquatic environment (Briggs, Knapp, & Vredenburg, 2010). Yet, little is known about the longevity, activity or spatial distribution of Bd zoospores in this ‘zoospore pool’. Under laboratory conditions, Bd zoospores have been recorded to travel on average 2cm before encysting and the majority do not remain motile after 24 hours (Piotrowski, Annis, & Longcore, 2004). If this holds true outside of the lab, it implies that while flagellated, Bd zoospores are most effectively transported by water movement, and potentially the movement of hosts (Daszak et al., 1999a). If Bd transmission is limited by how far zoospores can travel and their viability, species-specific and individual-level host behaviours (e.g. foraging, habitat preference, aggregation behaviour) influencing contact rates, between susceptible and infectious individuals, may provide insight into the variation in disease transmission and prevalence across the multi-host community. 
-Initial studies into how transmission the ranavirus-amphibian disease system is influenced by contact rates have been inconclusive (Araujo, Kirschman, & Warne, 2016; Brunner et al., 2017). Both studies note that variations in host species susceptibility could be a confounding factor and thus, a study examining the heterogeneities in host susceptibility and contact within and between such species should be considered. Understanding the mode and nature of Rv and Bd transmission, particularly in aquatic environments, is often confounded by the complexities of the system and the challenges of creating realistic experimental designs. Particularly when there are multiple transmission routes such as the case with ranavirus: by direct contact (Brunner et al., 2007), ingestion of either ranaviral particles (Hoverman et al.2010) or infected tissue (Pearman et al., 2004; Harp et al. 2006), and via contaminated water (Pearman et al., 2004; Brunner et al. 2004), and substrate (Harp et al. 2006). 
+The preferred model for *Bd* transmission, presently, is that of a ‘zoospore pool’ where amphibians are uniformly exposed to free-swimming zoospores in the aquatic environment (Briggs, Knapp, & Vredenburg, 2010). Yet, little is known about the longevity, activity or spatial distribution of *Bd* zoospores in this ‘zoospore pool’. Under laboratory conditions, *Bd* zoospores have been recorded to travel on average 2cm before encysting and the majority do not remain motile after 24 hours (Piotrowski, Annis, & Longcore, 2004). If this holds true outside of the lab, it implies that while flagellated, *Bd* zoospores are most effectively transported by water movement, and potentially the movement of hosts (Daszak et al., 1999a). If *Bd* transmission is limited by how far zoospores can travel and their viability, species-specific and individual-level host behaviours (e.g. foraging, habitat preference, aggregation behaviour) influencing contact rates, between susceptible and infectious individuals, may provide insight into the variation in disease transmission and prevalence across the multi-host community. 
+Initial studies into how transmission the ranavirus-amphibian disease system is influenced by contact rates have been inconclusive (Araujo, Kirschman, & Warne, 2016; Brunner et al., 2017). Both studies note that variations in host species susceptibility could be a confounding factor and thus, a study examining the heterogeneities in host susceptibility and contact within and between such species should be considered. Understanding the mode and nature of Rv and *Bd* transmission, particularly in aquatic environments, is often confounded by the complexities of the system and the challenges of creating realistic experimental designs. Particularly when there are multiple transmission routes such as the case with ranavirus: by direct contact (Brunner et al., 2007), ingestion of either ranaviral particles (Hoverman et al.2010) or infected tissue (Pearman et al., 2004; Harp et al. 2006), and via contaminated water (Pearman et al., 2004; Brunner et al. 2004), and substrate (Harp et al. 2006). 
 
 <br> 
 
 ## Within-host Dynamics (Co-infection) 
 
 Another factor to consider is co-infection; the global distribution of both pathogens and their host species overlap increases the possibility of further complexities in host-pathogen dynamics, where hosts are parasitized by multiple pathogens. Coinfection situations are common in wildlife (Hellard, Fouchet, Vavre, & Pontier, 2015; Petney & Andrews, 1998; Rigaud, Perrot-Minnot, & Brown, 2010) and have been linked with an increase in susceptibility to subsequent infections (Lello et al., 2018). In theory, there are grounds to believe that the effect of infection by one pathogen, such as immune suppression (Grayfer et al., 2012) or resource depletion (Voyles et al., 2007) facilitates co-infection interactions and potentially leads to downstream differences in transmission according to host species and pathogen (Pedersen & Fenton, 2007). However, this remains an understudied area. The few field studies of amphibian populations which have sampled for both pathogens have recorded co-infection as commonplace (Reshetnikov et al., 2014; Rosa et al., 2017; Souza et al., 2012). However, experimental evidence of co-infection patterns in amphibians remains sparse. To date, the majority of information on co-infection occurrence comes from opportunistic, post-mortem sampling (Martel et al., 2012; Miller et al., 2008) which fails to capture any within-host dynamics. Therefore, quantifying host specific infectious particle output by an infected individual, under single pathogen and co-infection regimes, is an important step in understanding species contributions to this environmental pool of pathogens and to parameterise transmission function. 
-Heterogeneities in contact frequency and transmission of infectious pathogens per contact can result from differences in individual behaviour (e.g. social interactions, anti-predation response, foraging performance, and aggregation behaviour). Such behavioural tendencies, can alter exposure to pathogens, be modified by pathogen infection and influence the efficiency of pathogen transmission (Drewe, 2010). Establishing what behaviours are associated with transmission enables us to predict which individuals are more likely to transmit or receive an infection. For instance, a recent study found that an individual’s behavioural phenotype, defined by their latency to food and swimming activity, predicted the outcome of ranavirus exposure (Araujo et al., 2016). Additionally, Bd has been shown to induce modifications in host behaviours, such as reductions in foraging rate and efficiency in Bd-infected larvae (Venesky, Parris, & Storfer, 2009). This behavioural response indirectly reduces host fitness (Venesky et al., 2009) and may increase pathogen transmission by altering inter- and intra-specific interactions (Parris & Cornelius, 2004). Adjustments in interaction tendencies have been observed in certain species of social tadpole which increase aggregation behaviour when infected by Bd (Han, Bradley, & Blaustein, 2008; Venesky, Kerby, Storfer, & Parris, 2011), consequently increasing the likelihood of further disease transmission. While aggregation in certain species has been established as a predictor of Bd infection intensity (Venesky et al., 2011), increased contact rates do not always lead to greater pathogen load (Araujo et al., 2016). It is worth considering how disease severity or pathogen load alters contact rates, and the outcome of a contact in transmitting infection particularly if certain individuals are more effective at transmitting infection, either by infecting disproportionately more contacts or transmit more infectious agents per contact (M.E.J. Woolhouse et al., 1997). These individuals are known as super-shedders (Lloyd-Smith et al., 2005; Stein, 2011). Super-shedders have been observed in an experimental Bd-amphibian system where highly infectious individuals had amplified zoospore output (DiRenzo et al., 2014a).   
+Heterogeneities in contact frequency and transmission of infectious pathogens per contact can result from differences in individual behaviour (e.g. social interactions, anti-predation response, foraging performance, and aggregation behaviour). Such behavioural tendencies, can alter exposure to pathogens, be modified by pathogen infection and influence the efficiency of pathogen transmission (Drewe, 2010). Establishing what behaviours are associated with transmission enables us to predict which individuals are more likely to transmit or receive an infection. For instance, a recent study found that an individual’s behavioural phenotype, defined by their latency to food and swimming activity, predicted the outcome of ranavirus exposure (Araujo et al., 2016). Additionally, *Bd* has been shown to induce modifications in host behaviours, such as reductions in foraging rate and efficiency in *Bd*-infected larvae (Venesky, Parris, & Storfer, 2009). This behavioural response indirectly reduces host fitness (Venesky et al., 2009) and may increase pathogen transmission by altering inter- and intra-specific interactions (Parris & Cornelius, 2004). Adjustments in interaction tendencies have been observed in certain species of social tadpole which increase aggregation behaviour when infected by *Bd* (Han, Bradley, & Blaustein, 2008; Venesky, Kerby, Storfer, & Parris, 2011), consequently increasing the likelihood of further disease transmission. While aggregation in certain species has been established as a predictor of *Bd* infection intensity (Venesky et al., 2011), increased contact rates do not always lead to greater pathogen load (Araujo et al., 2016). It is worth considering how disease severity or pathogen load alters contact rates, and the outcome of a contact in transmitting infection particularly if certain individuals are more effective at transmitting infection, either by infecting disproportionately more contacts or transmit more infectious agents per contact (M.E.J. Woolhouse et al., 1997). These individuals are known as super-shedders (Lloyd-Smith et al., 2005; Stein, 2011). Super-shedders have been observed in an experimental *Bd*-amphibian system where highly infectious individuals had amplified zoospore output (DiRenzo et al., 2014a).   
 It is, therefore, crucial to clarify which behaviours drive transmission and the contribution of each host, at a species and individual-level, in order to understand how a disease spreads through, and persists, in a multi-host community. These drivers have proven hard to establish empirically because of the heterogeneities in the characteristics of the host, pathogen and environment, and ultimately the logistics and ethics of experiments involving two pathogens of major conservation concern.
 
 <br> 
 
 ### Aims:  
 
-I.	Ascertain whether the sequence of exposure to co-infecting pathogens (Bd and Rv) alters the disease outcome for the host. **and subsequent transmission of the pathogens.**
+I.	Ascertain whether the sequence of exposure to co-infecting pathogens (*Bd* and Rv) alters the disease outcome for the host. **and subsequent transmission of the pathogens.**
     i. Species-specific response to exposure scenario 
     ii. **priority effect and disease progression** 
 
 II.	Establish the contributions of hosts to the environmental “pool” of infectious particles, across species at an individual level, to understand variations in host infectiousness and by proxy transmission. 
-    i.	 Understand how host infectiousness, measured by quantifying Bd zoospore and ranavirus virons shed into the water body, changes with the exposure regime in single pathogen vs. co-infection scenarios.  
+    i.	 Understand how host infectiousness, measured by quantifying *Bd* zoospore and ranavirus virons shed into the water body, changes with the exposure regime in single pathogen vs. co-infection scenarios.  
     ii.	Assess the viability of infectious particles shed into the aquatic environment. 
 
-III. Build an understanding of the spatial dynamics of Bd zoospores in the aquatic environment, focussing on zoospore activity and trajectory. 
+III. Build an understanding of the spatial dynamics of *Bd* zoospores in the aquatic environment, focussing on zoospore activity and trajectory. 
     
-IV.	Elucidate the role of host contact rates play in disease transmission, intra- and inter- specifically, for both Rv and Bd. 
+IV.	Elucidate the role of host contact rates play in disease transmission, intra- and inter- specifically, for both Rv and *Bd*. 
 and how that influences transmission rates, within and between species.  
     i.	Identify which species-to-species and individual-to-individual contacts alter pathogen transmission.
     ii. Assess how transmission rates change under different scenarios that encourage shifts in contact rates (e.g. variations in host density, temperature and food availability). 
-    iii. Establish whether exposure to pathogens (Bd and/or Rv) changes tadpole behaviour (e.g. activity rates, foraging performance, and aggregation behaviour) and in turn whether modifications in tadpoles beahviour (e.g. feeding activity, light response) alter contact rates. 
+    iii. Establish whether exposure to pathogens (*Bd* and/or Rv) changes tadpole behaviour (e.g. activity rates, foraging performance, and aggregation behaviour) and in turn whether modifications in tadpoles beahviour (e.g. feeding activity, light response) alter contact rates. 
 
-V. Parametrizing the transmission coefficients of Bd in a multi-host system to develop realistic models. 
+V. Parametrizing the transmission coefficients of *Bd* in a multi-host system to develop realistic models. 
 
 VI. Combine these results into a predictive framework to understand how individual-level behaviours influence disease transmission in natural ecological communities.
 
@@ -132,7 +134,7 @@ VI. Combine these results into a predictive framework to understand how individu
 
 # Thesis Plan  
 
-**Chapter 1:** Literature Review: *introducing amphibian decline and the associated diseases (Bd and Rv), how disease dynamics are modelled, and behavioural responses to disease.* 
+**Chapter 1:** Literature Review: *introducing amphibian decline and the associated diseases (*Bd* and Rv), how disease dynamics are modelled, and behavioural responses to disease.* 
 
 **Chapter 2:** Within-host dynamic: *co-infection*
 
@@ -148,10 +150,10 @@ VI. Combine these results into a predictive framework to understand how individu
 
 ## 1 |  Abstract
 
-The notable, global decline of amphibians has largely been attributed to parasitism; the two pathogens of greatest conservation concern being Ranavirus and *Batrachochytrium dendrobatidis* (Bd). While both pathogens have been studied extensively the majority of these studies have taken a one-host, one-pathogen approach. In nature, things are rarely that simple; pathogens often infect multiple host species and hosts can be parasitised by multiple pathogen species. Increasingly, we are seeing field studies reporting co-infection occurring in multiple host species. Yet our understanding of these complex host-pathogen interactions and the implications on disease transmission and persistence maintenance within a host community remains limited.  
+The notable, global decline of amphibians has largely been attributed to parasitism; the two pathogens of greatest conservation concern being Ranavirus and *Batrachochytrium dendrobatidis* (*Bd*). While both pathogens have been studied extensively the majority of these studies have taken a one-host, one-pathogen approach. In nature, things are rarely that simple; pathogens often infect multiple host species and hosts can be parasitised by multiple pathogen species. Increasingly, we are seeing field studies reporting co-infection occurring in multiple host species. Yet our understanding of these complex host-pathogen interactions and the implications on disease transmission and persistence maintenance within a host community remains limited.  
 To help unpick the tangled dynamics of this multi-host, multi-pathogen system we empirically tested how susceptibility, infectiousness and burden of disease changed with infection scenario (single vs coinfection) across a panel of host species (*Bufo bufo*, *Rana temporaria* and *Alytes muletensis*) that range in their reported susceptibility. 
 
-We demonstrate that disease prevalence and infection burden is context dependent. ...  Exposure to Bd resulted in infection detected in individuals across host species and treatment groups.... host species was the greatest determiner of infection status and load. In particular, *Bufo bufo* exhibited higher Bd load regardless of exposure regimes. In contrast, the exposure sequence explains the extent of ranavirial infection across all species with, significantly higher disease **XXXXXX** in co-infection scenarios.
+We demonstrate that disease prevalence and infection burden is context dependent. ...  Exposure to *Bd* resulted in infection detected in individuals across host species and treatment groups.... host species was the greatest determiner of infection status and load. In particular, *Bufo bufo* exhibited higher *Bd* load regardless of exposure regimes. In contrast, the exposure sequence explains the extent of ranavirial infection across all species with, significantly higher disease **XXXXXX** in co-infection scenarios.
 
 Understanding the susceptibility and infectiousness of each host at an individual level allows us to predict how host species community composition influences the establishment and persistence of both pathogens, singularly and as coinfections, at the community level. Our study provides previously lacking empirical evidence of within-host and between-host dynamics under different infection scenarios (single vs co-infection). 
 
@@ -166,7 +168,7 @@ Our study highlights the role species-specific susceptibilty to disease ...  dem
 
 In this study we explore the infection dynamics of single pathogens against co-infection scenarios for three host species. `Objective I.`
 
-For the experiment, individually housed tadpoles of common frogs (Rana temporaria), common toads (Bufo bufo) and then in a later experiment Mallorcan midwife toads (Alytes muletensis) were exposed to controlled doses of B. dendrobatidis and/or FV3-like ranavirus, following the schedule outlined in Figure 1. Subsequently, the number of infectious particles shed by the tadpoles, as a result of the exposure profiles, will be assessed by qPCR. In order to capture a range of host susceptibilities to infection by Bd and/or Rv I examined shedding rates and infection intensity of two co-occurring species (*B. bufo* & *R. temporaria*) that display contrasting resistances, and one other species (*A. muletensis*) 
+For the experiment, individually housed tadpoles of common frogs (Rana temporaria), common toads (Bufo bufo) and then in a later experiment Mallorcan midwife toads (Alytes muletensis) were exposed to controlled doses of B. dendrobatidis and/or FV3-like ranavirus, following the schedule outlined in Figure 1. Subsequently, the number of infectious particles shed by the tadpoles, as a result of the exposure profiles, will be assessed by qPCR. In order to capture a range of host susceptibilities to infection by *Bd* and/or Rv I examined shedding rates and infection intensity of two co-occurring species (*B. bufo* & *R. temporaria*) that display contrasting resistances, and one other species (*A. muletensis*) 
 
 
 Of particular interest is whether exposure to one pathogen altered the disease outcome of the other pathogen, under co-infection scenarios. And in turn whether this altered down-stream disease transmission as detected by the shedding ..... 
@@ -180,21 +182,39 @@ Previous studies have shown, in isolation, both pathogens **accrue** costs (meta
 
 ## 3 |  Methods 
 
-We collected, under licence, wild amphibian egg masses (*R. temporaria* and *B. bufo*) and reared them in an approved facility. For *A. muletensis*, larvae were collected from the ZSL Living Collections. Eggs were hatched in captivity to minimise chances of disease exposure and sentinel individuals were tested for pre-experiment infection. After hatching, all larvae were raised until free-swimming and of similar mass and developmental stage (Gosner 25 **-30**; Gosner, 1960) before being transferred to the experimental room. Indidvials were acclimatised to the experimental rooms and individual housing for 7 days prior to experimetnal procedures.
+#### Amphibian Collection and Husbandry
 
-We ran the experiments as four sequential batches of/by species. In order, experiments comprised of two *B.bufo* (n= 2 x 100), one *R.temporaria* (n= 100), and two *A.muletensis* which varied in development stage; *Alytes* I (n=70, Gosner **30**; Gosner, 1960) and *Alytes* II (n=37, Gosner **20**; Gosner, 1960). We randomly assigned indivduals to one of five treatment groups which **cross** all single and co-infection scenarios, as outlined in Figure 1. Each treatment group consisted of 20 individuals per species, or 14 individuals for the *A.muletensis* I. 
+We collected, under licence, wild amphibian egg masses (*R. temporaria* and *B. bufo*) and reared them in an approved facility. For *A. muletensis*, larvae we received hatched tadpoles from the Zological Society of London's Living Collections, **after ethical approval**. All eggs were hatched in captivity to minimise chances of disease exposure and sentinel individuals were tested for pre-experiment infection. Larvae were raised until free-swimming and of similar mass and developmental stage (Gosner 25; Gosner, 1960) before being transferred to the experimental room. Tadpoles were acclimatised to the experimental rooms and housed, individually, for 7 days prior to experimetnal procedures.
 
-The *Alytes* II was a seperate sub-experiment looking at development stage role in Bd infection.  
+```{r schedule, echo=FALSE, message=FALSE, fig.cap= "Fig.1. Schedule of exposures and sampling, by treatment group. A dose is denoted by a green (Rv) or yellow (Bd) coloured square, and sham doses are displayed as cross-hatched squares. The blue squares indicate when “soak” water samples were collected from individuals and filtered. EMA water samples (for quantification of viable Bd zoospores) are collected directly from the housing container and shown by an asterisk.", out.width="800px", out.height="800px"}
 
-We exposed all larval individually to controlled doses of Bd, Rv or the correlating sham media (see Fig.1.). 
+include_graphics("../output/images/exp-schedule.png")
+``` 
 
-####
-The differential number of exposures for the pathogens was chosen based on the nature of the pathogens. Rv was considered more pathogenic (able to infect in one dose), were as Bd infection is normally acquired by multiple exposures with infection building over time. For individuals in the co-infection groups, doses of the parasites were given sequentially reflecting knowledge of the pathogens present in the wild and their role as emerging pathogens. Previous studies have also shown that repeatedly exposed to Bd increases the likelihood of individuals developing infections as aposed to one single, high dose [REFERENCE: Daversa, et al., (2018) Functional ecology]
-####
 
-Tadpoles were exposed to their respective dose by directly pipetting the inoculums into 0.075L Really Useful Boxes (here on referred to as housing container(s)) filled with 210mL aged tap water, after a 100% water change. Following the 6-hour exposure period, we raised the water volume to 375mL to maintain water quality. The *A.muletensis* I tadpoles being larger were housed in 1.7L RUBs with 1L aged tap water which we reduced to 520mL for exposure periods.  
+#### Laboratory Experiment 1: individual level effects of exposure scenario **and species** on pathogen susceptibility
+
+We ran the experiment as four sequential batches, split by species. In chronological order the experiments consisted of two *B.bufo* (n= 2 x 100), one *R.temporaria* (n= 100), and two *A.muletensis* which varied in development stage; *Alytes* I (n=70, Gosner **26-37**; Gosner, 1960) and *Alytes* II (n=37, Gosner 25; Gosner, 1960). **INTRODUCE HERE ??? See Supplementary Materials for details of *Alytes* development stages.** We randomly assigned indivduals to one of five treatment groups which covered all single and co-infection scenarios (*Bd* only, Rv only, *Bd*-Rv and Rv-*Bd*), as outlined in Figure 1. Each treatment group consisted of 20 individuals per species, or 14 individuals for the *A.muletensis* I. 
+
+
+#### Laboratory Experiment 2: effects of larval development stage on pathogen susceptibility
+
+#####################
+
+We conducted a second experiment to assess whether larval development stage influenced the infection success (prevalence and load) of *Bd* on *Alytes muletensis* (referred to as *Alytes* II hereon in). The larvae of *Alytes muletensis* have long development periods, often overwintering before completing metamorphosis. Overwintering amphibian larvae have ... and can act to maintain the pathogen in ... by reintroduction to the next years larval cohort [REFERENCE Brunner et al., 2004]  The long development period has been showed to allow them to build infection .....  [REFERENCE]. Results form a previous experiment [**Garner et al. unpublished**] reveal that disease outcome in *Bufo bufo* was influenced by development stage, with earlier stages more likely to be infected and with a higher pathogen load than tadpoles exposued to *Bd* **later**. 
+
+#####################   
+
+ability of overwintering amphibian larvae to
+act as infection reservoirs is well established (Brun-ner et al. 2004, Narayan et al. 2014, Medina et al.
+2015), ++++ [REFERENCE : Fernández-Beaskoetxea et al 2016] showed that Ao can act as an applification host, a species within the Alytdie clade that is know to be very susceptible....
+
+
+#### Pathogens 
+
+We exposed all larval individually to controlled doses of *Bd*, Rv or the correlating sham media (see Fig.1.). Tadpoles were exposed to their respective dose by directly pipetting the inoculums into 0.075L Really Useful Boxes (here on referred to as housing container(s)) filled with 210mL aged tap water, after a 100% water change. Following the 6-hour exposure period, we raised the water volume to 375mL to maintain water quality. The *A.muletensis* I tadpoles being larger were housed in 1.7L RUBs with 1L aged tap water which we reduced to 520mL for exposure periods.  
 Individuals designated to receive ranavirus were exposed to a single dose of 105µL (or 263µL for *A.muletensis* I) meaning an effective exposure of 10^4.5 TCID50/ml of FV-3 like ranavirus. The dose was deemed suitable based on previous work where similar inoculums induced infection but not rapid mortality as seen at higher dosages (Duffus et al., 2014; Pearman et al., 2004). 
-For Bd exposures, we used a BdGPL strain **(Farrer et al., 2011)** isolated during an epidemic at Ibón Acherito (Pyrenees, Spain) in 2013 by Prof. M. Fisher and cultured in the lab, see Supplementary Material for further details. A Bd positive dose consistent of 15,000 to 600,000 active zoospores in 210µL liquid media, or 525µL for *A.muletensis* II.  The volume of media was standardised across doses in order to maintain water quality during the exposure period. The total number of Bd zoospores an individual was exposed to is shown in **the table below**, zoospore concentration for each dose having been quantified/assayed prior to exposure using a haemocytometer. 
+For *Bd* exposures, we used a *Bd*GPL strain **(Farrer et al., 2011)** isolated during an epidemic at Ibón Acherito (Pyrenees, Spain) in 2013 by Prof. M. Fisher and cultured in the lab, see Supplementary Material for further details. A *Bd* positive dose consistent of 15,000 to 600,000 active zoospores in 210µL liquid media, or 525µL for *A.muletensis* II.  The volume of media was standardised across doses in order to maintain water quality during the exposure period. The total number of *Bd* zoospores an individual was exposed to is shown in **the table below**, zoospore concentration for each dose having been quantified/assayed prior to exposure using a haemocytometer. 
 
 Experiment            | total zoospores   
 --------------------- | -------------
@@ -205,22 +225,18 @@ Experiment            | total zoospores
 *Alytes muletensis* II | 294,759   
 
 
+
+The differential number of exposures for the pathogens was chosen based on the nature of the pathogens. Rv was considered more pathogenic (able to infect in one dose), were as *Bd* infection is normally acquired by multiple exposures with infection building over time. For individuals in the co-infection groups, doses of the parasites were given sequentially reflecting knowledge of the pathogens present in the wild and their role as emerging pathogens. Previous studies have also shown that repeatedly exposed to *Bd* increases the likelihood of individuals developing infections as aposed to one single, high dose [REFERENCE: Daversa, et al., (2018) Functional ecology]
+####
+
 We conducted water parameter tests throughout the experiment on both the housing and shedding containers to test for nitrates, nitrites and ammonia levels. All larvae were fed 200µL of ground Tetra Tabimin tablets and Spirulina dispersed in double-distilled water to the ratio 1g/100mL, bar *A.muletensis* I who recieved double fed, every other day. The temperature of the animal rooms followed natural ambient conditions (averaging 20˚C ± 2) with a 14:10 light:dark schedule.
-
-```{r schedule, echo=FALSE, message=FALSE, fig.cap= "Fig.1. Schedule of exposures and sampling, by treatment group. A dose is denoted by a green (Rv) or yellow (Bd) coloured square, and sham doses are displayed as cross-hatched squares. The blue squares indicate when 50ml “soak” water samples were collected from individuals and filtered. EMA water samples (for quantification of viable Bd zoospores) are collected directly from the housing container and shown by an asterisk.", out.width="800px", out.height="800px"}
-
-include_graphics("../output/images/exp-schedule.png")
-``` 
 
 
 ### 3.1 |  Within-host Dynamics (co-infection) 
 
 #### Endpoint Tissue Samples
 
-compare host response between species at a single time point postinoculation;
-
-Infection status and load was determined for each individual from endpoint tissue samples. On Day 23 **(9 days post infection (dpi))** tadpoles were euthanised, under licence, by buffered (pH 7.0) 5 mg/L tricaine methylsulfonate (MS-222) and then stored in 100% ethanol for subsequent molecular quantification of infection burden. Infection by Bd was confirmed by excision and DNA extraction of mouthparts, the site of Bd colonization and infection in tadpoles [REFERENCE], using Prepman Ultra (Life Technologies) as per Hyatt et al. (2007). Extracts were screened by the qPCR diagnostic, targetting the ITS-1 and 5.8S regions, outlined in Boyle et al. (2004) with modifications from Garner et al. (2009). We express Bd infection load in genomic equivalents (GE) where one GE is equivalent to a single zoospore. 
-We quantified ranaviral DNA from tissue samples by DNeasy Blood and Tissue (Qiagen) extraction following the manufacturer's protocol. Tissues targeted were kidney, liver and intestine, known to be sites of ranaviral infection **(tissue tropism)** [REFERENCE]. DNA samples were then analysed with a qPCR assay specific to the ranaviral major capsid protein (MCP) sequence and normalised by host cell quantity as outlined in Leung et al. (2017). 
+To compare host response to exposure scenarios across species we collected tissue samples from all individuals at a specified time point post-exposure.  Nine days post-exposure (9 dpe; Day 23) tadpoles were euthanised, under licence, by buffered (pH 7.0) 5 mg/L tricaine methylsulfonate (MS-222) and then stored in 100% ethanol for subsequent molecular quantification of infection burden. The infection status (uninfected 0, infected 1) and pathogen load was recorded for both pathogens. Infection by *Bd* was confirmed by excision and DNA extraction of mouthparts, the site of *Bd* colonization and infection in tadpoles [REFERENCE], using Prepman Ultra (Life Technologies) as per Hyatt et al. (2007). Extracts were screened by the qPCR diagnostic, targetting the ITS-1 and 5.8S regions, outlined in Boyle et al. (2004) with modifications from Garner et al. (2009). We express *Bd* infection load in genomic equivalents (GE) where one GE is equivalent to a single zoospore. We quantified ranaviral DNA from tissue samples by DNeasy Blood and Tissue (Qiagen) extraction following the manufacturer's protocol. Tissues targeted were kidney, liver and intestine, known to be sites of ranaviral infection **(tissue tropism)** [REFERENCE]. DNA samples were then analysed with a qPCR assay specific to the ranaviral major capsid protein (MCP) sequence and normalised by host cell quantity as outlined in Leung et al. (2017). 
 
 ### 3.2 | Between-host Dynamics (shedding) 
 
@@ -230,12 +246,12 @@ We quantified ranaviral DNA from tissue samples by DNeasy Blood and Tissue (Qiag
 
 During the shedding period aka post exposure period water changes were reduced to every four days.... to control for water parameters while allowing zoospores to accumulate in the housing containers uninterupted.
 
-Water samples were obtained every day for the first four days and then day 9 post- exposure, to capture the Bd reproduction cycle (DiRenzo, Langhammer, Zamudio, & Lips, 2014b; Garmyn et al., 2012) and Rv attenuation (Duffus et al., 2014). We modified the soak technique used by Di Renzo et al. (2014) and Reeder et al. (2012), increasing the soak period to 4 hours in 50ml of aged tap water to balance the need to sensitively detect zoospores/virions shed with the considerations of the tadpoles welfare needs. The soak water was filtered through a cellulose nitrate filter membrane (Nalgene Analytical Test Filter Funnel, ThermoFisher), 0.45um pore size to capture 1-2m to 3-5m zoospores (Berger, Speare, & Kent, 1999; Longcore et al., 1999), by a vacuum manifold. Following filtration, each membrane was removed from the filter unit, cut in half using a sterile scalpel blade, and stored at -20oC for a week before being transferred to -80oC until processing. After the last shedding period and water filtration (dpi 9) tadpoles were euthanised, under licence, by buffered (pH 7.0) 5 mg/L tricaine methylsulfonate (MS- 222) and then stored in 100% ethanol. 
-DNA extraction was performed for each filter membrane half. One half underwent extraction by Prepman Ultra (Life Technologies) following the procedure described in Hyatt et al. (2007) to target bd. Whereas DNeasy Blood & Tissue kit was used to isolate Rv DNA following the protocol Goldberg et al.(2011) with the modifications outlined by (Kosch & Summers (2013). All DNA extractions will be assayed by quantitative polymerase chain reaction (qPCR) specific to each pathogen and run in duplicate. A positive result was scored if both wells amplify above the detection threshold when compared to the curve of standards.
+Water samples were obtained every day for the first four days and then day 9 post- exposure, to capture the *Bd* reproduction cycle (DiRenzo, Langhammer, Zamudio, & Lips, 2014b; Garmyn et al., 2012) and Rv attenuation (Duffus et al., 2014). We modified the soak technique used by Di Renzo et al. (2014) and Reeder et al. (2012), increasing the soak period to 4 hours in 50ml of aged tap water to balance the need to sensitively detect zoospores/virions shed with the considerations of the tadpoles welfare needs. The soak water was filtered through a cellulose nitrate filter membrane (Nalgene Analytical Test Filter Funnel, ThermoFisher), 0.45um pore size to capture 1-2m to 3-5m zoospores (Berger, Speare, & Kent, 1999; Longcore et al., 1999), by a vacuum manifold. Following filtration, each membrane was removed from the filter unit, cut in half using a sterile scalpel blade, and stored at -20oC for a week before being transferred to -80oC until processing. After the last shedding period and water filtration (dpi 9) tadpoles were euthanised, under licence, by buffered (pH 7.0) 5 mg/L tricaine methylsulfonate (MS- 222) and then stored in 100% ethanol. 
+DNA extraction was performed for each filter membrane half. One half underwent extraction by Prepman Ultra (Life Technologies) following the procedure described in Hyatt et al. (2007) to target *Bd*. Whereas DNeasy Blood & Tissue kit was used to isolate Rv DNA following the protocol Goldberg et al.(2011) with the modifications outlined by (Kosch & Summers (2013). All DNA extractions will be assayed by quantitative polymerase chain reaction (qPCR) specific to each pathogen and run in duplicate. A positive result was scored if both wells amplify above the detection threshold when compared to the curve of standards.
 
 #### Viability Samples  
 
-Quantification of viable zoospores shed into the housing container over the course of the shedding period (4 days) was achieved by ethidium monoazide (EMA) treatment following the protocol in (Blooi, Martel, Vercammen, & Pasmans, 2013). In brief, at 4 days post-infection, two sub-samples were taken from the housing container, one to be treated with EMA and the other untreated before DNA extraction by Prepman Ultra (as described below). EMA binds to dead zoospores penetrating their compromised membranes and blocks PCR amplification thus EMA treated samples represent the viable proportion of Bd zoospores in a sample compared to an untreated sample that records both the viable and dead fractions.  
+Quantification of viable zoospores shed into the housing container over the course of the shedding period (4 days) was achieved by ethidium monoazide (EMA) treatment following the protocol in (Blooi, Martel, Vercammen, & Pasmans, 2013). In brief, at 4 days post-infection, two sub-samples were taken from the housing container, one to be treated with EMA and the other untreated before DNA extraction by Prepman Ultra (as described below). EMA binds to dead zoospores penetrating their compromised membranes and blocks PCR amplification thus EMA treated samples represent the viable proportion of *Bd* zoospores in a sample compared to an untreated sample that records both the viable and dead fractions.  
 
 ```{r EMA, echo=FALSE, message=FALSE, optipng='-o7', fig.cap= "Viability staining protocol for quantification of live vs. dead Bd zoospores.", fig.width=4, fig.height=2}
 
@@ -245,17 +261,26 @@ include_graphics("../output/images/EMA-process-overview.png")
 
 ### 3.3 | Statistical Analysis 
 
-All analyses were conducted in R v.3.5.1 [RStudio Team (2015). RStudio: Integrated Development for R. RStudio, Inc., Boston, MA URL http://www.rstudio.com/] with the packages listed in the supplementary material [refs??] (Sxx) and script provided on [GitHub](https://github.com/bea-22/P1_CoinfectionShedding_2018).
+All analyses were conducted in R v.3.5.1 [RStudio Team (2015).http://www.rstudio.com/] with the packages listed in the Supplementary Materials [REFERENCE??] with the script provided on [GitHub](https://github.com/bea-22/P1_CoinfectionShedding_2018).
 
 ### 3.3.1 | Within-Host Dynamics
 
-We used generalized linear models (GLMs) to test the effect of exposure scenario (Bd only, Rv only, Bd-Rv and Rv-Bd) and host species (*B.bufo*, *R.temporaria* and *A.muletensis*) on infection status (uninfected vs. infected), using a binomial error structure, and on infection load using a Gamma error structure with log-link transformation. **Model parameters were assessed using analysis of deviance (ANOVA). << include this here**. Where the response variable was infection load it was recorded as GE score for Bd positive infections and as a normalised viral load for ranavirus. **<< comment here about why se didnt log the Bd GE score??? ** Each of level of statistical comparison (exposure scenario, species) on the response variable (infection status or load) was carried out individual for each pathogen. 
+To analyse the effect of exposure scenario (*Bd* only, Rv only, *Bd*-Rv and Rv-*Bd*) and host species (*B.bufo*, *R.temporaria* and *A.muletensis*) on infection status (uninfected vs. infected) and load, we used generalized linear model (GLMs). Each of level of statistical comparison (exposure scenario, species) on the response variable (infection status or load) was carried out individual for each pathogen. For the probability of infection, we used a GLM with a binomial distribution. For infection load, where the response variable was recorded as GE score for *Bd* positive infections and as a normalised viral load for ranavirus, we used a GLM with Gamma error structure and log-link transformation. The Gamma error structure with a log-link transformation often provides a flexible distribution for skewed data that is always postive [REFERENCE], such as in our case of non-zero infection loads. We verified using this distribution by comparing the goodness-of-fit of data to both Gaussian, Gaussian with log transformed data, Gamma, and Gamma with log-link (to account for left skewed data). For both pathogen datasets Gamma with log-link function performed the best.  **Model parameters were assessed using analysis of deviance (ANOVA). << include this here**.
+
+##########  
+OR
+########## 
+
+We used generalized linear models (GLMs) to test the effect of exposure scenario (*Bd* only, Rv only, *Bd*-Rv and Rv-*Bd*) and host species (*B.bufo*, *R.temporaria* and *A.muletensis*) on infection status (uninfected vs. infected), using a binomial error structure, and on infection load using a Gamma error structure with log-link transformation. Where the response variable was infection load it was recorded as GE score for *Bd* positive infections and as a normalised viral load for ranavirus. **<< comment here about why se didnt log the *Bd* GE score??? ** Each of level of statistical comparison (exposure scenario, species) on the response variable (infection status or load) was carried out individual for each pathogen. **Model parameters were assessed using analysis of deviance (ANOVA). << include this here**.The Gamma error structure with a log-link transformation often provides a flexible distribution for skewed data that is always postive [REFERENCE], such as in our case of non-zero infection loads. We verified using this distribution by comparing the goodness-of-fit of data to both Gaussian, Gaussian with log transformed data, Gamma, and Gamma with log-link (to account for left skewed data). For both pathogen datasets Gamma with log-link function performed the best. 
+
 
 We implemented/used Tukey’s ((honest significant difference)) post hoc test to compare // to evaluate the significant effects of the explanatory vairables highlighted by the GLMs, using the glht function in the multcomp package; [ref], 
 
-All statistical analysis used experiment number as a proxy for species, to account for the slight variations in Bd dose. The effects of body size and weight were not included, **such recordings for tadpoles are highly flawed** and these variables did not differ among treatments. Control groups were excluded from all models as all individuals were uninfected by design and did not develop detectable infections by either pathogen during the experiment. 
+All statistical analysis used experiment number as a proxy for species, to account for the slight variations in *Bd* dose. The effects of body size and weight were not included, **such recordings for tadpoles are highly flawed** and these variables did not differ among treatments. Control groups were excluded from all models as all individuals were uninfected by design and did not develop detectable infections by either pathogen during the experiment. 
 
-We have excluded *A.muletensis* II from the ((above mentioned))) models looking at the ########## infection status and load, as that experiment did not have the full range of exposure scenarios. To test the difference in development stage on Bd infection status and load we compare *A.muletensis* I and less developed *A.muletensis* II using #######. 
+We have excluded *A.muletensis* II from the ((above mentioned))) models looking at the ########## infection status and load, as that experiment did not have the full range of exposure scenarios. To test the difference in development stage on *Bd* infection status and load we compare *A.muletensis* I and less developed *A.muletensis* II using #######. 
+
+
 
 ### 3.3.2 | Between-Host Dynamics
 
@@ -266,9 +291,7 @@ We have excluded *A.muletensis* II from the ((above mentioned))) models looking 
 
 Survivorship was analysed using Cox proportional hazard models, again with exposure scenario and host species as explanatory vairables, with the ‘‘coxph’’ function and the Survival package.
 
-
 ## 4 | Results  
-
 
 
 ```{r import data, include=FALSE, warning=FALSE, error=FALSE, message=FALSE}
@@ -277,7 +300,44 @@ data.endpoint <- read.csv('../data/02_clean-data.csv')  # all endpoint data
     
 prop.infect.sum <- read.csv('../data/03_prop-sum_data.csv')   # output from 03_explore-analysis with proportion infected by treatment and species  
 
+# Bd load df 
+Bd.data <- data.endpoint %>%
+  filter(!Treatment=="Rv") %>%   # removal of Rv only treatment group 
+  filter(!ExperimentNo=='5')  %>%   # removal of Alytes babies
+  mutate(ExperimentNo = as.factor(ExperimentNo)) %>%
+  dplyr::select(ID, Species, ExperimentNo, Treatment, Bd.endpoint.status, Bd.endpoint.GE) 
+droplevels(Bd.data)
+
+Bd.load <- Bd.data %>%
+  filter((Bd.endpoint.status=='1' & Bd.endpoint.GE > 0.1)) 
+
+# Rv load df 
+Rv.data <- data.endpoint %>%
+  filter(!Treatment=="Bd") %>%
+  filter(!ExperimentNo=='5')  %>% 
+  mutate(ExperimentNo = as.factor(ExperimentNo)) %>% 
+  dplyr::select(ID, Species, ExperimentNo, Scenario, Treatment, Rv.MCPendpoint.status, Rv.endpoint.load) 
+droplevels(Rv.data)
+
+Rv.load <- Rv.data %>%
+  filter((Rv.endpoint.load > 0.1))
+
 ```
+
+
+```{r GLMs, include=FALSE, warning=FALSE, error=FALSE, message=FALSE}
+# BD
+bayes.Bd.status <- bayesglm(Bd.endpoint.status ~ ExperimentNo, data=Bd.data, family=binomial)
+
+model.Bd.load <- glm(Bd.endpoint.GE ~ ExperimentNo, data=Bd.load, family="Gamma"(link='log'))  # Bd infection load 
+
+# RANAVIRUS
+model.Rv.status <- glm(Rv.MCPendpoint.status ~ Treatment, data=Rv.data, family=binomial)  # Rv infection status 
+
+model.Rv.load <- glm(Rv.endpoint.load ~ Treatment, data=Rv.load, family="Gamma"(link='log'))  # Rv infection load 
+```
+
+
 
 
 ### 4.2 | Within-Host Dynamics
@@ -342,7 +402,7 @@ plot.Rv.load.sp <- data.endpoint %>%
         ylab("Rv viral load\n (log)") +
         guides(fill=guide_legend(title="Species")) +  theme_bw()
 
-boxplot.Rv <- plot.Rv.load.sp +  theme(legend.key=element_blank(), legend.position="top",legend.justification='right', legend.direction='horizontal', legend.text= element_text(size=8, face = "italic"), legend.title=element_text(size=14)) + 
+boxplot.Rv <- plot.Rv.load.sp +  theme(legend.key=element_blank(), legend.position="top",legend.justification='right', legend.direction='horizontal', legend.text= element_text(size=8, face = "italic"), legend.title=element_text(size=12)) + 
      theme(axis.text.x = element_text(angle=30, hjust=1, vjust=1, size = 10), axis.text.y = element_text(size = 10), axis.title = element_text(size=16)) 
  
   
@@ -362,20 +422,25 @@ Load range
   - within predictions ranges and those reported for wild populations?? 
 
 
-### Infection status 
- 
-Exposure scenario predicted infection status and load for ranavirus: (co-infected) tadpoles exposed to both pathogens were **significantly** more likely to develop ranaviral infections (**binomial** GLM; Bd-Rv Z = -5.667; p < 0.001, ((Rv-Bd Z = 2.924; p < 0.01))); Figure XXXXX), which were more likely to be at a high viral titre (GLM; χ2 = XXX; p < .001 ****, Figure XXXXX ////. Across species the endpoint viral load of individuals differed between the two co-infection scenarios (Tukey's XXXXXXX)   
 
-Host species did not affect ranavirus infection status or load, nor did we detect an interaction between host species and treatment group/eposure scenario.
+Exposure scenario predicted infection status and load for ranavirus: (co-infected) tadpoles exposed to both pathogens were **significantly** more likely to develop ranaviral infections (**binomial** GLM; *Bd*-Rv Z = -5.667; p < 0.001, ((Rv-*Bd* Z = 2.924; p < 0.01))); Figure XXXXX), which were more likely to be at a high viral titre (GLM; *Bd*-Rv Z = 3.561; p < 0.01, Rv-*Bd* Z =  8.142; p < 0.001, Figure XXXXX). Across species the endpoint viral load of individuals differed between the two co-infection scenarios (Tukey, Rv-*Bd* - *Bd*-Rv p < 0.001). Host species *did not affect**  ranavirus infection status or load, nor did we detect an interaction between host species and treatment group/eposure scenario.
 
 
-Rv only = XXXX ± XXXX, Bd - Rv = XXX ± XXX, Rv - Bd = XXXX ± XXX, GLM, F = XXXX, p < .001; XXXX). 
+
+
+
+
+Rv only = XXXX ± XXXX, *Bd* - Rv = XXX ± XXX, Rv - *Bd* = XXXX ± XXX, GLM, F = XXXX, p < .001; XXXX). 
 
 ###########################################
 strength predicted infection risk: newts in the high dose tanks were more likely to develop infections (GLM; χ2
 1 = 18.44; p < .001, Figure 2a)
 andand developed stronger infections (low dose GE = 0.44 ± 0.15, high dose = 8.82 ± 2.72, GLM, F1,51 = 24.67, p < .001; Figure 2b). Risk did not affect how quickly newts first switched to terrestrial
-habitat (no risk tdepart = 0.54 ± 0.08, low risk tdepart = 0.55 ± 0.09, high risk tdepart = 0.70 ± 0.08, GLM, F1,51 = 1.66, p = .196). Neither risk, in- fection status, nor infection load significantly affected cumulative tter- restrial (Table S2) or when breaking analysis down by Bd growth phases (Table
+habitat (no risk tdepart = 0.54 ± 0.08, low risk tdepart = 0.55 ± 0.09, high risk tdepart = 0.70 ± 0.08, GLM, F1,51 = 1.66, p = .196). Neither risk, in- fection status, nor infection load significantly affected cumulative tter- restrial (Table S2) or when breaking analysis down by *Bd* growth phases (Table
+ 
+ 
+ 
+ 
  
 ###########################################
 (GLM with binomial distribution, behaviour Z = 7!65, P < 0!00001; immunity Z = 5!32, P < 0!00001; behaviour*immunity Z = #5!09, P < 0!00001). Depression
@@ -389,7 +454,7 @@ Then report which pairs were not significantly different.
 
 
 
-with Treatment xxx for predicting ranavirus infection status and ExperimentNo. best for Bd infection status. 
+with Treatment xxx for predicting ranavirus infection status and ExperimentNo. best for *Bd* infection status. 
 
 
 
@@ -398,9 +463,6 @@ with Treatment xxx for predicting ranavirus infection status and ExperimentNo. b
 ### 4.3 | Between-Host Dynamics
 
 ``` results pending``` 
-
-
-
 
 
 
@@ -416,17 +478,17 @@ across species and/or exposure scenarios
 
 **Infection burden vs. cost**
 
-There could still be a cost to exposure for the Rana temporaria that this study does not account for. While infection burden and status is important we did not look at growth rates and time to metamorphosis. Previous studies have demonstrated that exposure to Bd resulted in impairment of growth [GARNER ET AL 2009; BIELBY ET AL 2015] and time to metamorphosis [GARNER ET AL unpublished]. In BIELBY ET AL (2015) this cost on *Rana* growth rates can from exposure alone.... so while our *Rana* did not consistently generate infections and undetected cost could be present. 
+There could still be a cost to exposure for the Rana temporaria that this study does not account for. While infection burden and status is important we did not look at growth rates and time to metamorphosis. Previous studies have demonstrated that exposure to *Bd* resulted in impairment of growth [GARNER ET AL 2009; BIELBY ET AL 2015] and time to metamorphosis [GARNER ET AL unpublished]. In BIELBY ET AL (2015) this cost on *Rana* growth rates can from exposure alone.... so while our *Rana* did not consistently generate infections and undetected cost could be present. 
 
 ####
-We see this to some extent with all the host species, Bd exposure coupled with Rv increases the chance of Ranaviral infection, both with coinfection treatment groups having indivduals with positive ranavirus infection status compared to the Rv only group consistently having no infected indivduals. 
+We see this to some extent with all the host species, *Bd* exposure coupled with Rv increases the chance of Ranaviral infection, both with coinfection treatment groups having indivduals with positive ranavirus infection status compared to the Rv only group consistently having no infected indivduals. 
 
 
 #### Dose
 
-The exposure regimes and dose used in the above described experiment reflect that seen in the wild. Chytrid infections are often seasonal, particularly in the case of larval animals as they have a short window in the aquatic environment. Plus the nature of Bd transmission means during this time window they are most likely exposure to repeated "dosing" of Bd infectious particles (zoospores). 
+The exposure regimes and dose used in the above described experiment reflect that seen in the wild. Chytrid infections are often seasonal, particularly in the case of larval animals as they have a short window in the aquatic environment. Plus the nature of *Bd* transmission means during this time window they are most likely exposure to repeated "dosing" of *Bd* infectious particles (zoospores). 
 
-The dose of Bd zoospores does vary between experiments and within experiment..... 
+The dose of *Bd* zoospores does vary between experiments and within experiment..... 
 Within experiment this can be equated to variable exposure in the environment. ...so while the composition///zoospores per each dose varied, across individuals within an experiment the doses were identical. 
 Between experiments *(is unfortunate)* variation doesn't appear to have a distinct signal/effect. The models account for the variation in dose by using experiment number as the response variable rather than grouping by species. Also, it is worth noting that while there was variation the total zoospore number an experiment group, these total doses for each experiment are consisted high. In the literature a high dose is consider .....  [REFERENCE]. This is reflected in the results where both susceptible species are pretty much uniformly infected. 
 
@@ -440,7 +502,7 @@ The difference in explanatory variable between pathogen ... resulted from the fa
 
 ## 6 | Conclusion / Further Work 
 
-Does Rv impose a greater cost on the host? Does Bd outcompete the Rv if exposed first? Or does it supress the immune system later allowing Rv to take hold? 
+Does Rv impose a greater cost on the host? Does *Bd* outcompete the Rv if exposed first? Or does it supress the immune system later allowing Rv to take hold? 
 
 **Ethics** All work was carried out under British Home Office licencing following ethical approval by the Zoological Society of London’s Ethics Committee.  
 Personal Licence (PIL): Bryony Allen I41AEB105
@@ -460,30 +522,90 @@ Project Licence (PPL): Trenton Garner P8897246A
 
 Ranavirus (RUK13 isolate; Cunningham, Hyatt, Russell, & Bennett, 2007) was cultivated on epithelioma papillosum carp (EPC) cell line at 18oC and 5% CO2 (courtesy of S.J.Price, C.Owen and L. Brookes), and quantified using the TCID50 method (Reed & Muench, 1938) . The harvested cell culture fluid contained a virus titre of 10^7 TCID50/ml. Designated individuals were exposed to 105µL (or 263µL for *A.muletensis* II) meaning an effective exposure of 10^4.5 TCID50/ml. The dose was deemed suitable based on previous work where similar inoculums induced infection but had a longer time till death in tadpoles then higher concentrations (Duffus et al., 2014; Pearman et al., 2004). 
 
-Bd strain IA’9’13, a member of the hypervirulent BdGPL lineage and isolated during an epidemic at Ibón Acherito (Pyrenees, Spain) in 2013 by Prof. M. Fisher, was cultured in TGhL broth, in a 25cm2 cell culture flasks, at 18˚C. Zoospores were collected and counted using a haemocytometer. A Bd positive dose consistent of 15,000 to 600,000 active zoospores in 210µL liquid media, or 525µL for *A.muletensis* II. The volume of media was standardised across doses in order to maintain water quality during the exposure period. Total exposure are shown in the table below. 
-
-
-Figure 1. Mean standardised mass at metamorphosis as a function of Bd dose profile and food treatments. Error bars are standard errors.
-
-Figure 2. Timing of metamorphosis as a function of Bd dose category split by food regime.  Normal food treatments are solid lines, restricted food treatments are dotted lines and dose categories are colour coded as per figure legend.
+*Bd* strain IA’9’13, a member of the hypervirulent *Bd*GPL lineage and isolated during an epidemic at Ibón Acherito (Pyrenees, Spain) in 2013 by Prof. M. Fisher, was cultured in TGhL broth, in a 25cm2 cell culture flasks, at 18˚C. Zoospores were collected and counted using a haemocytometer. A *Bd* positive dose consistent of 15,000 to 600,000 active zoospores in 210µL liquid media, or 525µL for *A.muletensis* II. The volume of media was standardised across doses in order to maintain water quality during the exposure period. Total exposure are shown in the table below. 
 
 
 
-Figure 4. Mean non-zero infection burdens (loge[genomic equivalents]) as a function of food regime and Bd dose category. Error bars are standard errors. The negative control dose category treatments are not included as they are zero-infected by design.
 
-Figure 5. Standardised mass at metamorphosis as a function of infection burden. High / Low / None are defined respectively as genomic equivalents (GE) > median / median > GE > 0 / GE = 0.
-Figure 6. Post-metamorphic survivorship of toads as a function of BD dose category treatment, split by size at metamorphosis: a) larger than the mean; b) smaller than the mean.
+```{r log distribution Bd GE, echo=FALSE, warning=FALSE, error=FALSE, message=FALSE, fig.cap= "Figure S1.a. The distribution of log-transformed infection loads (GE) for Bd-positive tadpoles, groups across all species for exposure scenarios .... Red lines indicate mean infection load and black dots the log-transformed data points.", fig.width=16, fig.height=6}
+data.endpoint %>%     # ridge plot to see distribution of data  
+    filter((Bd.endpoint.status=='1' & Bd.endpoint.GE > 0.1))  %>%  ggplot(aes(log(Bd.endpoint.GE), Treatment)) +
+      geom_density_ridges(
+                      jittered_points = TRUE, quantile_lines = TRUE, scale = 0.9, alpha = 0.7,
+                      vline_size = 1, vline_color = "red",
+                      point_size = 0.4, point_alpha = 1,
+                      position = position_raincloud(adjust_vlines = TRUE)
+          ) + theme_ridges()
+```
 
 
-################### SCRAPS ################### SCRAPS ################### SCRAPS ################### SCRAPS ################### SCRAPS ################### SCRAPS ################### SCRAPS ###################
 
 
-html_document:
-    toc: true 
-    toc_float: true
-    toc_depth: 2 
-    fig_caption: yes
-    force_captions: yes
-    number_sections: yes
-    theme: sandstone
-    code_folding: hide 
+```{r log distribution Rv load, echo=FALSE, warning=FALSE, error=FALSE, message=FALSE, fig.cap= "Figure S1.b. The distribution of log-transformed normalised infection loads for ranavirus-positive tadpoles, groups across all species for exposure scenarios .... Red lines indicate mean infection load and black dots the log-transformed data points.", fig.width=16, fig.height=6}
+data.endpoint %>%     # ridge plot to see distribution of data  
+    filter(Rv.endpoint.load > 0 & !Rv.endpoint.load > 2000)  %>%  ggplot(aes(log(Rv.endpoint.load), Treatment)) +
+      geom_density_ridges(
+                      jittered_points = TRUE, quantile_lines = TRUE, scale = 0.9, alpha = 0.7,
+                      vline_size = 1, vline_color = "red",
+                      point_size = 0.4, point_alpha = 1,
+                      position = position_raincloud(adjust_vlines = TRUE)
+          ) + theme_ridges()
+```
+
+<br>
+
+Table S2. Development stage of Alytes muletensis tadpoles at exposure start (Day 1) and experiment end (Day 23) scored as per Gosner, 1960. 
+
+```{r Alytes dev data, echo=FALSE, warning=FALSE, error=FALSE, message=FALSE}
+
+# data.endpoint <- read.csv('../data/02_clean-data.csv')  # all endpoint data 
+
+## data.Alytes <- read.csv('../data/02_development-data.csv')  #
+
+# format the df  
+Alytes.dev <- data.imported %>%
+  filter(ExperimentNo=='5' & '4')  %>%   # select Alytes 
+  filter((Bd.endpoint.status=='1' & Bd.endpoint.GE > 0.1))  %>% 
+  dplyr::select(ID, Species, ExperimentNo, Scenario, Treatment, Bd.endpoint.status, Bd.endpoint.GE) 
+  
+  
+  knitr::kable(Bd.load.coef, caption = 'a)', digits=3)
+
+  
+```
+
+Table S3. Generalized Linear Model (GLMs) outputs for endpoint infection status in amphibian larvae by pathogen/infection type a) *Bd*, as a function of  species (*Bufo bufo*, *Rana temporaria*, and *Alytes muletensis*), and b) ranavirus, as a function of exposure scenario (*Bd* only, Rv only, *Bd*-Rv and Rv-*Bd*) after model selection and simplification.   
+
+```{r infection status GLM coefs, echo=FALSE, warning=FALSE, error=FALSE, message=FALSE, fig.show='hold', out.width = "50%", fig.align = "default"}
+# TO DO: use summ() to change the output > alter the row names, display p-values more intuitive 
+
+Bd.status.coef <-summary.glm(bayes.Bd.status)$coefficients
+
+Rv.status.coef <-summary.glm(model.Rv.status)$coefficients
+
+knitr::kable(Bd.status.coef, caption = 'a)', digits=3)
+
+knitr::kable(Rv.status.coef, caption = 'b)', digits=3)
+
+```
+
+
+
+
+Table S4. Generalized Linear Model (GLMs) outputs for endpoint infection load in amphibian larvae by pathogen/infection type a) *Bd*, expressed as zoospore genomic equivalents (GE), and b) ranavirus as normalised ranaviral load as the response variable. The following **variables** were used as explanatory variables for a) species (*Bufo bufo*, *Rana temporaria*, and *Alytes muletensis*), and b) exposure scenario (*Bd* only, Rv only, *Bd*-Rv and Rv-*Bd*) after model selection and simplification.   
+
+```{r infection load GLM coefs, echo=FALSE, warning=FALSE, error=FALSE, message=FALSE, fig.show='hold', out.width = "50%", fig.align = "default"}
+# TO DO: use summ() to change the output > alter the row names, display p-values more intuitive 
+
+Bd.load.coef <-summary.glm(model.Bd.load)$coefficients
+
+Rv.load.coef <-summary.glm(model.Rv.load)$coefficients
+
+knitr::kable(Bd.load.coef, caption = 'a)', digits=3)
+
+knitr::kable(Rv.load.coef, caption = 'b)', digits=3)
+
+```
+
+
+
