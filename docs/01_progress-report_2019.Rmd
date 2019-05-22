@@ -310,6 +310,18 @@ model.Rv.load <- glm(Rv.endpoint.load ~ Treatment, data=Rv.load, family="Gamma"(
 ### 4.2 | Within-Host Dynamics
 
 
+
+We detected substainally fewer ranaviral infections than Bd infection, across species and treatment groups (Rv, n= 27; Bd, n = 172). The majority of the ranavirus infections occurred in co-infection treatment groups (bayesGLM; *Bd* - Rv: Z = -5.667; p < 0.01, Rv - *Bd*, Z = 2.924; p < 0.01). However, the Tukey test showed significant variation between the co-infection treatment groups (**stat**)  
+
+
+Species affected the overall infection prevalence for Bd....
+
+
+
+Exposure scenario predicted infection status and load for ranavirus: (co-infected) tadpoles exposed to both pathogens were **significantly** more likely to develop ranaviral infections (**binomial** GLM; *Bd*-Rv Z = -5.667; p < 0.001, ((Rv-*Bd* Z = 2.924; p < 0.01))); Figure XXXXX), which were more likely to be at a high viral titre (GLM; *Bd*-Rv Z = 3.561; p < 0.01, Rv-*Bd* Z =  8.142; p < 0.001, Figure XXXXX). Across species the endpoint viral load of individuals differed between the two co-infection scenarios (Tukey, Rv-*Bd* - *Bd*-Rv p < 0.001). Host species *did not affect**  ranavirus infection status or load, nor did we detect an interaction between host species and treatment group/eposure scenario.
+
+
+
 ```{r proportion infected by species, echo=FALSE, fig.cap= "Figure 3. Proportion of individuals infected at endpoint (Day 23) as an outcome of pathogen exposure scenario and host species. The negative control groups are not included as they have no infection status. Error bars are binomial confidence intervals calculated using logit parameterization.", fig.width=12, fig.height=8}
 
 exp.labs <- c("1" = "Bufo bufo I", "2" = "Bufo bufo II", "3" = "Rana temporaria", "4" = "Alytes muletensis","5" = "Alytes muletensis II") # plot labels 
@@ -333,7 +345,12 @@ prop.plot
 ```
 
 
+#############
 
+Load range 
+  - within predictions ranges and those reported for wild populations?? 
+
+Rv only = XXXX ± XXXX, *Bd* - Rv = XXX ± XXX, Rv - *Bd* = XXXX ± XXX, GLM, F = XXXX, p < .001; XXXX). 
 
 
 ```{r endpoint load boxplots, echo=FALSE, warning=FALSE, error=FALSE, message=FALSE, fig.cap= "Figure 4.  Mean (((((non-zero)))) infection burden, at endpoint (Day 23), as a function of exposure scenario/regime and host species. a) Bd load quantified as genomic equivalents (GE) where 1 GE represents 1 Bd zoospore, for individuals over the 0.1 GE detection threshold. b) normalised ranaviral load (see Leung et al.'s (2017)). Error bars are standard errors. The negative controls are not included as they receive no pathogen exposure and therefore have no infection status.", fig.width=14, fig.height=8}
@@ -357,7 +374,7 @@ boxplot.Bd <- plot.Bd.GE.sp + theme(legend.key=element_blank(), legend.position=
    theme(axis.text.x = element_text(angle=30, hjust=1, vjust=1, size = 10), axis.text.y = element_text(size = 10), axis.title = element_text(size=16)) 
  
 plot.Rv.load.sp <- data.endpoint %>% 
- filter(Rv.endpoint.load > 0 & !Rv.endpoint.load > 2000) %>%  # filtering out the extremely high Rv viral load so that we can see the data better 
+ filter(Rv.endpoint.load > 0.1 & !Rv.endpoint.load > 2000) %>%  # filtering out the extremely high Rv viral load so that we can see the data better 
   ggplot(aes(x = interaction(Treatment, ExperimentNo), y= Rv.endpoint.load, fill = ExperimentNo)) + 
         geom_boxplot() +
         #stat_summary(fun.y="mean", geom="point", shape=23, size=3, fill="red") +    
@@ -383,45 +400,8 @@ plot_grid(boxplot.Bd,
 ```
 
 
-Load range 
-  - within predictions ranges and those reported for wild populations?? 
-
-
-
-Exposure scenario predicted infection status and load for ranavirus: (co-infected) tadpoles exposed to both pathogens were **significantly** more likely to develop ranaviral infections (**binomial** GLM; *Bd*-Rv Z = -5.667; p < 0.001, ((Rv-*Bd* Z = 2.924; p < 0.01))); Figure XXXXX), which were more likely to be at a high viral titre (GLM; *Bd*-Rv Z = 3.561; p < 0.01, Rv-*Bd* Z =  8.142; p < 0.001, Figure XXXXX). Across species the endpoint viral load of individuals differed between the two co-infection scenarios (Tukey, Rv-*Bd* - *Bd*-Rv p < 0.001). Host species *did not affect**  ranavirus infection status or load, nor did we detect an interaction between host species and treatment group/eposure scenario.
-
-
-
-
-
-
-Rv only = XXXX ± XXXX, *Bd* - Rv = XXX ± XXX, Rv - *Bd* = XXXX ± XXX, GLM, F = XXXX, p < .001; XXXX). 
-
-###########################################
-strength predicted infection risk: newts in the high dose tanks were more likely to develop infections (GLM; χ2
-1 = 18.44; p < .001, Figure 2a)
-andand developed stronger infections (low dose GE = 0.44 ± 0.15, high dose = 8.82 ± 2.72, GLM, F1,51 = 24.67, p < .001; Figure 2b). Risk did not affect how quickly newts first switched to terrestrial
-habitat (no risk tdepart = 0.54 ± 0.08, low risk tdepart = 0.55 ± 0.09, high risk tdepart = 0.70 ± 0.08, GLM, F1,51 = 1.66, p = .196). Neither risk, in- fection status, nor infection load significantly affected cumulative tter- restrial (Table S2) or when breaking analysis down by *Bd* growth phases (Table
- 
- 
- 
- 
- 
-###########################################
-(GLM with binomial distribution, behaviour Z = 7!65, P < 0!00001; immunity Z = 5!32, P < 0!00001; behaviour*immunity Z = #5!09, P < 0!00001). Depression
-
-
-
-Present a table of means and standard deviations
-First report overall ANOVA
-Then report which pairs were significantly different at a given alpha level
-Then report which pairs were not significantly different.
-
-
-
-with Treatment xxx for predicting ranavirus infection status and ExperimentNo. best for *Bd* infection status. 
-
-
+Three tadpoles had detectable but very weak ranavirus infections,  frequently exposed terrestrial newts that previously tested
+negative developed detectable but weak infections on Day 28, 1 week after being returned to aquatic containers (GE
 
 
 
@@ -496,14 +476,9 @@ Table S3. Mean proportion of individuals infected as a function of species and p
 ```{r summary proportion infected, echo=False}
 endpoint.sum <- data.endpoint %>%
   group_by(ExperimentNo, Treatment) %>%     # use experiment no. here so that experiments using the same species but different variables (Bd dose, host life history stage) are not grouped
-    summarize(Proportion.Infected.Rv = mean(Rv.MCPendpoint.status, na.rm = TRUE), Proportion.Infected.Bd = mean(Bd.endpoint.status, , na.rm = TRUE), N=length(Rv.MCPendpoint.status)) 
-
-endpoint.sum
+    summarize(Proportion.Infected.Rv = mean(Rv.MCPendpoint.status, na.rm = TRUE), Proportion.Infected.Bd = mean(Bd.endpoint.status, , na.rm = TRUE), n=length(Rv.MCPendpoint.status)) 
 
 knitr::kable(endpoint.sum, digits=3)
-
-
-# prop.infect.sum    
 ```
 <br>
 
@@ -515,18 +490,21 @@ Table S4. Mean proportion of individuals infected as a function of species and p
 Bd.infect.sum <- data.endpoint %>%
   filter((Bd.endpoint.status=='1' & Bd.endpoint.GE > 0.1))  %>% 
   group_by(ExperimentNo, Treatment) %>%  
-    summarize(avg=mean(Bd.endpoint.GE), n=n(), sd=sd(Bd.endpoint.GE), se=sd/sqrt(n))
+    summarize(n=n(),avg=mean(Bd.endpoint.GE),  sd=sd(Bd.endpoint.GE), se=sd/sqrt(n))
 
 
 Rv.infect.sum <- data.endpoint %>%
-filter(Rv.endpoint.load > 0) %>%
+filter(Rv.endpoint.load > 0.1) %>%
   group_by(ExperimentNo, Treatment) %>%  
-    summarize(mean.viral.load=mean(Rv.endpoint.load), n=n(), sd=sd(Rv.endpoint.load), se=sd/sqrt(n))
+    summarize(n=n(), mean.viral.load=mean(Rv.endpoint.load), sd=sd(Rv.endpoint.load), se=sd/sqrt(n))
 
 
 knitr::kable(Bd.infect.sum, caption = 'a)', digits=2)
 
 knitr::kable(Rv.infect.sum, caption = 'b)', digits=2)
+
+#write.csv(Rv.infect.sum, file = "../data/03_Rv-mean-0_data.csv")
+
 
 ```
 
@@ -549,7 +527,7 @@ data.endpoint %>%     # ridge plot to see distribution of data
 
 ```{r log distribution Rv load, echo=FALSE, warning=FALSE, error=FALSE, message=FALSE, fig.cap= "Figure S1.b. The distribution of log-transformed normalised infection loads for ranavirus-positive tadpoles, groups across all species for exposure scenarios .... Red lines indicate mean infection load and black dots the log-transformed data points.", fig.width=16, fig.height=6}
 data.endpoint %>%     # ridge plot to see distribution of data  
-    filter(Rv.endpoint.load > 0 & !Rv.endpoint.load > 2000)  %>%  ggplot(aes(log(Rv.endpoint.load), Treatment)) +
+    filter(Rv.endpoint.load > 0.1 & !Rv.endpoint.load > 2000)  %>%  ggplot(aes(log(Rv.endpoint.load), Treatment)) +
       geom_density_ridges(
                       jittered_points = TRUE, quantile_lines = TRUE, scale = 0.9, alpha = 0.7,
                       vline_size = 1, vline_color = "red",
