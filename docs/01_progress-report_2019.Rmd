@@ -181,9 +181,9 @@ We collected, under licence, wild amphibian egg masses (*R. temporaria* and *B. 
 include_graphics("../output/images/exp-schedule.png")
 ``` 
 
-We ran the experiment as four sequential batches, split by species. In chronological order the experiments consisted of two *B.bufo* (n= 2 x 100), one *R.temporaria* (n= 100), and one *A.muletensis*. We randomly assigned individuals to one of five treatment groups which covered all single and co-infection scenarios (*Bd* only, Rv only, *Bd*-Rv and Rv-*Bd*), as outlined in Figure 1. Each treatment group consisted of 20 individuals per species, or 14 individuals for the *A.muletensis* I. 
+We ran the experiment as four sequential batches, split by species. In chronological order the experiments consisted of two *B.bufo* (n= 2 x 100), one *R.temporaria* (n= 100), and one *A.muletensis* (n=70). We randomly assigned individuals to one of five treatment groups which covered all single and co-infection scenarios (*Bd* only, Rv only, *Bd*-Rv and Rv-*Bd*), as outlined in Figure 1. Each treatment group consisted of 20 individuals per species, or 14 individuals for the *A.muletensis* I. 
 
-In addition, we conducted a parallel experiment alongside the *A.muletensis* batch to assess whether larval development stage influenced the infection success (prevalence and load) of *Bd* on *Alytes muletensis*, a highly susceptible species. We compared the *A. muletensis* (referred to as *Alytes* I) Bd-only treatment group (n=14, Gosner **26-37**; Gosner, 1960) to less developed tadpoles, *Alytes* II (n=25, Gosner 25; Gosner, 1960). Results from a previous experiment [**Garner et al. unpublished**] reveal that disease outcome in *Bufo bufo* was influenced by development stage, with earlier stages more likely to be infected and with a higher pathogen load than tadpoles exposed to *Bd* **later**. Tadpoles of the Alytidae clade can have an extended larval development window, often overwintering before completing metamorphosis [REFERENCE]. Studies have shown that overwintering amphibian larvae act as a reservoir of disease, maintaining high infection loads which may allow them to reintroduction the pathogen to the following year's larval cohort [REFERENCE Brunner et al., 2004; Fernández-Beaskoetxea et al 2016].   **infographic or aims statement here???**   See Supplementary Materials for details of *Alytes* development stages.
+In addition, we conducted a parallel experiment alongside the *A.muletensis* batch to assess whether larval development stage influenced the infection success (prevalence and load) of *Bd* on *Alytes muletensis*, a highly susceptible species. We compared the *A. muletensis* (referred to as *Alytes* I) Bd-only treatment group (n=14, Gosner **26-37**; Gosner, 1960) to less developed tadpoles, *Alytes* II (n=37, Gosner 25; Gosner, 1960). Results from a previous experiment [**Garner et al. unpublished**] reveal that disease outcome in *Bufo bufo* was influenced by development stage, with earlier stages more likely to be infected and with a higher pathogen load than tadpoles exposed to *Bd* **later**. Tadpoles of the Alytidae clade can have an extended larval development window, often overwintering before completing metamorphosis [REFERENCE]. Studies have shown that overwintering amphibian larvae act as a reservoir of disease, maintaining high infection loads which may allow them to reintroduction the pathogen to the following year's larval cohort [REFERENCE Brunner et al., 2004; Fernández-Beaskoetxea et al 2016].   **infographic or aims statement here???**   See Supplementary Materials for details of *Alytes* development stages.
 
 We exposed all larval individually to controlled doses of *Bd*, Rv or the correlating sham media (see Fig.1.). Tadpoles were exposed to their respective dose by directly pipetting the inoculums into 0.075L Really Useful Boxes (here on referred to as housing container(s)) filled with 210mL aged tap water, after a 100% water change. Following the 6-hour exposure period, we raised the water volume to 375mL to maintain water quality. The *A.muletensis* I tadpoles being larger was housed in 1.7L RUBs with 1L aged tap water which we reduced to 520mL for exposure periods.  
 Individuals designated to receive ranavirus were exposed to a single dose of 105µL (or 263µL for *A.muletensis* I) meaning an effective exposure of 10^4.5 TCID50/ml of FV-3 like ranavirus. The dose was deemed suitable based on previous work where similar inoculums induced infection but not rapid mortality as seen at higher dosages (Duffus et al., 2014; Pearman et al., 2004). 
@@ -244,7 +244,7 @@ All analyses were conducted in R v.3.5.1 [RStudio Team (2015).http://www.rstudio
 ### 3.3.1 | Within-Host Dynamics
 
 To analyse the effect of exposure scenario (*Bd* only, Rv only, *Bd*-Rv and Rv-*Bd*) and host species (*B.bufo*, *R.temporaria* and *A.muletensis*) on infection status (uninfected vs. infected) and load, we used generalized linear model (GLMs). Each level of statistical comparison (exposure scenario, species) on the response variable (infection status or load) was carried out individually for each pathogen. For the probability of infection, we used a GLM with a binomial distribution. In the case of *Bd* status we implemented a Bayesian GLM as seperation was evident in the data, where a predictor perfectly predicts a binary response variable. 
-For infection load, where the response variable was recorded as GE score for *Bd* positive infections and as a normalised viral load for ranavirus, we used a GLM with Gamma error structure and log-link transformation. The Gamma error structure with a log-link transformation often provides a flexible distribution for skewed data that is always positive [REFERENCE], such as in our case of non-zero infection loads. We verified using this distribution by comparing the goodness-of-fit of data to both Gaussian, Gaussian with log-transformed data, Gamma, and Gamma with log-link (to account for left skewed data). For both pathogen datasets, Gamma with the log-link function performed the best.  **Model parameters were assessed using analysis of deviance (ANOVA). << include this here**.
+For infection load, where the response variable was recorded as GE score for *Bd* positive infections and as a normalised viral load for ranavirus, we used a GLM with Gamma error structure and log-link transformation. The Gamma error structure with a log-link transformation often provides a flexible distribution for skewed data that is always positive [REFERENCE], such as in our case of non-zero infection loads. We verified using this distribution by comparing the goodness-of-fit of data to both Gaussian, Gaussian with log-transformed data, Gamma, and Gamma with log-link (to account for left skewed data). For both pathogen datasets, Gamma with the log-link function performed the best.  **Model parameters were assessed using analysis of deviance (ANOVA). << include this here**.  ** EDIT THIS SENTENCE >> paper ref >> For both infection type datasets we tested our hypotheses by comparing models including explanatory variables of interest with models omitting these factors, using ANOVA tests for GLMs (χ2 for GLMs with binomial error structures and F for GLMs with Gaussian error structures)** 
 We implemented/used Tukey’s ((honest significant difference)) post hoc test to compare // to evaluate the significant effects of the explanatory variables highlighted by the GLMs, using the glht function in the multcomp package; [ref], 
 
 All statistical analysis used experiment number as a proxy for species, to account for the slight variations in *Bd* dose. The effects of body size and weight were not included, **such recordings for tadpoles are highly flawed** and these variables did not differ among treatments. Control groups were excluded from all models as all individuals were uninfected by design and did not develop detectable infections by either pathogen during the experiment. 
@@ -261,7 +261,6 @@ Survivorship will be analysed using Cox proportional hazard models, again with e
 
 ## 4 | Results  
 
-
 ```{r import data, include=FALSE, warning=FALSE, error=FALSE, message=FALSE}
 data.endpoint <- read.csv('../data/02_clean-data.csv')  # all endpoint data 
     data.endpoint$ExperimentNo <-  as.factor(data.endpoint$ExperimentNo)   # makes experiment number a factor 
@@ -271,9 +270,10 @@ prop.infect.sum <- read.csv('../data/03_prop-sum_data.csv')   # output from 03_e
 # Bd load df 
 Bd.data <- data.endpoint %>%
   filter(!Treatment=="Rv") %>%   # removal of Rv only treatment group 
-  filter(!ExperimentNo=='5')  %>%   # removal of Alytes babies
+  filter(!ExperimentNo=="5")  %>%   # removal of Alytes babies
   mutate(ExperimentNo = as.factor(ExperimentNo)) %>%
   dplyr::select(ID, Species, ExperimentNo, Treatment, Bd.endpoint.status, Bd.endpoint.GE) 
+
 droplevels(Bd.data)
 
 Bd.load <- Bd.data %>%
@@ -303,23 +303,28 @@ model.Bd.load <- glm(Bd.endpoint.GE ~ ExperimentNo, data=Bd.load, family="Gamma"
 model.Rv.status <- glm(Rv.MCPendpoint.status ~ Treatment, data=Rv.data, family=binomial)  # Rv infection status 
 
 model.Rv.load <- glm(Rv.endpoint.load ~ Treatment, data=Rv.load, family="Gamma"(link='log'))  # Rv infection load 
+
+summary(model.Bd.load)
+```
+
+```{r posthoc tests, echo=FALSE, warning=FALSE, error=FALSE, message=FALSE, fig.width=8, fig.height=5}
+Tukey.Bd.load <- glht(model.Bd.load, linfct=mcp(ExperimentNo='Tukey'))
+summary(Tukey.Bd.load) 
+
+Tukey.Rv.load <- glht(model.Rv.load, linfct=mcp(Treatment='Tukey'))
+summary(Tukey.Rv.load) 
 ```
 
 
+Five tadpoles in the unexposed control groups experienced mortality (n=3) or were euthanised following ethics protocol (n=2), all tested negative for both pathogens. The mortality count for all experiments was low (n= 19) and confined to *B.bufo* (n=15) and *R.temporaria* (n=4) tadpoles (see Supplementary Materials for results). One *R.temporaria* tadpole in the Rv-only group died before the experiment endpoint otherwise all mortalities occurred in co-infection treatment groups (Bd-Rv, n=3; Rv-Bd n=15). 
+
+``` survival analysis on its way```
 
 ### 4.2 | Within-Host Dynamics
 
+We detected substainally fewer ranaviral infections than Bd infection, across species and treatment groups (Rv, n= 27; Bd, n = 172). The majority of the ranavirus infections occurred in co-infection treatment groups (GLM; *Bd* - Rv  Z = -5.667; p < 0.01, Rv - *Bd*  Z = 2.924; p < 0.01). Exposure scenario predicted both infection status and load for ranavirus: tadpoles exposed to both pathogens were **significantly** more likely to develop ranaviral infections (**binomial** GLM; *Bd*-Rv Z = -5.667; p < 0.001, ((Rv-*Bd* Z = 2.924; p < 0.01))); Figure **XXXXX**), which were more likely to be at a high viral titre (GLM; *Bd*-Rv t = 3.561, p < 0.01; Rv-*Bd* t =  8.142, p < 0.001; **Figure 4**). The sequence of pathogen exposure influenced both the number of individuals infected with ranavirus and the viral load (Tukey, Rv-*Bd* - *Bd*-Rv p < 0.001, **Figure S5**) with exposure to Rv and then Bd accounting for a higher proportion of infected individuals (70%; Rv-Bd = 19, total infected = 27). Host species **did not affect** ranavirus infection status or load, nor did we detect an interaction between host species and treatment group/eposure scenario.
 
-
-We detected substainally fewer ranaviral infections than Bd infection, across species and treatment groups (Rv, n= 27; Bd, n = 172). The majority of the ranavirus infections occurred in co-infection treatment groups (bayesGLM; *Bd* - Rv: Z = -5.667; p < 0.01, Rv - *Bd*, Z = 2.924; p < 0.01). However, the Tukey test showed significant variation between the co-infection treatment groups (**stat**)  
-
-
-Species affected the overall infection prevalence for Bd....
-
-
-
-Exposure scenario predicted infection status and load for ranavirus: (co-infected) tadpoles exposed to both pathogens were **significantly** more likely to develop ranaviral infections (**binomial** GLM; *Bd*-Rv Z = -5.667; p < 0.001, ((Rv-*Bd* Z = 2.924; p < 0.01))); Figure XXXXX), which were more likely to be at a high viral titre (GLM; *Bd*-Rv Z = 3.561; p < 0.01, Rv-*Bd* Z =  8.142; p < 0.001, Figure XXXXX). Across species the endpoint viral load of individuals differed between the two co-infection scenarios (Tukey, Rv-*Bd* - *Bd*-Rv p < 0.001). Host species *did not affect**  ranavirus infection status or load, nor did we detect an interaction between host species and treatment group/eposure scenario.
-
+In constrast, host species predicted infection prevalence for Bd with *R.temporaria* tadpoles less likely to develop Bd infection (bayesGLM, *B.bufo* I  Z = 5.314; p < 0.01; *B.bufo* II  Z = 1.475; p = 0.140; *R.temporaria*  Z = -5.994, p < 0.01; *A.muletensis* I  Z = 0.600, p = 0.549) and of those infected develop weaker. The tadpoles in both *B.bufo* batches developed significantly high infection loads (GLM; *B.bufo* I t = 3.561, p < 0.01; *B.bufo* I t = 31.708, p < 0.01; *B.bufo* II t =  -1.289, p = 0.199; *R.temporaria* t = -10.530, p < 0.001; *A.muletensis* I t = -8.873, p < 0.001; Figure 4) with no difference between batches (Tukey, *B.bufo* II- *B.bufo* I p = 0.562, **Figure S5**), despite variation in the total number of Bd zoospores used for exposure.
 
 
 ```{r proportion infected by species, echo=FALSE, fig.cap= "Figure 3. Proportion of individuals infected at endpoint (Day 23) as an outcome of pathogen exposure scenario and host species. The negative control groups are not included as they have no infection status. Error bars are binomial confidence intervals calculated using logit parameterization.", fig.width=12, fig.height=8}
@@ -344,13 +349,6 @@ prop.plot
 
 ```
 
-
-#############
-
-Load range 
-  - within predictions ranges and those reported for wild populations?? 
-
-Rv only = XXXX ± XXXX, *Bd* - Rv = XXX ± XXX, Rv - *Bd* = XXXX ± XXX, GLM, F = XXXX, p < .001; XXXX). 
 
 
 ```{r endpoint load boxplots, echo=FALSE, warning=FALSE, error=FALSE, message=FALSE, fig.cap= "Figure 4.  Mean (((((non-zero)))) infection burden, at endpoint (Day 23), as a function of exposure scenario/regime and host species. a) Bd load quantified as genomic equivalents (GE) where 1 GE represents 1 Bd zoospore, for individuals over the 0.1 GE detection threshold. b) normalised ranaviral load (see Leung et al.'s (2017)). Error bars are standard errors. The negative controls are not included as they receive no pathogen exposure and therefore have no infection status.", fig.width=14, fig.height=8}
@@ -398,10 +396,6 @@ plot_grid(boxplot.Bd,
           ncol = 2)
 
 ```
-
-
-Three tadpoles had detectable but very weak ranavirus infections,  frequently exposed terrestrial newts that previously tested
-negative developed detectable but weak infections on Day 28, 1 week after being returned to aquatic containers (GE
 
 
 
@@ -469,6 +463,21 @@ Ranavirus (RUK13 isolate; Cunningham, Hyatt, Russell, & Bennett, 2007) was culti
 
 *Bd* strain IA’9’13, a member of the hypervirulent *Bd*GPL lineage and isolated during an epidemic at Ibón Acherito (Pyrenees, Spain) in 2013 by Prof. M. Fisher, was cultured in TGhL broth, in a 25cm2 cell culture flasks, at 18˚C. Zoospores were collected and counted using a haemocytometer. A *Bd* positive dose consistent of 15,000 to 600,000 active zoospores in 210µL liquid media, or 525µL for *A.muletensis* II. The volume of media was standardised across doses in order to maintain water quality during the exposure period. Total exposure are shown in the table below. 
 
+Table S2. Summary of mortality records for tadpoles, split by species and exposure regime. 
+
+```{r mort, echo=FALSE}
+mort <- data.endpoint %>%
+    filter(endpoint.code=='MORT') %>%
+      dplyr::select(ID, Species, ExperimentNo, Treatment,endpoint.date, Bd.endpoint.status, Rv.MCPendpoint.status) 
+
+mort.sum <- data.endpoint %>%
+    filter(endpoint.code=='MORT') %>%   # look at the minimum load (above the 0.1 threshold) for each treatment group 
+    group_by(ExperimentNo, Treatment) %>%  
+    summarize(n=n()) 
+
+knitr::kable(mort, digits=2)
+
+```
 
 
 Table S3. Mean proportion of individuals infected as a function of species and pathogen exposure category.   
