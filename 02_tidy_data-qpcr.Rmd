@@ -47,7 +47,7 @@ https://www.researchgate.net/publication/319881735_1_Ranavirus_detection_and_qua
 install.packages("") if necessary  
 
 ```{r packages, include=FALSE}
-library(here)
+#library(here)
 library(dplyr)
 library(tidyr)
 library(tibble)
@@ -76,6 +76,8 @@ A) Sort out the typos
 levels(raw.data$Treatment) <- gsub("^Rv $","Rv", levels(raw.data$Treatment))
 
 ```
+
+
 
 B) Convert the endpoint infection status from "Positive" or "Negative" to a binary form where 0 is negative (*this will change >> in the future you will have to create an endpoint status column for each pathogen and make a loop to assess if the Qmean value lies over the threshold value for that pathogen 
 
@@ -122,7 +124,7 @@ D) Normalise ranavirus viral load using the calculation as per Leung et al. (201
 
 Bd.clean %>%    # check the Ranavirus positive samples 
   filter(Rv.MCPendpoint.status=='1' & !Treatment=='Bd')  %>%   # only samples that scored positve for MCP (Rv infection) and excluding Bd only treatment group  
-    select(ID, Species,ExperimentNo,Treatment,Rv.MCPendpoint.status,Rv.MCPendpoint.Qmean,Rv.EBF3Nendpoint.status,Rv.EBF3Nendpoint.Qmean)
+    dplyr::select(ID, Species,ExperimentNo,Treatment,Rv.MCPendpoint.status,Rv.MCPendpoint.Qmean,Rv.EBF3Nendpoint.status,Rv.EBF3Nendpoint.Qmean)
 
 # N.B. three samples are missing EBF3N qPCR outputs  << for now I will manually change them to the mean EBF3N quantity mean score 
     mean(binary.status$Rv.EBF3Nendpoint.Qmean, na.rm=T)  # calculate the mean EBF3N qPCR quantity mean  ==  2592.907
@@ -140,6 +142,9 @@ glimpse(pathogen.clean)
 ```
 
 
+
+
+
 # Part 2: output cleaned datafile 
 
 ```{r get data, include=FALSE}     
@@ -151,3 +156,18 @@ write.csv(pathogen.clean,file="data/02_clean-data.csv", row.names=FALSE)
 
 
 ################### SCRAPS ################### SCRAPS ################### SCRAPS ################### SCRAPS ################### SCRAPS ################### SCRAPS ################### SCRAPS ###################
+
+
+```{r MORT clean, include= T}
+
+MORT.clean <- raw.data %>%
+  dplyr::select(ID:Treatment, endpoint.date, endpoint.code) %>%
+    mutate(endpoint.code = as.character(endpoint.code)) %>%   #  
+      mutate(endpoint.date = as.character(endpoint.date)) %>%   #  
+      mutate(mort.code = case_when(endpoint.date == "06/06/2018" | "04/07/2018" | "10/07/2018" | "21/10/2018" ~ "END", 
+                                endpoint.code == "MORT" ~ "MORT", 
+                                TRUE ~ "EU"
+                                )
+                                 )
+   
+```
