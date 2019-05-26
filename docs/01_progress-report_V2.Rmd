@@ -43,11 +43,11 @@ knitr::opts_chunk$set(echo = TRUE)
 
 To-date, I have successfully run four disease challenge experiments, looking at how exposure scenario influences disease outcome (Project 1a) and the contributions of experimentally infected individuals to the environmental pool of infectious particles (Project 1b), **as a factor of amphibian species**.  I have processed and analysed the results from the co-infection samples (Project 1a), using the results to inform my plan for processing the shedding samples (Project 1b). I intend to process and analyse the shedding samples when based down with my CASE partner. 
 
-The results from Project 1a have also been used to shape my overall objectives moving forwards and to design corresponding experiments for this year.  Experimental designs and ethics forms are currently being drawn up. 
+The results from Project 1a have also been used to shape my overall objectives moving forwards and to design corresponding experiments for this year, see **Aims updated**. Experimental designs and ethics forms for this years experiments are currently being drawn up. 
 
-This year, I have shifted my development focus to communication, engagement and outreach. I acknowledged this as an area of weakness in my first year and so have taken  XXXX opportunities to present and communicate my research whether through talks in an academic setting, a blog post for the general public or engagement with my CASE partner.  
+This year, I have shifted my development focus to communication, engagement and outreach. I highlighted acknowledged this as an area of weakness in my first year and so have taken  XXXX opportunities to present and communicate my research whether through talks in an academic setting, a blog post for the general public or engagement with my CASE partner.  
 
-I have also taken the time this year to develop my programming and statistical skills. Learning to use RMarkdown for reports, publication and websites, and establishing a working GitHub repository. 
+I have also taken the time this year to develop my programming and statistical skills. Learning to use RMarkdown to generate reproducible reports and a website, and establishing a working GitHub repository. 
 
 <br>
 
@@ -336,51 +336,6 @@ plot_grid(boxplot.Bd,
 ```
 <br>
 
-## 5 | Discussion
-
-In nature coinfections occur as a norm. Have pathogens that can also infect multi-host species, overlapping.... This study demonstrates that this context is important in predicting the outcome of infection and that a "context" does not necessary apply to pathogens in the same way. Reinforcing the need of studying the interactions within these multi-host, multi-pathogen systems 
-
-across species and/or exposure scenarios 
-
-### 5.2 | Within-Host Dynamics
-
-
-**Infection burden vs. cost**
-
-There could still be a cost to exposure for the Rana temporaria that this study does not account for. While infection burden and status is important we did not look at growth rates and time to metamorphosis. Previous studies have demonstrated that exposure to *Bd* resulted in impairment of growth [GARNER ET AL 2009; BIELBY ET AL 2015] and time to metamorphosis [GARNER ET AL unpublished]. In BIELBY ET AL (2015) this cost on *Rana* growth rates can from exposure alone.... so while our *Rana* did not consistently generate infections and undetected cost could be present. 
-
-####
-We see this to some extent with all the host species, *Bd* exposure coupled with Rv increases the chance of Ranaviral infection, both with coinfection treatment groups having indivduals with positive ranavirus infection status compared to the Rv only group consistently having no infected indivduals. 
-
-
-#### Dose
-
-The exposure regimes and dose used in the above described experiment reflect that seen in the wild. Chytrid infections are often seasonal, particularly in the case of larval animals as they have a short window in the aquatic environment. Plus the nature of *Bd* transmission means during this time window they are most likely exposure to repeated "dosing" of *Bd* infectious particles (zoospores). 
-
-The dose of *Bd* zoospores does vary between experiments and within experiment..... 
-Within experiment this can be equated to variable exposure in the environment. ...so while the composition///zoospores per each dose varied, across individuals within an experiment the doses were identical. 
-Between experiments *(is unfortunate)* variation doesn't appear to have a distinct signal/effect. The models account for the variation in dose by using experiment number as the response variable rather than grouping by species. Also, it is worth noting that while there was variation the total zoospore number an experiment group, these total doses for each experiment are consisted high. In the literature a high dose is consider .....  [REFERENCE]. This is reflected in the results where both susceptible species are pretty much uniformly infected. 
-
-
-#### Immune response???  &&&  Development stage 
-
-The difference in explanatory variable between pathogen ... resulted from the fact that these pathogens are antigenically distinct. In theory they use different host resources and competition for space in the host is spatially separated. Technically this would allow the immune response to be affective...... but larval immune response limited. 
- 
-*** And a lot of these studies look at treamtodes  which don’t necessarily reporidce within the host …. We have pathogens that replicate in the host which is interesting to study the downstream transmission
-
-
-## 6 | Conclusion / Further Work 
-
-Does Rv impose a greater cost on the host? Does *Bd* outcompete the Rv if exposed first? Or does it supress the immune system later allowing Rv to take hold? 
-
-**Ethics** All work was carried out under British Home Office licencing following ethical approval by the Zoological Society of London’s Ethics Committee.  
-Personal Licence (PIL): Bryony Allen I41AEB105
-Project Licence (PPL): Trenton Garner P8897246A
-
-**Biosecurity** In line with ZSL guidelines all equipment and infectious material (water and animals) was decontaminated by exposure to 1% Virkon (Johnson et al., 2003) or by autoclaving and incineration.
-
-**Data accessibility** All data, scripts for analysis and documentation are available on my [GitHub page] (https://github.com/bea-22/P1_CoinfectionShedding_2018). 
-
 
 ## Project 1b : Between-host Dynamics (Shedding) 
 
@@ -430,9 +385,56 @@ include_graphics("../output/images/EMA-process-overview.png")
 
 <br>
 
-# Further Work 
 
-<br>
+
+
+# Discussion & Further Work
+
+In nature coinfections occur as a norm. Have pathogens that can also infect multi-host species, overlapping.... This study demonstrates that this context is important in predicting the outcome of infection and that a "context" does not necessary apply to pathogens in the same way. Reinforcing the need of studying the interactions within these multi-host, multi-pathogen systems 
+
+across species for Bd and/or exposure scenarios for Rv 
+
+
+
+## Project 3:  Ranavirus infection response to co-infection
+
+Ranavirus treatment affect 
+
+### Project 3a: Dose-dependent *XXXX*    
+
+Dose-dependent affects on ranavirus disease outcome, under single and co-infection scenarios …. and potentially disease progression, or shedding. 
+
+We see this to some extent with all the host species, *Bd* exposure coupled with Rv increases the chance of Ranaviral infection, both with coinfection treatment groups having indivduals with positive ranavirus infection status compared to the Rv only group consistently having no infected indivduals. 
+
+
+The exposure regimes and dose used in the above described experiment reflect that seen in the wild. Chytrid infections are often seasonal, particularly in the case of larval animals as they have a short window in the aquatic environment. The ability of Bd to be transmissed in the aquatic environment means during this time window tadpoles are most likely exposure to repeated "dosing" of Bd zoospores. 
+
+The dose of *Bd* zoospores does vary between experiments and within experiment..... 
+Within experiment this can be equated to variable exposure in the environment. ...so while the composition///zoospores per each dose varied, across individuals within an experiment the doses were identical. 
+Between experiments *(is unfortunate)* variation doesn't appear to have a distinct signal/effect. The models account for the variation in dose by using experiment number as the response variable rather than grouping by species. Also, it is worth noting that while there was variation the total zoospore number an experiment group, these total doses for each experiment are consisted high. In the literature a high dose is consider .....  [REFERENCE]. This is reflected in the results where both susceptible species are pretty much uniformly infected. 
+
+### Project 3b: Priority Effect *XXXX*    
+
+
+Associating the sequence of ranavirus exposure in co-infection scenarios ….. 
+
+The difference in explanatory variable between pathogen ... resulted from the fact that these pathogens are antigenically distinct. In theory they use different host resources and competition for space in the host is spatially separated. Technically this would allow the immune response to be affective...... but larval immune response limited. 
+ 
+*** And a lot of these studies look at treamtodes  which don’t necessarily reporidce within the host …. We have pathogens that replicate in the host which is interesting to study the downstream transmission
+
+
+
+Does Rv impose a greater cost on the host? Does *Bd* outcompete the Rv if exposed first? Or does it supress the immune system later allowing Rv to take hold? 
+
+
+## Project 4 :
+
+species has been highlighted as the key factor driving disease outcome after Bd exposure … regardless of the nature of the exposure, whether single or co-infection. 
+One interesting thing is that while Bufo and Alytes have both show similar probability, (models predicted infection status) for infection there seems to to slight difference in load …. with individuals in both Bufo experiment generating higher loads than tadpoles in the Alytes I experiment. 
+So both species can be considered highly susceptible but what does the variation in infection load mean for infectiousness. 
+
+The shedding/filter data will hopefully provide the link been (endpoint) infection load what an individual is contributing to the aquatic environment (a proxy for transmission). 
+
 
 ## Aims (updated):  
 
@@ -469,7 +471,6 @@ VI. Combine these results into a predictive framework to understand how individu
 
 <br>
 
-
 # Thesis Plan  
 
 **Chapter 1:** Literature Review: *introducing amphibian decline and the associated diseases (*Bd* and Rv), how disease dynamics are modelled, and behavioural responses to disease.* 
@@ -484,11 +485,21 @@ VI. Combine these results into a predictive framework to understand how individu
 
 <br>
 
-
 ## References
+<br>
+
 
 
 ## Supplementary Material 
+
+**Ethics** All work was carried out under British Home Office licencing following ethical approval by the Zoological Society of London’s Ethics Committee.  
+Personal Licence (PIL): Bryony Allen I41AEB105
+Project Licence (PPL): Trenton Garner P8897246A
+
+**Biosecurity** In line with ZSL guidelines all equipment and infectious material (water and animals) was decontaminated by exposure to 1% Virkon (Johnson et al., 2003) or by autoclaving and incineration.
+
+**Data accessibility** All data, scripts for analysis and documentation are available on my [GitHub page] (https://github.com/bea-22/P1_CoinfectionShedding_2018). 
+
 
 ### Pathogen 
 
