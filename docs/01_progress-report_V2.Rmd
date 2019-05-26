@@ -37,62 +37,17 @@ library(bookdown)
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-
 <br> 
 
 <br> 
 
-<br> 
+To-date, I have successfully run four disease challenge experiments, looking at how exposure scenario influences disease outcome (Project 1a) and the contributions of experimentally infected individuals to the environmental pool of infectious particles (Project 1b), **as a factor of amphibian species**.  I have processed and analysed the results from the co-infection samples (Project 1a), using the results to inform my plan for processing the shedding samples (Project 1b). I intend to process and analyse the shedding samples when based down with my CASE partner. 
 
+The results from Project 1a have also been used to shape my overall objectives moving forwards and to design corresponding experiments for this year.  Experimental designs and ethics forms are currently being drawn up. 
 
-PhD overview
-======
+This year, I have shifted my development focus to communication, engagement and outreach. I acknowledged this as an area of weakness in my first year and so have taken  XXXX opportunities to present and communicate my research whether through talks in an academic setting, a blog post for the general public or engagement with my CASE partner.  
 
-Many important pathogens circulate within multi-host communities (Holt et al., 2003; Webster, Borlase, & Rudge, 2017; Woolhouse, Taylor, & Haydon, 2001). Within these communities, individuals can differ in their susceptibility, infectiousness and response to infection, which influences disease transmission. Understanding the heterogeneity of species-specific responses to infection is crucial when predicting disease emergence and for implementing effective disease mitigation strategies. 
-Chytridiomycosis and Ranavirus are two emerging infectious diseases that infect a wide range of amphibian species globally. The observed mass mortality events in amphibian populations (Berger et al., 1998; Fox et al., 2006; Green, Converse, & Schrader, 2002), multiple species declines (Daszak et al., 1999b; Price et al., 2014; Stuart et al., 2004; Teacher, Cunningham, & Garner, 2010) and local extinctions (Lips et al., 2006) have all been attributed to the multi-host nature, global distribution and virulence of these pathogens. While both pathogens are host generalist, significant heterogeneity exists in host susceptibility, infectiousness and burden of each disease, at a species and individual level. Thus conforming to a wider body of literature showing host species unevenly contribute to disease transmission in multi-host communities (Begon et al., 1999; Duffus, Nichols, & Garner, 2014; Fenton et al., 2015; Fernández-Beaskoetxea, Bosch, & Bielby, 2016; Woolhouse et al., 1997). As a result, pathogen persistence at a community level is largely dictated by the composition of host species (Holt et al., 2003; Keesing, Holt, & Ostfeld, 2006). Host species have been recorded to perform different functional roles: reservoirs, who act as a source of infection enabling a pathogen to be maintained within a community (Fenton & Pedersen, 2005; Haydon et al., 2002); amplifiers, hosts which increase transmission often through increasing the number of pathogenic particles available and dilution hosts, which buffer against disease transmission in the population by absorbing infectious stages with no onward transmission (Johnson & Thieltges, 2010; Keesing et al., 2006; Logiudice et al., 2003; Searle et al., 2011). 
-Broadly, amphibian species infected with the fungus Batrachochytrium dendrobatidis (*Bd*), the pathogen causing Chytridiomycosis, have been found to follow the categories of host type outlined above (DiRenzo, Langhammer, Zamudio, & Lips, 2014a; Fernández-Beaskoetxea et al., 2016; Reeder, Pessier, Vredenburg, & Litvintseva, 2012; Searle et al., 2011). For example, Reeder et al. (2012) described a reservoir species that has *Bd* loads substantially higher than the load found to be lethal in a sympatric and declining species. Infection occurs by *Bd* zoospores establishing in the keratinized epidermis of metamorphosed amphibians or the mouthparts of larvae (Berger et al., 1998; Fellers, Green, & Longcore, 2001; Longcore, Pessier, & Nichols, 1999; Marantelli, Berger, Speare, & Keegan, 2004). Once developed the sporangia encyst releasing flagellated zoospore into the aquatic environment (Berger, Marantelli, Skerratt, & Speare, 2005; Longcore et al., 1999). These *Bd* zoospores shed from an infected host are fundamental to pathogen transmission, with amplifier hosts releasing dramatically higher numbers of zoospores (DiRenzo et al., 2014a). 
-Amphibian species are seen as a major reservoir for ranaviruses, large viral pathogens, which infect a broad range of ectothermic vertebrates (Granoff et al., 1965; Mao et al 1999; Gray et al., 2009; Schock et al 2008). Although, this variation in amphibian species response to the disease (Gray & Chinchar, 2015; Schock, Bollinger, Gregory Chinchar, Jancovich, & Collins, 2008) and the frequency at which secondary infections occur alongside ranavirus infections (Miller et al., 2008; Cunningham et al., 1996) make clinical signs of ranaviral disease challenging to discern, meaning diagnosis often depends on post-mortem confirmation. 
-Predicting how these heterogeneities in disease contribution across different host species relates to the establishment and persistence of a pathogen in a host community, revolves around understanding the transmission process between the infectious stage of a pathogen and a susceptible individual (Begon et al., 2002; McCallum, Barlow, & Hone, 2001; McCallum et al., 2017), and how variations in the contact between susceptible and infected hosts can alter the functional form of transmission (Fenton et al., 2002; McCallum et al., 2017). Classically, in disease modelling, transmission is assumed to be density-dependent and occur through homogenous mixing, with no spatial or social structural constraints (Begon et al., 2002; McCallum et al., 2001). Such assumptions are often unrealistic and do not adequately capture the form of transmission seen in many wildlife diseases (Fenton et al., 2002; Orlofske et al., 2017; Smith et al., 2009). In reality, disease is transmitted at a more local scale, with a subset of a population more inter-connected, meaning transmission events are more likely to occur between a limited set of contacts (Keeling, 1999; Lloyd-Smith, Schreiber, Kopp, & Getz, 2005). 
-
-<br> 
-
-## Between-host Dynamics (Shedding) 
-The preferred model for *Bd* transmission, presently, is that of a ‘zoospore pool’ where amphibians are uniformly exposed to free-swimming zoospores in the aquatic environment (Briggs, Knapp, & Vredenburg, 2010). Yet, little is known about the longevity, activity or spatial distribution of *Bd* zoospores in this ‘zoospore pool’. Under laboratory conditions, *Bd* zoospores have been recorded to travel on average 2cm before encysting and the majority do not remain motile after 24 hours (Piotrowski, Annis, & Longcore, 2004). If this holds true outside of the lab, it implies that while flagellated, *Bd* zoospores are most effectively transported by water movement, and potentially the movement of hosts (Daszak et al., 1999a). If *Bd* transmission is limited by how far zoospores can travel and their viability, species-specific and individual-level host behaviours (e.g. foraging, habitat preference, aggregation behaviour) influencing contact rates, between susceptible and infectious individuals, may provide insight into the variation in disease transmission and prevalence across the multi-host community. 
-Initial studies into how transmission the ranavirus-amphibian disease system is influenced by contact rates have been inconclusive (Araujo, Kirschman, & Warne, 2016; Brunner et al., 2017). Both studies note that variations in host species susceptibility could be a confounding factor and thus, a study examining the heterogeneities in host susceptibility and contact within and between such species should be considered. Understanding the mode and nature of Rv and *Bd* transmission, particularly in aquatic environments, is often confounded by the complexities of the system and the challenges of creating realistic experimental designs. Particularly when there are multiple transmission routes such as the case with ranavirus: by direct contact (Brunner et al., 2007), ingestion of either ranaviral particles (Hoverman et al.2010) or infected tissue (Pearman et al., 2004; Harp et al. 2006), and via contaminated water (Pearman et al., 2004; Brunner et al. 2004), and substrate (Harp et al. 2006). 
-
-<br> 
-
-## Within-host Dynamics (Co-infection) 
-
-Another factor to consider is co-infection; the global distribution of both pathogens and their host species overlap increases the possibility of further complexities in host-pathogen dynamics, where hosts are parasitized by multiple pathogens. Coinfection situations are common in wildlife (Hellard, Fouchet, Vavre, & Pontier, 2015; Petney & Andrews, 1998; Rigaud, Perrot-Minnot, & Brown, 2010) and have been linked with an increase in susceptibility to subsequent infections (Lello et al., 2018). In theory, there are grounds to believe that the effect of infection by one pathogen, such as immune suppression (Grayfer et al., 2012) or resource depletion (Voyles et al., 2007) facilitates co-infection interactions and potentially leads to downstream differences in transmission according to host species and pathogen (Pedersen & Fenton, 2007). However, this remains an understudied area. The few field studies of amphibian populations which have sampled for both pathogens have recorded co-infection as commonplace (Reshetnikov et al., 2014; Rosa et al., 2017; Souza et al., 2012). However, experimental evidence of co-infection patterns in amphibians remains sparse. To date, the majority of information on co-infection occurrence comes from opportunistic, post-mortem sampling (Martel et al., 2012; Miller et al., 2008) which fails to capture any within-host dynamics. Therefore, quantifying host specific infectious particle output by an infected individual, under single pathogen and co-infection regimes, is an important step in understanding species contributions to this environmental pool of pathogens and to parameterise transmission function. 
-Heterogeneities in contact frequency and transmission of infectious pathogens per contact can result from differences in individual behaviour (e.g. social interactions, anti-predation response, foraging performance, and aggregation behaviour). Such behavioural tendencies, can alter exposure to pathogens, be modified by pathogen infection and influence the efficiency of pathogen transmission (Drewe, 2010). Establishing what behaviours are associated with transmission enables us to predict which individuals are more likely to transmit or receive an infection. For instance, a recent study found that an individual’s behavioural phenotype, defined by their latency to food and swimming activity, predicted the outcome of ranavirus exposure (Araujo et al., 2016). Additionally, *Bd* has been shown to induce modifications in host behaviours, such as reductions in foraging rate and efficiency in *Bd*-infected larvae (Venesky, Parris, & Storfer, 2009). This behavioural response indirectly reduces host fitness (Venesky et al., 2009) and may increase pathogen transmission by altering inter- and intra-specific interactions (Parris & Cornelius, 2004). Adjustments in interaction tendencies have been observed in certain species of social tadpole which increase aggregation behaviour when infected by *Bd* (Han, Bradley, & Blaustein, 2008; Venesky, Kerby, Storfer, & Parris, 2011), consequently increasing the likelihood of further disease transmission. While aggregation in certain species has been established as a predictor of *Bd* infection intensity (Venesky et al., 2011), increased contact rates do not always lead to greater pathogen load (Araujo et al., 2016). It is worth considering how disease severity or pathogen load alters contact rates, and the outcome of a contact in transmitting infection particularly if certain individuals are more effective at transmitting infection, either by infecting disproportionately more contacts or transmit more infectious agents per contact (M.E.J. Woolhouse et al., 1997). These individuals are known as super-shedders (Lloyd-Smith et al., 2005; Stein, 2011). Super-shedders have been observed in an experimental *Bd*-amphibian system where highly infectious individuals had amplified zoospore output (DiRenzo et al., 2014a).   
-It is, therefore, crucial to clarify which behaviours drive transmission and the contribution of each host, at a species and individual-level, in order to understand how a disease spreads through, and persists, in a multi-host community. These drivers have proven hard to establish empirically because of the heterogeneities in the characteristics of the host, pathogen and environment, and ultimately the logistics and ethics of experiments involving two pathogens of major conservation concern.
-
-<br> 
-
-### Aims:  
-
-I.	Ascertain whether the sequence of exposure to co-infecting pathogens (*Bd* and Rv) alters the disease outcome for the host. **and subsequent transmission of the pathogens.**
-    i. Species-specific response to exposure scenario 
-    ii. **priority effect and disease progression** 
-
-II.	Establish the contributions of hosts to the environmental “pool” of infectious particles, across species at an individual level, to understand variations in host infectiousness and by proxy transmission. 
-    i.	 Understand how host infectiousness, measured by quantifying *Bd* zoospore and ranavirus virons shed into the water body, changes with the exposure regime in single pathogen vs. co-infection scenarios.  
-    ii.	Assess the viability of infectious particles shed into the aquatic environment. 
-
-III. Build an understanding of the spatial dynamics of *Bd* zoospores in the aquatic environment, focussing on zoospore activity and trajectory. 
-    
-IV.	Elucidate the role of host contact rates play in disease transmission, intra- and inter- specifically, for both Rv and *Bd*. 
-and how that influences transmission rates, within and between species.  
-    i.	Identify which species-to-species and individual-to-individual contacts alter pathogen transmission.
-    ii. Assess how transmission rates change under different scenarios that encourage shifts in contact rates (e.g. variations in host density, temperature and food availability). 
-    iii. Establish whether exposure to pathogens (*Bd* and/or Rv) changes tadpole behaviour (e.g. activity rates, foraging performance, and aggregation behaviour) and in turn whether modifications in tadpoles beahviour (e.g. feeding activity, light response) alter contact rates. 
-
-V. Parametrizing the transmission coefficients of *Bd* in a multi-host system to develop realistic models. 
-
-VI. Combine these results into a predictive framework to understand how individual-level behaviours influence disease transmission in natural ecological communities.
-
-<br>
+I have also taken the time this year to develop my programming and statistical skills. Learning to use RMarkdown for reports, publication and websites, and establishing a working GitHub repository. 
 
 <br>
 
@@ -116,8 +71,8 @@ VI. Combine these results into a predictive framework to understand how individu
 
 ## D | Engagement Influence & Impact 
 
-* Sep 2018	ACCE Student Conference 2018 - talk -
-* Dec 2018	BES Conference 2018 - poster -
+* Sep 2018	ACCE Student Conference 2018 - talk
+* Dec 2018	BES Conference 2018 - poster 
 * Dec 2018  [EEGID website bio](https://eegid.wordpress.com/phd-students/bryony-allen/)
 * Feb 2019	EEGID seminar - talk 
 * Mar 2019	IIB Faculty Poster Day - poster 
@@ -128,25 +83,40 @@ VI. Combine these results into a predictive framework to understand how individu
 * Apr 2019	ZSL Symposium: Mitigating single pathogen and co-infections that threaten amphibian biodiversity – social media – live tweeted from three account; [@ZSLScience](https://twitter.com/ZSLScience), [@ParasiteSIG](https://twitter.com/ParasiteSIG), and [@livEEGID](https://twitter.com/livEEGID)
 * Apr 2019	ZSL Symposium: Mitigating single pathogen and co-infections that threaten amphibian biodiversity - workshop - *"Strategies for dealing with coinfections."*
 * May 2019 	ACCE training: [Communication and Media Training](https://acce.shef.ac.uk/event/acce-communication-and-media-training-2019/)
+* May 2019  EEID19: poster abstract selected    
 
 <br>
 
 
-# Thesis Plan  
+PhD overview
+======
 
-**Chapter 1:** Literature Review: *introducing amphibian decline and the associated diseases (*Bd* and Rv), how disease dynamics are modelled, and behavioural responses to disease.* 
+Many important pathogens circulate within multi-host communities (Holt et al., 2003; Webster, Borlase, & Rudge, 2017; Woolhouse, Taylor, & Haydon, 2001). Within these communities, individuals can differ in their susceptibility, infectiousness and response to infection, which influences disease transmission. Understanding the heterogeneity of species-specific responses to infection is crucial when predicting disease emergence and for implementing effective disease mitigation strategies. 
+Chytridiomycosis and Ranavirus are two emerging infectious diseases that infect a wide range of amphibian species globally. The observed mass mortality events in amphibian populations (Berger et al., 1998; Fox et al., 2006; Green, Converse, & Schrader, 2002), multiple species declines (Daszak et al., 1999b; Price et al., 2014; Stuart et al., 2004; Teacher, Cunningham, & Garner, 2010) and local extinctions (Lips et al., 2006) have all been attributed to the multi-host nature, global distribution and virulence of these pathogens. While both pathogens are host generalist, significant heterogeneity exists in host susceptibility, infectiousness and burden of each disease, at a species and individual level. Thus conforming to a wider body of literature showing host species unevenly contribute to disease transmission in multi-host communities (Begon et al., 1999; Duffus, Nichols, & Garner, 2014; Fenton et al., 2015; Fernández-Beaskoetxea, Bosch, & Bielby, 2016; Woolhouse et al., 1997). As a result, pathogen persistence at a community level is largely dictated by the composition of host species (Holt et al., 2003; Keesing, Holt, & Ostfeld, 2006). Host species have been recorded to perform different functional roles: reservoirs, who act as a source of infection enabling a pathogen to be maintained within a community (Fenton & Pedersen, 2005; Haydon et al., 2002); amplifiers, hosts which increase transmission often through increasing the number of pathogenic particles available and dilution hosts, which buffer against disease transmission in the population by absorbing infectious stages with no onward transmission (Johnson & Thieltges, 2010; Keesing et al., 2006; Logiudice et al., 2003; Searle et al., 2011). 
+Broadly, amphibian species infected with the fungus Batrachochytrium dendrobatidis (*Bd*), the pathogen causing Chytridiomycosis, have been found to follow the categories of host type outlined above (DiRenzo, Langhammer, Zamudio, & Lips, 2014a; Fernández-Beaskoetxea et al., 2016; Reeder, Pessier, Vredenburg, & Litvintseva, 2012; Searle et al., 2011). For example, Reeder et al. (2012) described a reservoir species that has *Bd* loads substantially higher than the load found to be lethal in a sympatric and declining species. Infection occurs by *Bd* zoospores establishing in the keratinized epidermis of metamorphosed amphibians or the mouthparts of larvae (Berger et al., 1998; Fellers, Green, & Longcore, 2001; Longcore, Pessier, & Nichols, 1999; Marantelli, Berger, Speare, & Keegan, 2004). Once developed the sporangia encyst releasing flagellated zoospore into the aquatic environment (Berger, Marantelli, Skerratt, & Speare, 2005; Longcore et al., 1999). These *Bd* zoospores shed from an infected host are fundamental to pathogen transmission, with amplifier hosts releasing dramatically higher numbers of zoospores (DiRenzo et al., 2014a). 
+Amphibian species are seen as a major reservoir for ranaviruses, large viral pathogens, which infect a broad range of ectothermic vertebrates (Granoff et al., 1965; Mao et al 1999; Gray et al., 2009; Schock et al 2008). Although, this variation in amphibian species response to the disease (Gray & Chinchar, 2015; Schock, Bollinger, Gregory Chinchar, Jancovich, & Collins, 2008) and the frequency at which secondary infections occur alongside ranavirus infections (Miller et al., 2008; Cunningham et al., 1996) make clinical signs of ranaviral disease challenging to discern, meaning diagnosis often depends on post-mortem confirmation. 
+Predicting how these heterogeneities in disease contribution across different host species relates to the establishment and persistence of a pathogen in a host community, revolves around understanding the transmission process between the infectious stage of a pathogen and a susceptible individual (Begon et al., 2002; McCallum, Barlow, & Hone, 2001; McCallum et al., 2017), and how variations in the contact between susceptible and infected hosts can alter the functional form of transmission (Fenton et al., 2002; McCallum et al., 2017). 
 
-**Chapter 2:** Within-host dynamic: *co-infection*
 
-**Chapter 3:** Between-host dynamics: *transmission and shedding models* 
+<br> 
 
-**Chapter 4:** Modelling transmission across scales: *multi-species* 
-
-**Chapter 5:** Behaviour & Transmission 
-
-<br>
 
 # Project 1: Co-infection & shedding in a multi-pathogen / multi-host system  
+
+### Aims: Year 1  
+<br>
+
+I.	Ascertain whether the sequence of exposure to co-infecting pathogens (*Bd* and Rv) alters the disease outcome for the host and subsequent transmission of the pathogens. 
+
+II.	Establish the contributions of hosts to the environmental “pool” of infectious particles, across species at an individual level, to understand variations in host infectiousness and by proxy transmission. 
+    i.	 Understand how host infectiousness, measured by quantifying *Bd* zoospore and ranavirus virons shed into the water body, changes with the exposure regime in single pathogen vs. co-infection scenarios.  
+    ii.	Assess the viability of infectious particles shed into the aquatic environment. 
+
+<br>
+
+## Project 1a: Within-host Dynamics (Co-infection) 
+
+<br> 
 
 ## 1 |  Abstract
 
@@ -162,7 +132,14 @@ Understanding the susceptibility and infectiousness of each host at an individua
 
 ## 2 |  Introduction
 
-{last paragraph} 
+Another factor to consider is co-infection; the global distribution of both pathogens and their host species overlap increases the possibility of further complexities in host-pathogen dynamics, where hosts are parasitized by multiple pathogens. Coinfection situations are common in wildlife (Hellard, Fouchet, Vavre, & Pontier, 2015; Petney & Andrews, 1998; Rigaud, Perrot-Minnot, & Brown, 2010) and have been linked with an increase in susceptibility to subsequent infections (Lello et al., 2018). In theory, there are grounds to believe that the effect of infection by one pathogen, such as immune suppression (Grayfer et al., 2012) or resource depletion (Voyles et al., 2007) facilitates co-infection interactions and potentially leads to downstream differences in transmission according to host species and pathogen (Pedersen & Fenton, 2007). However, this remains an understudied area. The few field studies of amphibian populations which have sampled for both pathogens have recorded co-infection as commonplace (Reshetnikov et al., 2014; Rosa et al., 2017; Souza et al., 2012). However, experimental evidence of co-infection patterns in amphibians remains sparse. To date, the majority of information on co-infection occurrence comes from opportunistic, post-mortem sampling (Martel et al., 2012; Miller et al., 2008) which fails to capture any within-host dynamics. Therefore, quantifying host specific infectious particle output by an infected individual, under single pathogen and co-infection regimes, is an important step in understanding species contributions to this environmental pool of pathogens and to parameterise transmission function. 
+Heterogeneities in contact frequency and transmission of infectious pathogens per contact can result from differences in individual behaviour (e.g. social interactions, anti-predation response, foraging performance, and aggregation behaviour). Such behavioural tendencies, can alter exposure to pathogens, be modified by pathogen infection and influence the efficiency of pathogen transmission (Drewe, 2010). Establishing what behaviours are associated with transmission enables us to predict which individuals are more likely to transmit or receive an infection. For instance, a recent study found that an individual’s behavioural phenotype, defined by their latency to food and swimming activity, predicted the outcome of ranavirus exposure (Araujo et al., 2016). Additionally, *Bd* has been shown to induce modifications in host behaviours, such as reductions in foraging rate and efficiency in *Bd*-infected larvae (Venesky, Parris, & Storfer, 2009). This behavioural response indirectly reduces host fitness (Venesky et al., 2009) and may increase pathogen transmission by altering inter- and intra-specific interactions (Parris & Cornelius, 2004). Adjustments in interaction tendencies have been observed in certain species of social tadpole which increase aggregation behaviour when infected by *Bd* (Han, Bradley, & Blaustein, 2008; Venesky, Kerby, Storfer, & Parris, 2011), consequently increasing the likelihood of further disease transmission. While aggregation in certain species has been established as a predictor of *Bd* infection intensity (Venesky et al., 2011), increased contact rates do not always lead to greater pathogen load (Araujo et al., 2016). It is worth considering how disease severity or pathogen load alters contact rates, and the outcome of a contact in transmitting infection particularly if certain individuals are more effective at transmitting infection, either by infecting disproportionately more contacts or transmit more infectious agents per contact (M.E.J. Woolhouse et al., 1997). These individuals are known as super-shedders (Lloyd-Smith et al., 2005; Stein, 2011). Super-shedders have been observed in an experimental *Bd*-amphibian system where highly infectious individuals had amplified zoospore output (DiRenzo et al., 2014a).   
+It is, therefore, crucial to clarify which behaviours drive transmission and the contribution of each host, at a species and individual-level, in order to understand how a disease spreads through, and persists, in a multi-host community. These drivers have proven hard to establish empirically because of the heterogeneities in the characteristics of the host, pathogen and environment, and ultimately the logistics and ethics of experiments involving two pathogens of major conservation concern.
+
+<br> 
+
+
+**{last paragraph}** 
 
 To understand the relationship between infection outcome and species, we investigated how exposure scenario, specifically whether the sequence of co-infection, affects infection dynamics of two amphibian pathogens (*Bd* and ranavirus) across three species (*Bufo bufo*, *Rana temporaria* & *Alytes muletensis*), that display contrasting resistances to both pathogens. Of particular interest is whether exposure to one pathogen alters the disease outcome of the other pathogen (infection status, infection load and mortality) and in turn whether this alters down-stream disease transmission as detected by the pathogenic particles shed into the aquatic environment. 
 
@@ -172,11 +149,9 @@ We also examined how *Bd* infection outcome is affected by larval developmental 
 
 ## 3 |  Methods 
 
-#### Amphibian Collection and Husbandry
-
 We collected, under licence, wild amphibian egg masses (*R. temporaria* and *B. bufo*) and reared them in an approved facility. For *A. muletensis*, larvae we received hatched tadpoles from the Zological Society of London's Living Collections, **after ethical approval**. All eggs were hatched in captivity to minimise chances of disease exposure and sentinel individuals were tested for pre-experiment infection. Larvae were raised until free-swimming and of similar mass and developmental stage (Gosner 25; Gosner, 1960) before being transferred to the experimental room. Tadpoles were acclimatised to the experimental rooms and housed, individually, for 7 days prior to experimetnal procedures.
 
-```{r schedule, echo=FALSE, message=FALSE, fig.cap= "Fig.1. Schedule of exposures and sampling, by treatment group. A dose is denoted by a green (Rv) or yellow (Bd) coloured square, and sham doses are displayed as cross-hatched squares. The blue squares indicate when “soak” water samples were collected from individuals and filtered. EMA water samples (for quantification of viable Bd zoospores) are collected directly from the housing container and shown by an asterisk.", out.width="800px", out.height="800px"}
+```{r schedule, echo=FALSE, message=FALSE, fig.cap= "Figure 1. Schedule of exposures and sampling, by treatment group. A dose is denoted by a green (Rv) or yellow (Bd) coloured square, and sham doses are displayed as cross-hatched squares. The blue squares indicate when “soak” water samples were collected from individuals and filtered. EMA water samples (for quantification of viable Bd zoospores) are collected directly from the housing container and shown by an asterisk.", out.width="800px", out.height="800px"}
 
 include_graphics("../output/images/exp-schedule.png")
 ``` 
@@ -211,37 +186,14 @@ We conducted water parameter tests throughout the experiment on both the housing
 
 ### 3.1 |  Within-host Dynamics (co-infection) 
 
-#### Endpoint Tissue Samples
-
 To compare host response to exposure scenarios across species we collected tissue samples from all individuals at a specified time point post-exposure.  Nine days post-exposure (9 dpe; Day 23) tadpoles were euthanised, under licence, by buffered (pH 7.0) 5 mg/L tricaine methylsulfonate (MS-222) and then stored in 100% ethanol for subsequent molecular quantification of infection burden. The infection status (uninfected 0, infected 1) and pathogen load was recorded for both pathogens. Infection by *Bd* was confirmed by excision and DNA extraction of mouthparts, the site of *Bd* colonization and infection in tadpoles [REFERENCE], using Prepman Ultra (Life Technologies) as per Hyatt et al. (2007). Extracts were screened by the qPCR diagnostic, targetting the ITS-1 and 5.8S regions, outlined in Boyle et al. (2004) with modifications from Garner et al. (2009). We express *Bd* infection load in genomic equivalents (GE) where one GE is equivalent to a single zoospore. We quantified ranaviral DNA from tissue samples by DNeasy Blood and Tissue (Qiagen) extraction following the manufacturer's protocol. Tissues targeted were kidney, liver and intestine, known to be sites of ranaviral infection **(tissue tropism)** [REFERENCE]. DNA samples were then analysed with a qPCR assay specific to the ranaviral major capsid protein (MCP) sequence and normalised by host cell quantity as outlined in Leung et al. (2017). 
 
-### 3.2 | Between-host Dynamics (shedding) 
 
-#### Shedding Samples 
-
-> One limitation of using common frog and common toad larvae is that individuals cannot be sampled for infections without first being euthanized. For this reason, we tracked infectious particle output post-exposure using a modified version of the "soak" technique ^[Di Renzo et al. (2014); Reeder et al. (2012)]. Individuals were transferred into a temporary shedding unit containing clean, aged water to “soak” for 4 hours, after which they will be returned to their housing unit. The soak period of 4 hours was chosen to balance the need to sensitively detect zoospores/virions shed with the considerations of the tadpoles welfare needs. 
-
-During the shedding period aka post-exposure period, water changes were reduced to every four days.... to control for water parameters while allowing zoospores to accumulate in the housing containers uninterrupted.
-
-Water samples were obtained every day for the first four days and then again on day nine post-exposure, to capture the *Bd* reproduction cycle (DiRenzo, Langhammer, Zamudio, & Lips, 2014b; Garmyn et al., 2012) and Rv attenuation (Duffus et al., 2014). We modified the soak technique used by Di Renzo et al. (2014) and Reeder et al. (2012), increasing the soak period to 4 hours in 50ml of aged tap water to balance the need to sensitively detect zoospores/virions shed with the considerations of the tadpoles welfare needs. The soak water was filtered through a cellulose nitrate filter membrane (Nalgene Analytical Test Filter Funnel, ThermoFisher), 0.45um pore size to capture 1-2µm to 3-5µm zoospores (Berger, Speare, & Kent, 1999; Longcore et al., 1999), by a vacuum manifold. Following filtration, each membrane was removed from the filter unit, cut in half using a sterile scalpel blade, and stored at -20˚C for a week before being transferred to -80˚C until processing. After the last shedding period and water filtration (dpe 9) tadpoles were euthanised, under licence, by buffered (pH 7.0) 5 mg/L tricaine methylsulfonate (MS- 222) and then stored in 100% ethanol. 
-DNA extractions were performed for each filter membrane half. One half underwent extraction by Prepman Ultra (Life Technologies) following the procedure described in Hyatt et al. (2007) to target *Bd*. Whereas DNeasy Blood & Tissue kit was used to isolate Rv DNA following the protocol Goldberg et al. (2011) with the modifications outlined by (Kosch & Summers (2013). All DNA extractions will be assayed by quantitative polymerase chain reaction (qPCR) specific to each pathogen and run in duplicate. A positive result was scored if both wells amplify above the detection threshold when compared to the curve of standards.
-
-#### Viability Samples  
-
-Quantification of viable zoospores shed into the housing container over the course of the shedding period (days 1 to 4 post-exposure) was achieved by ethidium monoazide (EMA) treatment following the protocol in (Blooi, Martel, Vercammen, & Pasmans, 2013). In brief, at 4 days post-exposure, two sub-samples were taken from the housing container, one to be treated with EMA and the other untreated before DNA extraction by Prepman Ultra (as described below). EMA binds to dead zoospores penetrating their compromised membranes and blocks PCR amplification thus EMA treated samples represent the viable proportion of *Bd* zoospores in a sample compared to an untreated sample that records both the viable and dead fractions.  
-
- 
-```{r EMA, echo=FALSE, message=FALSE, optipng='-o7', fig.cap= "Viability staining protocol for quantification of live vs. dead Bd zoospores.", fig.width=4, fig.height=2}
-
-include_graphics("../output/images/EMA-process-overview.png")
-``` 
-
-
-### 3.3 | Statistical Analysis 
+### 3.2 | Statistical Analysis 
 
 All analyses were conducted in R v.3.5.1 [RStudio Team (2015).http://www.rstudio.com/] with the packages listed in the Supplementary Materials [REFERENCE??] with the script provided on [GitHub](https://github.com/bea-22/P1_CoinfectionShedding_2018).
 
-### 3.3.1 | Within-Host Dynamics
+### 3.2.1 | Within-Host Dynamics
 
 To analyse the effect of exposure scenario (*Bd* only, Rv only, *Bd*-Rv and Rv-*Bd*) and host species (*B.bufo*, *R.temporaria* and *A.muletensis*) on infection status (uninfected vs. infected) and load, we used generalized linear model (GLMs). Each level of statistical comparison (exposure scenario, species) on the response variable (infection status or load) was carried out individually for each pathogen. For the probability of infection, we used a GLM with a binomial distribution. In the case of *Bd* status we implemented a Bayesian GLM as seperation was evident in the data, where a predictor perfectly predicts a binary response variable. 
 For infection load, where the response variable was recorded as GE score for *Bd* positive infections and as a normalised viral load for ranavirus, we used a GLM with Gamma error structure and log-link transformation. The Gamma error structure with a log-link transformation often provides a flexible distribution for skewed data that is always positive [REFERENCE], such as in our case of non-zero infection loads. We verified using this distribution by comparing the goodness-of-fit of data to both Gaussian, Gaussian with log-transformed data, Gamma, and Gamma with log-link (to account for left skewed data). For both pathogen datasets, Gamma with the log-link function performed the best.  **Model parameters were assessed using analysis of deviance (ANOVA). << include this here**.  ** EDIT THIS SENTENCE >> paper ref >> For both infection type datasets we tested our hypotheses by comparing models including explanatory variables of interest with models omitting these factors, using ANOVA tests for GLMs (χ2 for GLMs with binomial error structures and F for GLMs with Gaussian error structures)** 
@@ -250,12 +202,8 @@ We implemented/used Tukey’s ((honest significant difference)) post hoc test to
 All statistical analysis used experiment number as a proxy for species, to account for the slight variations in *Bd* dose. The effects of body size and weight were not included, **such recordings for tadpoles are highly flawed** and these variables did not differ among treatments. Control groups were excluded from all models as all individuals were uninfected by design and did not develop detectable infections by either pathogen during the experiment. 
 We have excluded *A.muletensis* II from the above-mentioned models looking at the pathogen infection status and load, as that experiment did not have the full range of exposure scenarios. 
 
-### 3.3.2 | Between-Host Dynamics
 
-``` results pending``` 
-
-
-### 3.3.3 | Survival Analysis
+### 3.2.2 | Survival Analysis
 
 Survivorship will be analysed using Cox proportional hazard models, again with exposure scenario and host species as explanatory vairables, with the ‘‘coxph’’ function and the Survival package.
 
@@ -386,14 +334,7 @@ plot_grid(boxplot.Bd,
           ncol = 2)
 
 ```
-
-
-
-### 4.3 | Between-Host Dynamics
-
-``` results pending``` 
-
-
+<br>
 
 ## 5 | Discussion
 
@@ -402,7 +343,6 @@ In nature coinfections occur as a norm. Have pathogens that can also infect mult
 across species and/or exposure scenarios 
 
 ### 5.2 | Within-Host Dynamics
-
 
 
 **Infection burden vs. cost**
@@ -440,6 +380,109 @@ Project Licence (PPL): Trenton Garner P8897246A
 **Biosecurity** In line with ZSL guidelines all equipment and infectious material (water and animals) was decontaminated by exposure to 1% Virkon (Johnson et al., 2003) or by autoclaving and incineration.
 
 **Data accessibility** All data, scripts for analysis and documentation are available on my [GitHub page] (https://github.com/bea-22/P1_CoinfectionShedding_2018). 
+
+
+## Project 1b : Between-host Dynamics (Shedding) 
+
+<br> 
+
+## 1 |  Abstract
+
+
+## 2 | Introduction (shedding) 
+
+The preferred model for *Bd* transmission, presently, is that of a ‘zoospore pool’ where amphibians are uniformly exposed to free-swimming zoospores in the aquatic environment (Briggs, Knapp, & Vredenburg, 2010). Yet, little is known about the longevity, activity or spatial distribution of *Bd* zoospores in this ‘zoospore pool’. Under laboratory conditions, *Bd* zoospores have been recorded to travel on average 2cm before encysting and the majority do not remain motile after 24 hours (Piotrowski, Annis, & Longcore, 2004). If this holds true outside of the lab, it implies that while flagellated, *Bd* zoospores are most effectively transported by water movement, and potentially the movement of hosts (Daszak et al., 1999a). If *Bd* transmission is limited by how far zoospores can travel and their viability, species-specific and individual-level host behaviours (e.g. foraging, habitat preference, aggregation behaviour) influencing contact rates, between susceptible and infectious individuals, may provide insight into the variation in disease transmission and prevalence across the multi-host community. 
+Initial studies into how transmission the ranavirus-amphibian disease system is influenced by contact rates have been inconclusive (Araujo, Kirschman, & Warne, 2016; Brunner et al., 2017). Both studies note that variations in host species susceptibility could be a confounding factor and thus, a study examining the heterogeneities in host susceptibility and contact within and between such species should be considered. Understanding the mode and nature of Rv and *Bd* transmission, particularly in aquatic environments, is often confounded by the complexities of the system and the challenges of creating realistic experimental designs. Particularly when there are multiple transmission routes such as the case with ranavirus: by direct contact (Brunner et al., 2007), ingestion of either ranaviral particles (Hoverman et al.2010) or infected tissue (Pearman et al., 2004; Harp et al. 2006), and via contaminated water (Pearman et al., 2004; Brunner et al. 2004), and substrate (Harp et al. 2006). 
+
+<br>
+
+## 3 | Methods (shedding) 
+
+### 3.1 | Shedding/Filtration 
+
+> One limitation of using common frog and common toad larvae is that individuals cannot be sampled for infections without first being euthanized. For this reason, we tracked infectious particle output post-exposure using a modified version of the "soak" technique ^[Di Renzo et al. (2014); Reeder et al. (2012)]. Individuals were transferred into a temporary shedding unit containing clean, aged water to “soak” for 4 hours, after which they will be returned to their housing unit. The soak period of 4 hours was chosen to balance the need to sensitively detect zoospores/virions shed with the considerations of the tadpoles welfare needs. 
+
+During the shedding period aka post-exposure period, water changes were reduced to every four days.... to control for water parameters while allowing zoospores to accumulate in the housing containers uninterrupted.
+
+Water samples were obtained every day for the first four days and then again on day nine post-exposure, to capture the *Bd* reproduction cycle (DiRenzo, Langhammer, Zamudio, & Lips, 2014b; Garmyn et al., 2012) and Rv attenuation (Duffus et al., 2014). We modified the soak technique used by Di Renzo et al. (2014) and Reeder et al. (2012), increasing the soak period to 4 hours in 50ml of aged tap water to balance the need to sensitively detect zoospores/virions shed with the considerations of the tadpoles welfare needs. The soak water was filtered through a cellulose nitrate filter membrane (Nalgene Analytical Test Filter Funnel, ThermoFisher), 0.45um pore size to capture 1-2µm to 3-5µm zoospores (Berger, Speare, & Kent, 1999; Longcore et al., 1999), by a vacuum manifold. Following filtration, each membrane was removed from the filter unit, cut in half using a sterile scalpel blade, and stored at -20˚C for a week before being transferred to -80˚C until processing. After the last shedding period and water filtration (dpe 9) tadpoles were euthanised, under licence, by buffered (pH 7.0) 5 mg/L tricaine methylsulfonate (MS- 222) and then stored in 100% ethanol. 
+DNA extractions were performed for each filter membrane half. One half underwent extraction by Prepman Ultra (Life Technologies) following the procedure described in Hyatt et al. (2007) to target *Bd*. Whereas DNeasy Blood & Tissue kit was used to isolate Rv DNA following the protocol Goldberg et al. (2011) with the modifications outlined by (Kosch & Summers (2013). All DNA extractions will be assayed by quantitative polymerase chain reaction (qPCR) specific to each pathogen and run in duplicate. A positive result was scored if both wells amplify above the detection threshold when compared to the curve of standards.
+
+
+### 3.2 | Viability Samples  
+
+Quantification of viable zoospores shed into the housing container over the course of the shedding period (days 1 to 4 post-exposure) was achieved by ethidium monoazide (EMA) treatment following the protocol in (Blooi, Martel, Vercammen, & Pasmans, 2013). In brief, at 4 days post-exposure, two sub-samples were taken from the housing container, one to be treated with EMA and the other untreated before DNA extraction by Prepman Ultra (as described below). EMA binds to dead zoospores penetrating their compromised membranes and blocks PCR amplification thus EMA treated samples represent the viable proportion of *Bd* zoospores in a sample compared to an untreated sample that records both the viable and dead fractions.  
+
+ 
+```{r EMA, echo=FALSE, message=FALSE, optipng='-o7', fig.cap= "Figure 4. Viability staining protocol for quantification of live vs. dead Bd zoospores.", fig.width=4, fig.height=2}
+
+include_graphics("../output/images/EMA-process-overview.png")
+``` 
+
+### 3.3 | Statistical Analysis
+
+``` results pending``` 
+
+## 4 | Results
+
+``` results pending``` 
+
+<br>
+
+<br>
+
+# Further Work 
+
+<br>
+
+## Aims (updated):  
+
+I.	Ascertain whether the sequence of exposure to co-infecting pathogens (*Bd* and Rv) alters the disease outcome for the host. **and subsequent transmission of the pathogens.**
+  
+   <br>
+
+II.	Establish the contributions of hosts to the environmental “pool” of infectious particles, across species at an individual level, to understand variations in host infectiousness and by proxy transmission. 
+    i.	 Understand how host infectiousness, measured by quantifying *Bd* zoospore and ranavirus virons shed into the water body, changes with the exposure regime in single pathogen vs. co-infection scenarios.  
+    ii.	Assess the viability of infectious particles shed into the aquatic environment. 
+
+
+
+III. 
+
+ i. Species-specific response to exposure scenario 
+    ii. **priority effect and disease progression** 
+
+
+
+Build an understanding of the spatial dynamics of *Bd* zoospores in the aquatic environment, focussing on zoospore activity and trajectory. 
+    
+IV.	Elucidate the role of host contact rates play in disease transmission, intra- and inter- specifically, for both Rv and *Bd*. 
+and how that influences transmission rates, within and between species.  
+    i.	Identify which species-to-species and individual-to-individual contacts alter pathogen transmission.
+    ii. Assess how transmission rates change under different scenarios that encourage shifts in contact rates (e.g. variations in host density, temperature and food availability). 
+    iii. Establish whether exposure to pathogens (*Bd* and/or Rv) changes tadpole behaviour (e.g. activity rates, foraging performance, and aggregation behaviour) and in turn whether modifications in tadpoles beahviour (e.g. feeding activity, light response) alter contact rates. 
+
+V. Parametrizing the transmission coefficients of *Bd* in a multi-host system to develop realistic models. 
+
+VI. Combine these results into a predictive framework to understand how individual-level behaviours influence disease transmission in natural ecological communities.
+
+<br>
+
+<br>
+
+
+# Thesis Plan  
+
+**Chapter 1:** Literature Review: *introducing amphibian decline and the associated diseases (*Bd* and Rv), how disease dynamics are modelled, and behavioural responses to disease.* 
+
+**Chapter 2:** Within-host dynamic: *co-infection*
+
+**Chapter 3:** Between-host dynamics: *transmission and shedding models* 
+
+**Chapter 4:** Modelling transmission across scales: *multi-species* 
+
+**Chapter 5:** Behaviour & Transmission 
+
+<br>
 
 
 ## References
