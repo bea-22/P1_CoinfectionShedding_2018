@@ -158,7 +158,7 @@ II.	Establish the contributions of hosts to the environmental “pool” of infe
 
 We collected, under licence, wild amphibian egg masses (*R. temporaria* and *B. bufo*) and reared them in an approved facility. For *A. muletensis*, larvae we received hatched tadpoles from the Zological Society of London's Living Collections, **after ethical approval**. All eggs were hatched in captivity to minimise chances of disease exposure and sentinel individuals were tested for pre-experiment infection. Larvae were raised until free-swimming and of similar mass and developmental stage (Gosner 25; Gosner, 1960) before being transferred to the experimental room. Tadpoles were acclimatised to the experimental rooms and housed, individually, for 7 days prior to experimetnal procedures.
 
-```{r schedule, echo=FALSE, message=FALSE, fig.cap= "Fig.1. Schedule of exposures and sampling, by treatment group. A dose is denoted by a green (Rv) or yellow (Bd) coloured square, and sham doses are displayed as cross-hatched squares. The blue squares indicate when “soak” water samples were collected from individuals and filtered. EMA water samples (for quantification of viable Bd zoospores) are collected directly from the housing container and shown by an asterisk.", out.width="800px", out.height="800px"}
+```{r schedule, echo=FALSE, message=FALSE, fig.cap= "Figure 1. Schedule of exposures and sampling, by treatment group. A dose is denoted by a green (Rv) or yellow (Bd) coloured square, and sham doses are displayed as cross-hatched squares. The blue squares indicate when “soak” water samples were collected from individuals and filtered. EMA water samples (for quantification of viable Bd zoospores) are collected directly from the housing container and shown by an asterisk.", out.width="800px", out.height="800px"}
 
 include_graphics("../output/images/exp-schedule.png")
 ``` 
@@ -213,7 +213,7 @@ DNA extractions were performed for each filter membrane half. One half underwent
 Quantification of viable zoospores shed into the housing container over the course of the shedding period (days 1 to 4 post-exposure) was achieved by ethidium monoazide (EMA) treatment following the protocol in (Blooi, Martel, Vercammen, & Pasmans, 2013). In brief, at 4 days post-exposure, two sub-samples were taken from the housing container, one to be treated with EMA and the other untreated before DNA extraction by Prepman Ultra (as described below). EMA binds to dead zoospores penetrating their compromised membranes and blocks PCR amplification thus EMA treated samples represent the viable proportion of *Bd* zoospores in a sample compared to an untreated sample that records both the viable and dead fractions.  
 
 
-```{r EMA, echo=FALSE, message=FALSE, optipng='-o7', fig.cap= "Figure 4. Viability staining protocol for quantification of live vs. dead Bd zoospores.", fig.width=4, fig.height=2}
+```{r EMA, echo=FALSE, message=FALSE, optipng='-o7', fig.cap= "Figure 2. Viability staining protocol for quantification of live vs. dead Bd zoospores.", fig.width=4, fig.height=2}
 
 include_graphics("../output/images/EMA-process-overview.png")
 ``` 
@@ -521,7 +521,7 @@ Ranavirus (RUK13 isolate; Cunningham, Hyatt, Russell, & Bennett, 2007) was culti
 
 *Bd* strain IA’9’13, a member of the hypervirulent *Bd*GPL lineage and isolated during an epidemic at Ibón Acherito (Pyrenees, Spain) in 2013 by Prof. M. Fisher, was cultured in TGhL broth, in a 25cm2 cell culture flasks, at 18˚C. Zoospores were collected and counted using a haemocytometer. A *Bd* positive dose consistent of 15,000 to 600,000 active zoospores in 210µL liquid media, or 525µL for *A.muletensis* II. The volume of media was standardised across doses in order to maintain water quality during the exposure period. Total exposure are shown in the table below. 
 
-Table S2. Summary of mortality records for tadpoles, split by species and exposure regime. 
+Table S1. Summary of mortality records for tadpoles, split by species and exposure regime. 
 
 ```{r mort, echo=FALSE}
 mort <- data.endpoint %>%
@@ -538,9 +538,9 @@ knitr::kable(mort, digits=2)
 ```
 
 
-Table S3. Mean proportion of individuals infected as a function of species and pathogen exposure category.   
+Table S2. Mean proportion of individuals infected as a function of species and pathogen exposure category.   
 
-```{r summary proportion infected, echo=F}
+```{r summary proportion infected, echo=FALSE}
 
 endpoint.sum <- data.endpoint %>%
   group_by(ExperimentNo, Treatment) %>%     
@@ -550,10 +550,10 @@ knitr::kable(endpoint.sum, digits=3)
 ```
 <br>
 
-Table S4. Mean proportion of individuals infected as a function of species and pathogen exposure category where a) Bd load expressed as GE and b) normalised viral load for ranavirus.   
+Table S3. Mean proportion of individuals infected as a function of species and pathogen exposure category where a) Bd load expressed as GE and b) normalised viral load for ranavirus.   
 
 
-```{r infection load summary}
+```{r infection load summary, echo=FALSE}
 
 Bd.infect.sum <- data.endpoint %>%
   filter((Bd.endpoint.status=='1' & Bd.endpoint.GE > 0.1))  %>% 
@@ -579,7 +579,7 @@ knitr::kable(Rv.infect.sum, caption = 'b)', digits=2)
 
 
 
-```{r log distribution Bd GE, echo=FALSE, warning=FALSE, error=FALSE, message=FALSE, fig.cap= "Figure S1.a. The distribution of log-transformed infection loads (GE) for Bd-positive tadpoles, groups across all species for exposure scenarios .... Red lines indicate mean infection load and black dots the log-transformed data points.", fig.width=16, fig.height=6}
+```{r log distribution Bd GE, echo=FALSE, warning=FALSE, error=FALSE, message=FALSE, fig.cap= "Figure S1a. The distribution of log-transformed infection loads (GE) for Bd-positive tadpoles, groups across all species for exposure scenarios .... Red lines indicate mean infection load and black dots the log-transformed data points.", fig.width=16, fig.height=6}
 data.endpoint %>%     # ridge plot to see distribution of data  
     filter((Bd.endpoint.status=='1' & Bd.endpoint.GE > 0.1))  %>%  ggplot(aes(log(Bd.endpoint.GE), Treatment)) +
       geom_density_ridges(
@@ -593,7 +593,7 @@ data.endpoint %>%     # ridge plot to see distribution of data
 
 
 
-```{r log distribution Rv load, echo=FALSE, warning=FALSE, error=FALSE, message=FALSE, fig.cap= "Figure S1.b. The distribution of log-transformed normalised infection loads for ranavirus-positive tadpoles, groups across all species for exposure scenarios .... Red lines indicate mean infection load and black dots the log-transformed data points.", fig.width=16, fig.height=6}
+```{r log distribution Rv load, echo=FALSE, warning=FALSE, error=FALSE, message=FALSE, fig.cap= "Figure S1b. The distribution of log-transformed normalised infection loads for ranavirus-positive tadpoles, groups across all species for exposure scenarios .... Red lines indicate mean infection load and black dots the log-transformed data points.", fig.width=16, fig.height=6}
 data.endpoint %>%     # ridge plot to see distribution of data  
     filter(Rv.endpoint.load > 0.1 & !Rv.endpoint.load > 2000)  %>%  ggplot(aes(log(Rv.endpoint.load), Treatment)) +
       geom_density_ridges(
@@ -607,7 +607,7 @@ data.endpoint %>%     # ridge plot to see distribution of data
 <br>
 
 
-Table S5. Generalized Linear Model (GLMs) outputs for endpoint infection status in amphibian larvae by pathogen/infection type a) *Bd*, as a function of  species (*Bufo bufo*, *Rana temporaria*, and *Alytes muletensis*), and b) ranavirus, as a function of exposure scenario (*Bd* only, Rv only, *Bd*-Rv and Rv-*Bd*) after model selection and simplification.   
+Table S4. Generalized Linear Model (GLMs) outputs for endpoint infection status in amphibian larvae by pathogen/infection type a) *Bd*, as a function of  species (*Bufo bufo*, *Rana temporaria*, and *Alytes muletensis*), and b) ranavirus, as a function of exposure scenario (*Bd* only, Rv only, *Bd*-Rv and Rv-*Bd*) after model selection and simplification.   
 
 ```{r infection status GLM coefs, echo=FALSE, warning=FALSE, error=FALSE, message=FALSE, fig.show='hold', out.width = "50%", fig.align = "default"}
 # TO DO: use summ() to change the output > alter the row names, display p-values more intuitive 
@@ -625,7 +625,7 @@ knitr::kable(Rv.status.coef, caption = 'b)', digits=3)
 
 
 
-Table S4. Generalized Linear Model (GLMs) outputs for endpoint infection load in amphibian larvae by pathogen/infection type a) *Bd*, expressed as zoospore genomic equivalents (GE), and b) ranavirus as normalised ranaviral load as the response variable. The following **variables** were used as explanatory variables for a) species (*Bufo bufo*, *Rana temporaria*, and *Alytes muletensis*), and b) exposure scenario (*Bd* only, Rv only, *Bd*-Rv and Rv-*Bd*) after model selection and simplification.   
+Table S5. Generalized Linear Model (GLMs) outputs for endpoint infection load in amphibian larvae by pathogen/infection type a) *Bd*, expressed as zoospore genomic equivalents (GE), and b) ranavirus as normalised ranaviral load as the response variable. The following **variables** were used as explanatory variables for a) species (*Bufo bufo*, *Rana temporaria*, and *Alytes muletensis*), and b) exposure scenario (*Bd* only, Rv only, *Bd*-Rv and Rv-*Bd*) after model selection and simplification.   
 
 ```{r infection load GLM coefs, echo=FALSE, warning=FALSE, error=FALSE, message=FALSE, fig.show='hold', out.width = "50%", fig.align = "default"}
 # TO DO: use summ() to change the output > alter the row names, display p-values more intuitive 
@@ -642,10 +642,10 @@ knitr::kable(Rv.load.coef, caption = 'b)', digits=3)
 
 ```{r posthoc tests, echo=FALSE, warning=FALSE, error=FALSE, message=FALSE, fig.width=8, fig.height=5}
 Tukey.Bd.load <- glht(model.Bd.load, linfct=mcp(ExperimentNo='Tukey'))
-summary(Tukey.Bd.load) 
+# summary(Tukey.Bd.load) 
 
 Tukey.Rv.load <- glht(model.Rv.load, linfct=mcp(Treatment='Tukey'))
-summary(Tukey.Rv.load) 
+# summary(Tukey.Rv.load) 
 
 
 Tukey.Bd.load.plot <- plot(Tukey.Bd.load)
