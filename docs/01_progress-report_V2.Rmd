@@ -37,17 +37,14 @@ library(bookdown)
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-<br> 
+
+
 # Progress and Development  
-<br> 
 
-To-date, I have successfully run four disease-challenge experiments, looking at how exposure scenario influences disease outcome (Project 1a) and the contributions of experimentally infected individuals to the environmental pool of infectious particles (Project 1b), **as a factor of amphibian species**.  I have processed and analysed the results from Project 1a, using the results to inform my plan for processing the shedding samples (Project 1b). I intend to process and analyse the shedding samples while based down with my CASE partner. 
 
-The results from Project 1a have also shaped my objectives, in designing experiments for this year and overall for the PhD, see **Aims updated**. The experimental designs and ethics forms for this year's experiments are currently being drawn up. 
+To-date, I have successfully run four disease-challenge experiments, exploring how exposure scenario influences disease outcome (Project 1a) and the contributions of experimentally infected individuals to the environmental pool of infectious particles (Project 1b). I have processed and analysed the results from Project 1a, using the results to inform my plan for processing the shedding samples (Project 1b). I intend to process and analyse the shedding samples while based down with my CASE partner. The results from Project 1a have also shaped my objectives, in designing experiments for this year and overall for the PhD, see **Aims updated**. The experimental designs and ethics forms for this year's experiments are currently being drawn up. 
 
-This year, I have shifted my development focus to communication, engagement and outreach. I highlighted acknowledged this as an area of weakness in my first year and so have taken  XXXX opportunities to present and communicate my research whether through talks in an academic setting, a blog post for the general public or engagement with my CASE partner.  
-
-I have also taken the time this year to develop my programming and statistical skills. Learning to use RMarkdown to generate reproducible reports and a website, and establishing a working GitHub repository. 
+This year, I have shifted my focus to communication, engagement and outreach development. I highlighted this as an area of weakness in my first year and so have taken **every** opportunity to present and communicate my research. These opportunities include, writing a blog post for the general public, poster presentations, engaement with my CASE partner and conference/seminar talks.I have also taken the time this year to develop my programming and statistical skills. Learning to use RMarkdown to generate reproducible reports and a website, and establishing a working GitHub repository. 
 
 <br>
 
@@ -85,23 +82,22 @@ I have also taken the time this year to develop my programming and statistical s
 <br>
 
 
-PhD overview
-======
+# PhD overview
+
+Chytridiomycosis and Ranavirus are two emerging infectious diseases that infect a wide range of amphibian species globally. The overlap between host species and global distribution increase the potential for complex host-pathogen dynamics, where multiple hosts can be parasitized by multiple pathogens. The observed mass mortality events in amphibian populations (Berger et al., 1998; Fox et al., 2006; Green, Converse, & Schrader, 2002), multiple species declines (Daszak et al., 1999b; Price et al., 2014; Stuart et al., 2004; Teacher, Cunningham, & Garner, 2010) and local extinctions (Lips et al., 2006) have been attributed to the multi-host nature, global distribution and virulence of both pathogens. 
+
+Co-infection situations are common in wildlife (Hellard, Fouchet, Vavre, & Pontier, 2015; Petney & Andrews, 1998; Rigaud, Perrot-Minnot, & Brown, 2010) and have been linked with an increase in susceptibility to subsequent infections (Lello et al., 2018). In theory, there are grounds to believe that the effect of infection by one pathogen, such as immune suppression (Grayfer et al., 2012) or resource depletion (Voyles et al., 2007) facilitates co-infection interactions and potentially leads to downstream differences in transmission according to host species and pathogen (Pedersen & Fenton, 2007). However, this remains an understudied area. The few field studies of amphibian populations which have sampled for both pathogens have recorded co-infection as commonplace (Reshetnikov et al., 2014; Rosa et al., 2017; Souza et al., 2012). However, experimental evidence of co-infection patterns in amphibians remains sparse. To date, the majority of information on co-infection occurrence comes from opportunistic, post-mortem sampling (Martel et al., 2012; Miller et al., 2008) which fails to capture any within-host dynamics. 
 
 
-Many important pathogens circulate within multi-host communities (Holt et al., 2003; Webster, Borlase, & Rudge, 2017; Woolhouse, Taylor, & Haydon, 2001). Within these communities, individuals can differ in their susceptibility, infectiousness and response to infection, which influences disease transmission. Understanding the heterogeneity of species-specific responses to infection is crucial when predicting disease emergence and for implementing effective disease mitigation strategies. 
-
-
-Chytridiomycosis and Ranavirus are two emerging infectious diseases that infect a wide range of amphibian species globally. The observed mass mortality events in amphibian populations (Berger et al., 1998; Fox et al., 2006; Green, Converse, & Schrader, 2002), multiple species declines (Daszak et al., 1999b; Price et al., 2014; Stuart et al., 2004; Teacher, Cunningham, & Garner, 2010) and local extinctions (Lips et al., 2006) have all been attributed to the multi-host nature, global distribution and virulence of these pathogens. While both pathogens are host generalist, significant heterogeneity exists in host susceptibility, infectiousness and burden of each disease, at a species and individual level. Thus conforming to a wider body of literature showing host species unevenly contribute to disease transmission in multi-host communities (Begon et al., 1999; Duffus, Nichols, & Garner, 2014; Fenton et al., 2015; Fernández-Beaskoetxea, Bosch, & Bielby, 2016; Woolhouse et al., 1997). As a result, pathogen persistence at a community level is largely dictated by the composition of host species (Holt et al., 2003; Keesing, Holt, & Ostfeld, 2006). Host species have been recorded to perform different functional roles: reservoirs, who act as a source of infection enabling a pathogen to be maintained within a community (Fenton & Pedersen, 2005; Haydon et al., 2002); amplifiers, hosts which increase transmission often through increasing the number of pathogenic particles available and dilution hosts, which buffer against disease transmission in the population by absorbing infectious stages with no onward transmission (Johnson & Thieltges, 2010; Keesing et al., 2006; Logiudice et al., 2003; Searle et al., 2011). 
+While both pathogens are host generalist, significant heterogeneity exists in host susceptibility, infectiousness and burden of each disease, at a species and individual level. Thus conforming to a wider body of literature showing host species unevenly contribute to disease transmission in multi-host communities (Begon et al., 1999; Duffus, Nichols, & Garner, 2014; Fenton et al., 2015; Fernández-Beaskoetxea, Bosch, & Bielby, 2016; Woolhouse et al., 1997). As a result, pathogen persistence at a community level is largely dictated by the composition of host species (Holt et al., 2003; Keesing, Holt, & Ostfeld, 2006). Host species have been recorded to perform different functional roles: reservoirs, who act as a source of infection enabling a pathogen to be maintained within a community (Fenton & Pedersen, 2005; Haydon et al., 2002); amplifiers, hosts which increase transmission often through increasing the number of pathogenic particles available and dilution hosts, which buffer against disease transmission in the population by absorbing infectious stages with no onward transmission (Johnson & Thieltges, 2010; Keesing et al., 2006; Logiudice et al., 2003; Searle et al., 2011). 
 
 
 Broadly, amphibian species infected with the fungus Batrachochytrium dendrobatidis (*Bd*), the pathogen causing Chytridiomycosis, have been found to follow the categories of host type outlined above (DiRenzo, Langhammer, Zamudio, & Lips, 2014a; Fernández-Beaskoetxea et al., 2016; Reeder, Pessier, Vredenburg, & Litvintseva, 2012; Searle et al., 2011). For example, Reeder et al. (2012) described a reservoir species that has *Bd* loads substantially higher than the load found to be lethal in a sympatric and declining species. Infection occurs by *Bd* zoospores establishing in the keratinized epidermis of metamorphosed amphibians or the mouthparts of larvae (Berger et al., 1998; Fellers, Green, & Longcore, 2001; Longcore, Pessier, & Nichols, 1999; Marantelli, Berger, Speare, & Keegan, 2004). Once developed the sporangia encyst releasing flagellated zoospore into the aquatic environment (Berger, Marantelli, Skerratt, & Speare, 2005; Longcore et al., 1999). These *Bd* zoospores shed from an infected host are fundamental to pathogen transmission, with amplifier hosts releasing dramatically higher numbers of zoospores (DiRenzo et al., 2014a). 
 
-
 Amphibian species are seen as a major reservoir for ranaviruses, large viral pathogens, which infect a broad range of ectothermic vertebrates (Granoff et al., 1965; Mao et al 1999; Gray et al., 2009; Schock et al 2008). Although, this variation in amphibian species response to the disease (Gray & Chinchar, 2015; Schock, Bollinger, Gregory Chinchar, Jancovich, & Collins, 2008) and the frequency at which secondary infections occur alongside ranavirus infections (Miller et al., 2008; Cunningham et al., 1996) make clinical signs of ranaviral disease challenging to discern, meaning diagnosis often depends on post-mortem confirmation. 
 
 
-Predicting how these heterogeneities in disease contribution across different host species relates to the establishment and persistence of a pathogen in a host community, revolves around understanding the transmission process between the infectious stage of a pathogen and a susceptible individual (Begon et al., 2002; McCallum, Barlow, & Hone, 2001; McCallum et al., 2017), and how variations in the contact between susceptible and infected hosts can alter the functional form of transmission (Fenton et al., 2002; McCallum et al., 2017). 
+
 
 <br> 
 
@@ -110,7 +106,7 @@ Predicting how these heterogeneities in disease contribution across different ho
 
 ## 1 |  Abstract
 
-The notable, global decline of amphibians has been associated //widely linked to parasitism; the two pathogens of greatest conservation concern being Ranavirus and *Batrachochytrium dendrobatidis* (*Bd*). While both pathogens have been studied extensively the majority of these studies have taken a one-host, one-pathogen approach. In nature, things are rarely that simple; pathogens often infect multiple host species and hosts can be parasitised by multiple pathogens. Increasingly, we are seeing field studies reporting co-infection occurring in multiple host species. Yet our understanding of these complex host-pathogen interactions and the implications on disease transmission and persistence within a host community remains limited.  
+The notable, global decline of amphibians has been widely linked to parasitism; the two pathogens of greatest conservation concern being Ranavirus and *Batrachochytrium dendrobatidis* (*Bd*). While both pathogens have been studied extensively the majority of these studies have taken a one-host, one-pathogen approach. In nature, things are rarely that simple; pathogens often infect multiple host species and hosts can be parasitised by multiple pathogens. Increasingly, we are seeing field studies reporting co-infection occurring in multiple host species. Yet our understanding of these complex host-pathogen interactions and the implications on disease transmission and persistence within a host community remains limited.  
 
 To help unpick the tangled dynamics of this multi-host, multi-pathogen system we empirically tested how susceptibility, infectiousness and burden of disease changed with infection scenario (single vs coinfection) across a panel of host species (*Bufo bufo*, *Rana temporaria* and *Alytes muletensis*) that range in their reported susceptibility. 
 
@@ -121,9 +117,12 @@ Understanding the susceptibility and infectiousness of each host at an individua
 > **Key-words:** *Batrachochytrium dendrobatidis*, chytridiomycosis, ranavirus, coinfection, multi-host, within-host interactions, between-host interactions, host-pathogen interaction, amphibian   
 
 
-## 2 |  Introduction
+## 2 |  Introduction {last paragraph}
 
-Chytridiomycosis and Ranavirus are two emerging infectious diseases that overlap in their global distribution and host species range. Both factors increases the possibility of further complexities in host-pathogen dynamics, where multiple hosts can be parasitized by multiple pathogens. Coinfection situations are common in wildlife (Hellard, Fouchet, Vavre, & Pontier, 2015; Petney & Andrews, 1998; Rigaud, Perrot-Minnot, & Brown, 2010) and have been linked with an increase in susceptibility to subsequent infections (Lello et al., 2018). In theory, there are grounds to believe that the effect of infection by one pathogen, such as immune suppression (Grayfer et al., 2012) or resource depletion (Voyles et al., 2007) facilitates co-infection interactions and potentially leads to downstream differences in transmission according to host species and pathogen (Pedersen & Fenton, 2007). However, this remains an understudied area. The few field studies of amphibian populations which have sampled for both pathogens have recorded co-infection as commonplace (Reshetnikov et al., 2014; Rosa et al., 2017; Souza et al., 2012). However, experimental evidence of co-infection patterns in amphibians remains sparse. To date, the majority of information on co-infection occurrence comes from opportunistic, post-mortem sampling (Martel et al., 2012; Miller et al., 2008) which fails to capture any within-host dynamics. 
+######### 
+
+
+Many important pathogens circulate within multi-host communities (Holt et al., 2003; Webster, Borlase, & Rudge, 2017; Woolhouse, Taylor, & Haydon, 2001). Within these communities, individuals can differ in their susceptibility, infectiousness and response to infection, which influences disease transmission. Understanding the heterogeneity of species-specific responses to infection is crucial when predicting disease emergence and for implementing effective disease mitigation strategies. 
 
 To determine if there is an interaction between **host species and pathogen species**...., we investigated how exposure scenario affects infection dynamics of two amphibian pathogens (*Bd* and ranavirus) across three species (*Bufo bufo*, *Rana temporaria* & *Alytes muletensis*), that display contrasting resistances to both pathogens. Of particular interest is whether exposure to one pathogen alters the disease outcome of the other pathogen (infection status, infection load and mortality).  
 
@@ -132,25 +131,18 @@ We also examined how *Bd* infection outcome is affected by larval developmental 
 
 ######### 
 
-
-## 2.2 | Introduction (shedding) 
-
-The preferred model for *Bd* transmission, presently, is that of a ‘zoospore pool’ where amphibians are uniformly exposed to free-swimming zoospores in the aquatic environment (Briggs, Knapp, & Vredenburg, 2010). Yet, little is known about the longevity, activity or spatial distribution of *Bd* zoospores in this ‘zoospore pool’. Under laboratory conditions, *Bd* zoospores have been recorded to travel on average 2cm before encysting and the majority do not remain motile after 24 hours (Piotrowski, Annis, & Longcore, 2004). If this holds true outside of the lab, it implies that while flagellated, *Bd* zoospores are most effectively transported by water movement, and potentially the movement of hosts (Daszak et al., 1999a). If *Bd* transmission is limited by how far zoospores can travel and their viability, species-specific and individual-level host behaviours (e.g. foraging, habitat preference, aggregation behaviour) influencing contact rates, between susceptible and infectious individuals, may provide insight into the variation in disease transmission and prevalence across the multi-host community. 
-
-Initial studies into how transmission the ranavirus-amphibian disease system is influenced by contact rates have been inconclusive (Araujo, Kirschman, & Warne, 2016; Brunner et al., 2017). Both studies note that variations in host species susceptibility could be a confounding factor and thus, a study examining the heterogeneities in host susceptibility and contact within and between such species should be considered. Understanding the mode and nature of Rv and *Bd* transmission, particularly in aquatic environments, is often confounded by the complexities of the system and the challenges of creating realistic experimental designs. Particularly when there are multiple transmission routes such as the case with ranavirus: by direct contact (Brunner et al., 2007), ingestion of either ranaviral particles (Hoverman et al.2010) or infected tissue (Pearman et al., 2004; Harp et al. 2006), and via contaminated water (Pearman et al., 2004; Brunner et al. 2004), and substrate (Harp et al. 2006). 
-
-Therefore, quantifying host specific infectious particle output by an infected individual, under single pathogen and co-infection regimes, is an important step in understanding species contributions to this environmental pool of pathogens and to parameterise transmission function. 
+Therefore, quantifying host specific disease dynamics at an individual level, under single pathogen and co-infection regimes, is an important step in understanding the potential interactions between pathogens within-host and the role of host species in mboth pathogens in maintaining disease.... species contributions to this environmental pool of pathogens and to parameterise transmission function. 
 
 and in turn whether this alters down-stream disease transmission as detected by the pathogenic particles shed into the aquatic environment. 
 
-
-<br>
-
+ infectious particle output by an infected individual,
+ 
+ ######### 
 
 
 ### Aims:
 
-I.	Ascertain whether the sequence of exposure to co-infecting pathogens (*Bd* and Rv) alters the disease outcome for the host and subsequent transmission of the pathogens. 
+I.	Ascertain whether the exposure scenario (singel vs. co-infection) of two amphibian pathogens (*Bd* and Rv) alters the disease outcome for the host and subsequent transmission of the pathogens. 
 
 II.	Establish the contributions of hosts to the environmental “pool” of infectious particles, across species at an individual level, to understand variations in host infectiousness and by proxy transmission. 
     i.	 Understand how host infectiousness, measured by quantifying *Bd* zoospore and ranavirus virons shed into the water body, changes with the exposure regime in single pathogen vs. co-infection scenarios.  
@@ -225,7 +217,6 @@ Quantification of viable zoospores shed into the housing container over the cour
 
 include_graphics("../output/images/EMA-process-overview.png")
 ``` 
-
 
 
 ### 3.3 | Statistical Analysis 
@@ -385,32 +376,34 @@ plot_grid(boxplot.Bd,
 ``` results pending``` 
 
 
-
 ## 5 | Discussion & Further Work
 
+###########################################
 
 In nature coinfections occur as a norm. Have pathogens that can also infect multi-host species, overlapping.... This study demonstrates that this context is important in predicting the outcome of infection and that a "context" does not necessary apply to pathogens in the same way. Reinforcing the need of studying the interactions within these multi-host, multi-pathogen systems 
 
 across species for Bd and/or exposure scenarios for Rv 
 
 
-
 ### Project 3:  Ranavirus infection response to co-infection
 
-Ranavirus treatment affect 
 
 #### Project 3a: Dose-dependent *XXXX*    
+
+The exposure regimes and dose used in the above described experiment reflect that seen in the wild. Chytrid infections are often seasonal, particularly in the case of larval animals as they have a short window in the aquatic environment. The ability of Bd to be transmissed in the aquatic environment means during this time window tadpoles are most likely exposure to repeated "dosing" of Bd zoospores. **Statement here abour ranavirus exposure in the wild**
+
+The dose of *Bd* zoospores does vary between experiments and within experiment...which can be equated to variable exposure in the environment....so while the composition///zoospores per each dose varied, across individuals within an experiment the doses were identical.The models account for the variation in dose by using experiment number as the response variable rather than grouping by species. Also, it is worth noting that while there was variation the total zoospore number an experiment group, these total doses for each experiment are consisted high. In the literature a high dose is consider .....  [REFERENCE]. This is reflected in the results where both susceptible species are pretty much uniformly infected.  
+
+In contrast the dose of ranavirus is singular and considered low. Previous studies [Stephen's climate paper] have shown there is a threshold of dose with ranavirus, over which mortality occurs quickly. Given the experimental sampling regime we chose a dose that has been proven to establish infection but not cause rapid mortality. 
+
+The variation of Bd dose between experiments does not show a signal/effect. In comparison, ranavirus is showing a distinct treatment effect ...  
 
 Dose-dependent affects on ranavirus disease outcome, under single and co-infection scenarios …. and potentially disease progression, or shedding. 
 
 We see this to some extent with all the host species, *Bd* exposure coupled with Rv increases the chance of Ranaviral infection, both with coinfection treatment groups having indivduals with positive ranavirus infection status compared to the Rv only group consistently having no infected indivduals. 
 
 
-The exposure regimes and dose used in the above described experiment reflect that seen in the wild. Chytrid infections are often seasonal, particularly in the case of larval animals as they have a short window in the aquatic environment. The ability of Bd to be transmissed in the aquatic environment means during this time window tadpoles are most likely exposure to repeated "dosing" of Bd zoospores. 
 
-The dose of *Bd* zoospores does vary between experiments and within experiment..... 
-Within experiment this can be equated to variable exposure in the environment. ...so while the composition///zoospores per each dose varied, across individuals within an experiment the doses were identical. 
-Between experiments *(is unfortunate)* variation doesn't appear to have a distinct signal/effect. The models account for the variation in dose by using experiment number as the response variable rather than grouping by species. Also, it is worth noting that while there was variation the total zoospore number an experiment group, these total doses for each experiment are consisted high. In the literature a high dose is consider .....  [REFERENCE]. This is reflected in the results where both susceptible species are pretty much uniformly infected. 
 
 #### Project 3b: Priority Effect *XXXX*    
 
@@ -434,23 +427,39 @@ So both species can be considered highly susceptible but what does the variation
 
 The shedding/filter data will hopefully provide the link been (endpoint) infection load what an individual is contributing to the aquatic environment (a proxy for transmission). 
 
+##################################
+
+Predicting how these heterogeneities in disease contribution across different host species relates to the establishment and persistence of a pathogen in a host community, revolves around understanding the transmission process between the infectious stage of a pathogen and a susceptible individual (Begon et al., 2002; McCallum, Barlow, & Hone, 2001; McCallum et al., 2017), and how variations in the contact between susceptible and infected hosts can alter the functional form of transmission (Fenton et al., 2002; McCallum et al., 2017). 
+
+
+#######
+
+Heterogeneities in contact frequency and transmission of infectious pathogens per contact can result from differences in individual behaviour (e.g. social interactions, anti-predation response, foraging performance, and aggregation behaviour). Such behavioural tendencies, can alter exposure to pathogens, be modified by pathogen infection and influence the efficiency of pathogen transmission (Drewe, 2010). Establishing what behaviours are associated with transmission enables us to predict which individuals are more likely to transmit or receive an infection. For instance, a recent study found that an individual’s behavioural phenotype, defined by their latency to food and swimming activity, predicted the outcome of ranavirus exposure (Araujo et al., 2016). Additionally, *Bd* has been shown to induce modifications in host behaviours, such as reductions in foraging rate and efficiency in *Bd*-infected larvae (Venesky, Parris, & Storfer, 2009). This behavioural response indirectly reduces host fitness (Venesky et al., 2009) and may increase pathogen transmission by altering inter- and intra-specific interactions (Parris & Cornelius, 2004). Adjustments in interaction tendencies have been observed in certain species of social tadpole which increase aggregation behaviour when infected by *Bd* (Han, Bradley, & Blaustein, 2008; Venesky, Kerby, Storfer, & Parris, 2011), consequently increasing the likelihood of further disease transmission. While aggregation in certain species has been established as a predictor of *Bd* infection intensity (Venesky et al., 2011), increased contact rates do not always lead to greater pathogen load (Araujo et al., 2016). It is worth considering how disease severity or pathogen load alters contact rates, and the outcome of a contact in transmitting infection particularly if certain individuals are more effective at transmitting infection, either by infecting disproportionately more contacts or transmit more infectious agents per contact (M.E.J. Woolhouse et al., 1997). These individuals are known as super-shedders (Lloyd-Smith et al., 2005; Stein, 2011). Super-shedders have been observed in an experimental *Bd*-amphibian system where highly infectious individuals had amplified zoospore output (DiRenzo et al., 2014a).   
+It is, therefore, crucial to clarify which behaviours drive transmission and the contribution of each host, at a species and individual-level, in order to understand how a disease spreads through, and persists, in a multi-host community. These drivers have proven hard to establish empirically because of the heterogeneities in the characteristics of the host, pathogen and environment, and ultimately the logistics and ethics of experiments involving two pathogens of major conservation concern.
+
+
+The preferred model for *Bd* transmission, presently, is that of a ‘zoospore pool’ where amphibians are uniformly exposed to free-swimming zoospores in the aquatic environment (Briggs, Knapp, & Vredenburg, 2010). Yet, little is known about the longevity, activity or spatial distribution of *Bd* zoospores in this ‘zoospore pool’. Under laboratory conditions, *Bd* zoospores have been recorded to travel on average 2cm before encysting and the majority do not remain motile after 24 hours (Piotrowski, Annis, & Longcore, 2004). If this holds true outside of the lab, it implies that while flagellated, *Bd* zoospores are most effectively transported by water movement, and potentially the movement of hosts (Daszak et al., 1999a). If *Bd* transmission is limited by how far zoospores can travel and their viability, species-specific and individual-level host behaviours (e.g. foraging, habitat preference, aggregation behaviour) influencing contact rates, between susceptible and infectious individuals, may provide insight into the variation in disease transmission and prevalence across the multi-host community. 
+
+Initial studies into how transmission the ranavirus-amphibian disease system is influenced by contact rates have been inconclusive (Araujo, Kirschman, & Warne, 2016; Brunner et al., 2017). Both studies note that variations in host species susceptibility could be a confounding factor and thus, a study examining the heterogeneities in host susceptibility and contact within and between such species should be considered. Understanding the mode and nature of Rv and *Bd* transmission, particularly in aquatic environments, is often confounded by the complexities of the system and the challenges of creating realistic experimental designs. Particularly when there are multiple transmission routes such as the case with ranavirus: by direct contact (Brunner et al., 2007), ingestion of either ranaviral particles (Hoverman et al.2010) or infected tissue (Pearman et al., 2004; Harp et al. 2006), and via contaminated water (Pearman et al., 2004; Brunner et al. 2004), and substrate (Harp et al. 2006). 
+
+
+##################################
+
 
 # Aims (updated):  
 
-I.	Ascertain whether the sequence of exposure to co-infecting pathogens (*Bd* and Rv) alters the disease outcome for the host. **and subsequent transmission of the pathogens.**
-  
-   <br>
+I.	Ascertain whether the exposure scenario to co-infecting pathogens (*Bd* and Rv) alters the disease outcome for the host and subsequent transmission of the pathogens.
 
 II.	Establish the contributions of hosts to the environmental “pool” of infectious particles, across species at an individual level, to understand variations in host infectiousness and by proxy transmission. 
     i.	 Understand how host infectiousness, measured by quantifying *Bd* zoospore and ranavirus virons shed into the water body, changes with the exposure regime in single pathogen vs. co-infection scenarios.  
     ii.	Assess the viability of infectious particles shed into the aquatic environment. 
 
 
+III. Ascertain the role of ranavirus in co-infection scenarios. 
+    i. Does the sequence of exposure determine ranaviral infection success and disease progression/outcome? (**priority effect**)
+    ii. Does dose-dependent response translate to co-infection scenarios and shift the disease outcome??  (**dose-dependent**)
 
-III. 
 
- i. Species-specific response to exposure scenario 
-    ii. **priority effect and disease progression** 
 
 
 
@@ -467,8 +476,6 @@ V. Parametrizing the transmission coefficients of *Bd* in a multi-host system to
 VI. Combine these results into a predictive framework to understand how individual-level behaviours influence disease transmission in natural ecological communities.
 
 
-Heterogeneities in contact frequency and transmission of infectious pathogens per contact can result from differences in individual behaviour (e.g. social interactions, anti-predation response, foraging performance, and aggregation behaviour). Such behavioural tendencies, can alter exposure to pathogens, be modified by pathogen infection and influence the efficiency of pathogen transmission (Drewe, 2010). Establishing what behaviours are associated with transmission enables us to predict which individuals are more likely to transmit or receive an infection. For instance, a recent study found that an individual’s behavioural phenotype, defined by their latency to food and swimming activity, predicted the outcome of ranavirus exposure (Araujo et al., 2016). Additionally, *Bd* has been shown to induce modifications in host behaviours, such as reductions in foraging rate and efficiency in *Bd*-infected larvae (Venesky, Parris, & Storfer, 2009). This behavioural response indirectly reduces host fitness (Venesky et al., 2009) and may increase pathogen transmission by altering inter- and intra-specific interactions (Parris & Cornelius, 2004). Adjustments in interaction tendencies have been observed in certain species of social tadpole which increase aggregation behaviour when infected by *Bd* (Han, Bradley, & Blaustein, 2008; Venesky, Kerby, Storfer, & Parris, 2011), consequently increasing the likelihood of further disease transmission. While aggregation in certain species has been established as a predictor of *Bd* infection intensity (Venesky et al., 2011), increased contact rates do not always lead to greater pathogen load (Araujo et al., 2016). It is worth considering how disease severity or pathogen load alters contact rates, and the outcome of a contact in transmitting infection particularly if certain individuals are more effective at transmitting infection, either by infecting disproportionately more contacts or transmit more infectious agents per contact (M.E.J. Woolhouse et al., 1997). These individuals are known as super-shedders (Lloyd-Smith et al., 2005; Stein, 2011). Super-shedders have been observed in an experimental *Bd*-amphibian system where highly infectious individuals had amplified zoospore output (DiRenzo et al., 2014a).   
-It is, therefore, crucial to clarify which behaviours drive transmission and the contribution of each host, at a species and individual-level, in order to understand how a disease spreads through, and persists, in a multi-host community. These drivers have proven hard to establish empirically because of the heterogeneities in the characteristics of the host, pathogen and environment, and ultimately the logistics and ethics of experiments involving two pathogens of major conservation concern.
 
 
 
