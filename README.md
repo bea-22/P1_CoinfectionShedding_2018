@@ -17,9 +17,13 @@ METADATA
 
 "From individual behaviour to population-level transmission: bridging disease ecology scales with the amphibian pathogens."
 
-**title (sub-project):** 
+**title 1 (sub-project):** 
 
 “Infection burden from individuals exposed to two pathogens under different exposure scenarios (single pathogen vs. coinfection) for three species of larval amphibians (*Bufo bufo*, *Rana temporaria* and *Alytes muletensis*) 
+
+**title 2 (sub-project):** 
+
+“Pathogen shedding of indivduals exposed to two pathogens under different exposure scenarios (single pathogen vs. coinfection) for three species of larval amphibians (*Bufo bufo*, *Rana temporaria* and *Alytes muletensis*)as a proxy for infectiousness and transmission."  
 
 **authors**:
 - name: Bryony E. Allen *
