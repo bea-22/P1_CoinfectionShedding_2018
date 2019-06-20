@@ -1,9 +1,9 @@
-# P1_CoinfectionShedding_2018
+# P1_Co-infection
 
 <!-- badges: start -->
 <!-- badges: end -->
 
-The goal of P1_CoinfectionShedding_2018 is to analyse data collected from a co-infection challenge experiment conducted in summer 2018. Further deatils below...  
+The goal of Project 1 Co-infection is to analyse data collected from a disease challenge experiment conducted in Summer 2018. It stems from a larger project looking at co-infection and shedding from this experiment but for clarity it is a seperate repository here. Further deatils below...  
 
 Data and scripts used for analysis are available in a GitHub repository  
 
@@ -19,7 +19,7 @@ METADATA
 
 **title (sub-project):** 
 
-“Infection burden and output (shedding) from individuals exposed to two pathogens under different exposure scenarios (single pathogen vs. coinfection) for three species of larval amphibians (*Bufo bufo*, *Rana temporaria* and *Alytes muletensis*) 
+“Infection burden from individuals exposed to two pathogens under different exposure scenarios (single pathogen vs. coinfection) for three species of larval amphibians (*Bufo bufo*, *Rana temporaria* and *Alytes muletensis*) 
 
 **authors**:
 - name: Bryony E. Allen *
